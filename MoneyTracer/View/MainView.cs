@@ -74,6 +74,8 @@ namespace MoneyTracer
                 numericUpDown.TextAlign = HorizontalAlignment.Right;
                 numericUpDown.ThousandsSeparator = true;
                 numericUpDown.ValueChanged += numericUpDown_ValueChanged;
+                numericUpDown.ReadOnly = true;
+                numericUpDown.BackColor = Color.Beige;
                 panel3.Controls.Add(numericUpDown);
             }
 

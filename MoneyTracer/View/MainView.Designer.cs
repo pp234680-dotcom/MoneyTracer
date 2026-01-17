@@ -41,18 +41,16 @@ namespace MoneyTracer
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
+            label2 = new Label();
             txtBankTotal = new Label();
             label1 = new Label();
             spendingPage = new TabPage();
-            numericUpDown1 = new NumericUpDown();
-            label2 = new Label();
             panel1.SuspendLayout();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             savingPage.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // label5
@@ -103,7 +101,7 @@ namespace MoneyTracer
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(776, 625);
+            tabControl1.Size = new Size(582, 625);
             tabControl1.TabIndex = 8;
             // 
             // homepagePage
@@ -114,20 +112,19 @@ namespace MoneyTracer
             homepagePage.Location = new Point(4, 28);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(768, 593);
+            homepagePage.Size = new Size(574, 593);
             homepagePage.TabIndex = 0;
             homepagePage.Text = "Homepage";
             // 
             // savingPage
             // 
             savingPage.BackColor = Color.FloralWhite;
-            savingPage.Controls.Add(label2);
             savingPage.Controls.Add(panel3);
             savingPage.Controls.Add(panel2);
             savingPage.Location = new Point(4, 28);
             savingPage.Name = "savingPage";
             savingPage.Padding = new Padding(3);
-            savingPage.Size = new Size(768, 593);
+            savingPage.Size = new Size(574, 593);
             savingPage.TabIndex = 1;
             savingPage.Text = "Saving";
             // 
@@ -139,7 +136,7 @@ namespace MoneyTracer
             panel3.Controls.Add(txtboxSavingName);
             panel3.Location = new Point(17, 184);
             panel3.Name = "panel3";
-            panel3.Size = new Size(635, 354);
+            panel3.Size = new Size(523, 354);
             panel3.TabIndex = 9;
             // 
             // txtboxSavingMoney
@@ -164,12 +161,23 @@ namespace MoneyTracer
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
+            panel2.Controls.Add(label2);
             panel2.Controls.Add(txtBankTotal);
             panel2.Controls.Add(label1);
             panel2.Location = new Point(17, 26);
             panel2.Name = "panel2";
             panel2.Size = new Size(414, 123);
             panel2.TabIndex = 8;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.ForeColor = Color.White;
+            label2.Location = new Point(187, 72);
+            label2.Name = "label2";
+            label2.Size = new Size(51, 19);
+            label2.TabIndex = 10;
+            label2.Text = "label2";
             // 
             // txtBankTotal
             // 
@@ -187,47 +195,28 @@ namespace MoneyTracer
             label1.AutoSize = true;
             label1.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
             label1.ForeColor = Color.White;
-            label1.Location = new Point(17, 74);
+            label1.Location = new Point(17, 72);
             label1.Name = "label1";
-            label1.Size = new Size(202, 19);
+            label1.Size = new Size(176, 19);
             label1.TabIndex = 2;
-            label1.Text = "Balance of the week : $300";
+            label1.Text = "Charge From Saving : $";
             // 
             // spendingPage
             // 
             spendingPage.Location = new Point(4, 28);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(768, 593);
+            spendingPage.Size = new Size(574, 593);
             spendingPage.TabIndex = 2;
             spendingPage.Text = "Spending";
             spendingPage.UseVisualStyleBackColor = true;
-            // 
-            // numericUpDown1
-            // 
-            numericUpDown1.Location = new Point(867, 114);
-            numericUpDown1.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(91, 27);
-            numericUpDown1.TabIndex = 9;
-            numericUpDown1.Value = new decimal(new int[] { 1000000, 0, 0, 0 });
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(489, 87);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 19);
-            label2.TabIndex = 10;
-            label2.Text = "label2";
             // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1322, 649);
-            Controls.Add(numericUpDown1);
+            ClientSize = new Size(631, 649);
             Controls.Add(tabControl1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -240,11 +229,9 @@ namespace MoneyTracer
             homepagePage.ResumeLayout(false);
             homepagePage.PerformLayout();
             savingPage.ResumeLayout(false);
-            savingPage.PerformLayout();
             panel3.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
         }
 
@@ -264,7 +251,6 @@ namespace MoneyTracer
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
         private Panel panel3;
-        private NumericUpDown numericUpDown1;
         private Label label2;
     }
 }
