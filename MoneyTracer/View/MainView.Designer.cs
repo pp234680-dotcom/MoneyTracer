@@ -40,11 +40,11 @@ namespace MoneyTracer
             panel3 = new Panel();
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
+            spendingPage = new TabPage();
             panel2 = new Panel();
-            label2 = new Label();
+            txtCharge = new Label();
             txtBankTotal = new Label();
             label1 = new Label();
-            spendingPage = new TabPage();
             panel1.SuspendLayout();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
@@ -101,7 +101,7 @@ namespace MoneyTracer
             tabControl1.Location = new Point(12, 12);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(582, 625);
+            tabControl1.Size = new Size(473, 625);
             tabControl1.TabIndex = 8;
             // 
             // homepagePage
@@ -112,7 +112,7 @@ namespace MoneyTracer
             homepagePage.Location = new Point(4, 28);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(574, 593);
+            homepagePage.Size = new Size(465, 593);
             homepagePage.TabIndex = 0;
             homepagePage.Text = "Homepage";
             // 
@@ -124,7 +124,7 @@ namespace MoneyTracer
             savingPage.Location = new Point(4, 28);
             savingPage.Name = "savingPage";
             savingPage.Padding = new Padding(3);
-            savingPage.Size = new Size(574, 593);
+            savingPage.Size = new Size(465, 593);
             savingPage.TabIndex = 1;
             savingPage.Text = "Saving";
             // 
@@ -134,9 +134,9 @@ namespace MoneyTracer
             panel3.BackColor = Color.LightYellow;
             panel3.Controls.Add(txtboxSavingMoney);
             panel3.Controls.Add(txtboxSavingName);
-            panel3.Location = new Point(17, 184);
+            panel3.Location = new Point(15, 193);
             panel3.Name = "panel3";
-            panel3.Size = new Size(523, 354);
+            panel3.Size = new Size(431, 357);
             panel3.TabIndex = 9;
             // 
             // txtboxSavingMoney
@@ -144,10 +144,11 @@ namespace MoneyTracer
             txtboxSavingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtboxSavingMoney.Location = new Point(247, 19);
             txtboxSavingMoney.Name = "txtboxSavingMoney";
-            txtboxSavingMoney.Size = new Size(115, 26);
+            txtboxSavingMoney.Size = new Size(135, 26);
             txtboxSavingMoney.TabIndex = 9;
-            txtboxSavingMoney.Text = "Money";
+            txtboxSavingMoney.Text = "Money(inactive)";
             txtboxSavingMoney.TextAlign = ContentAlignment.TopRight;
+            txtboxSavingMoney.Visible = false;
             // 
             // txtboxSavingName
             // 
@@ -158,26 +159,36 @@ namespace MoneyTracer
             txtboxSavingName.TabIndex = 9;
             txtboxSavingName.Text = "Name";
             // 
+            // spendingPage
+            // 
+            spendingPage.Location = new Point(4, 28);
+            spendingPage.Name = "spendingPage";
+            spendingPage.Padding = new Padding(3);
+            spendingPage.Size = new Size(465, 593);
+            spendingPage.TabIndex = 2;
+            spendingPage.Text = "Spending";
+            spendingPage.UseVisualStyleBackColor = true;
+            // 
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
-            panel2.Controls.Add(label2);
+            panel2.Controls.Add(txtCharge);
             panel2.Controls.Add(txtBankTotal);
             panel2.Controls.Add(label1);
-            panel2.Location = new Point(17, 26);
+            panel2.Location = new Point(15, 27);
             panel2.Name = "panel2";
-            panel2.Size = new Size(414, 123);
+            panel2.Size = new Size(431, 123);
             panel2.TabIndex = 8;
             // 
-            // label2
+            // txtCharge
             // 
-            label2.AutoSize = true;
-            label2.ForeColor = Color.White;
-            label2.Location = new Point(187, 72);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 19);
-            label2.TabIndex = 10;
-            label2.Text = "label2";
+            txtCharge.AutoSize = true;
+            txtCharge.ForeColor = Color.White;
+            txtCharge.Location = new Point(171, 72);
+            txtCharge.Name = "txtCharge";
+            txtCharge.Size = new Size(18, 19);
+            txtCharge.TabIndex = 10;
+            txtCharge.Text = "0";
             // 
             // txtBankTotal
             // 
@@ -197,26 +208,16 @@ namespace MoneyTracer
             label1.ForeColor = Color.White;
             label1.Location = new Point(17, 72);
             label1.Name = "label1";
-            label1.Size = new Size(176, 19);
+            label1.Size = new Size(161, 19);
             label1.TabIndex = 2;
-            label1.Text = "Charge From Saving : $";
-            // 
-            // spendingPage
-            // 
-            spendingPage.Location = new Point(4, 28);
-            spendingPage.Name = "spendingPage";
-            spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(574, 593);
-            spendingPage.TabIndex = 2;
-            spendingPage.Text = "Spending";
-            spendingPage.UseVisualStyleBackColor = true;
+            label1.Text = "Buffer Cash Usage : $";
             // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(631, 649);
+            ClientSize = new Size(507, 649);
             Controls.Add(tabControl1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
@@ -251,6 +252,6 @@ namespace MoneyTracer
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
         private Panel panel3;
-        private Label label2;
+        private Label txtCharge;
     }
 }

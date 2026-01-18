@@ -1,5 +1,6 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 
 namespace MoneyTracer
 {
@@ -7,7 +8,14 @@ namespace MoneyTracer
     {
         public int savingTotal = 0;
         public decimal recharge = 0;
-        private decimal rechargeSize = 0;
+        private decimal rechargeSize1 = 0;
+        private decimal previousVal1 = 0;
+        private decimal nowVal1 = 0;
+        private decimal rechargeSize2 = 0;
+        private decimal previousVal2 = 0;
+        private decimal nowVal2 = 0;
+        private bool isTypeIn = false;
+
         public MainView()
         {
             InitializeComponent();
@@ -33,7 +41,7 @@ namespace MoneyTracer
             txtboxSavingMoney.Text = string.Empty;
             Dictionary<string, int> savingData = testJsonData.SavingMoneyData;
             int loopCount = 0;
-            int numUpDownX = txtboxSavingMoney.Location.X + 150;
+            int numUpDownX = txtboxSavingMoney.Location.X + 50;
             int numUpDownY = txtboxSavingMoney.Location.Y - 46;
 
             //getting saving data
@@ -73,8 +81,10 @@ namespace MoneyTracer
                 numericUpDown.Size = new Size(91, 27);
                 numericUpDown.TextAlign = HorizontalAlignment.Right;
                 numericUpDown.ThousandsSeparator = true;
-                numericUpDown.ValueChanged += numericUpDown_ValueChanged;
-                numericUpDown.ReadOnly = true;
+                numericUpDown.TextChanged += numericUpDown_TextChanged;
+                //numericUpDown.ValueChanged += numericUpDown_ValueChanged;
+                numericUpDown.GotFocus += numericUpDown_focus;
+                numericUpDown.MouseWheel += numericUpDown_focus;
                 numericUpDown.BackColor = Color.Beige;
                 panel3.Controls.Add(numericUpDown);
             }
@@ -93,16 +103,61 @@ namespace MoneyTracer
             theSize = new Size(w, h);
             return theSize;
         }
-
         private void numericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if(sender is NumericUpDown a)
-            {
-                rechargeSize = Convert.ToDecimal(a.Text);
-                decimal result = a.Value - rechargeSize;
-                recharge -= result;
-            }
-            label2.Text = recharge.ToString();
+            //if (sender is NumericUpDown a)
+            //{
+            //    previousVal1 = Convert.ToDecimal(a.Text);
+            //    nowVal1 = a.Value;
+            //    rechargeSize1 = nowVal1 - previousVal1;
+            //    recharge -= rechargeSize1;
+            //    txtBankTotal.Focus();
+            //}
+            //if (isTypeIn)
+            //{
+            //    isTypeIn = false;
+            //    return;
+            //}
+            //txtCharge.Text = recharge.ToString();
+
         }
+
+        private void numericUpDown_focus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown a)
+            {
+                //Get current value 
+                nowVal2 = Convert.ToDecimal(a.Text);
+            }
+        }
+
+        private void numericUpDown_TextChanged(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown a)
+            {
+                //Text content validity check
+                if (string.IsNullOrEmpty(a.Text)) a.Text = "0";
+                if (a.Text[0] == ',') a.Text = a.Text.Remove(0, 1);
+
+                //check if user use type in method
+                if (Convert.ToDecimal(a.Text) != a.Value) return;
+
+                //make current value as previous value
+                previousVal2 = nowVal2;
+                
+                //update the current value
+                nowVal2 = Convert.ToDecimal(a.Text);
+            }
+
+            //tell another method current is type in mode
+            isTypeIn = true;
+
+            //subtract each other
+            rechargeSize2 = nowVal2 - previousVal2;
+            recharge -= rechargeSize2;
+            txtCharge.Text = recharge.ToString();
+        }
+
+        
     }
 }
