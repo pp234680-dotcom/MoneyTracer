@@ -1,11 +1,15 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+//todo : load & save file
+//todo : check if the money is correct
+//todo : design
 
 namespace MoneyTracer
 {
     public partial class MainView : Form
     {
+
         public int savingTotal = 0;
         public decimal buffer = 0;
         private decimal previousVal = 0;
@@ -97,7 +101,7 @@ namespace MoneyTracer
                 addingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
             }
 
-            foreach(var item in weekBudgetData)
+            foreach (var item in weekBudgetData)
             {
                 loopCount++;
                 savingTotal += item.Value;
@@ -187,6 +191,63 @@ namespace MoneyTracer
 
             decimal temp2 = savingTotal - spendingNumUpDown.Value;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(temp2.ToString());
+        }
+
+        private void menuSave_Click(object sender, EventArgs e)
+        {
+            saveDataSaving();
+        }
+
+        private List<string> GetAllSavingName()
+        {
+            string names = txtboxSavingName.Text;
+            string tempResult = string.Empty;
+            List<string> savingNameList = new List<string>();
+
+            foreach (var theChar in names)
+            {
+                if (theChar == '\n')
+                {
+                    if (tempResult == string.Empty) continue;
+                    savingNameList.Add(tempResult);
+                    tempResult = string.Empty;
+                }
+                else
+                {
+                    tempResult += theChar;
+                }
+            }
+
+            return savingNameList;
+        }
+
+        private List<decimal> GetAllSavingMoney()
+        {
+            List<decimal> savingMoneyList = new List<decimal>();
+
+            foreach (var theChar in panel3.Controls)
+            {
+                if (theChar is NumericUpDown a)
+                {
+                    savingMoneyList.Add(a.Value);
+                }
+            }
+
+            return savingMoneyList;
+        }
+
+        private void saveDataSaving()
+        {
+
+            List<string> savingNameList = GetAllSavingName();
+            List<decimal> savingMoneyList = GetAllSavingMoney();
+
+            for(int i = 0; i < savingMoneyList.Count; i++)
+            {
+                MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
+            }
+
+
         }
     }
 }

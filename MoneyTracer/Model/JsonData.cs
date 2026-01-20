@@ -10,9 +10,7 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//todo : load & save file
-//todo : check if the money is correct
-//todo : design
+
 
 
 namespace MoneyTracer.Model
@@ -81,7 +79,6 @@ namespace MoneyTracer.Model
             }
         }
 
-
         public static int BalanceValue
         {
             get 
@@ -91,5 +88,7 @@ namespace MoneyTracer.Model
                 return result;
             }
         }
+
+
     }
 }

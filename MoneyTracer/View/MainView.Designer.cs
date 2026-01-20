@@ -44,11 +44,16 @@ namespace MoneyTracer
             txtTotalSaving = new Label();
             savingPage = new TabPage();
             spendingPage = new TabPage();
+            menuStrip1 = new MenuStrip();
+            testToolStripMenuItem = new ToolStripMenuItem();
+            menuOpen = new ToolStripMenuItem();
+            menuSave = new ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel3.SuspendLayout();
             panel2.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // label5
@@ -96,7 +101,7 @@ namespace MoneyTracer
             tabControl1.Controls.Add(homepagePage);
             tabControl1.Controls.Add(savingPage);
             tabControl1.Controls.Add(spendingPage);
-            tabControl1.Location = new Point(12, 12);
+            tabControl1.Location = new Point(12, 40);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(473, 625);
@@ -200,14 +205,46 @@ namespace MoneyTracer
             spendingPage.Text = "Spending";
             spendingPage.UseVisualStyleBackColor = true;
             // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(505, 28);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // testToolStripMenuItem
+            // 
+            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
+            testToolStripMenuItem.Name = "testToolStripMenuItem";
+            testToolStripMenuItem.Size = new Size(47, 24);
+            testToolStripMenuItem.Text = "File";
+            // 
+            // menuOpen
+            // 
+            menuOpen.Name = "menuOpen";
+            menuOpen.Size = new Size(223, 26);
+            menuOpen.Text = "Open Files";
+            // 
+            // menuSave
+            // 
+            menuSave.Name = "menuSave";
+            menuSave.Size = new Size(223, 26);
+            menuSave.Text = "Save Files";
+            menuSave.Click += menuSave_Click;
+            // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(505, 649);
+            ClientSize = new Size(505, 689);
             Controls.Add(tabControl1);
+            Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainView";
             Text = "Money Tracer beta 0.1";
@@ -219,7 +256,10 @@ namespace MoneyTracer
             panel3.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -238,5 +278,9 @@ namespace MoneyTracer
         private Label txtCharge;
         private NumericUpDown spendingNumUpDown;
         private Label txtBalance;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem testToolStripMenuItem;
+        private ToolStripMenuItem menuOpen;
+        private ToolStripMenuItem menuSave;
     }
 }
