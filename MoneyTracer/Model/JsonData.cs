@@ -36,6 +36,7 @@ namespace MoneyTracer.Model
 
     internal class JsonData
     {
+        static string outputDataPath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\testOutput001.json";
         static string dataPath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\test002.json";
         static Rootobject root = JsonConvert.DeserializeObject<Rootobject>(jsonString);
 
@@ -89,6 +90,25 @@ namespace MoneyTracer.Model
             }
         }
 
+        public static void SavingTheData(Dictionary<string, int> outputSavingData)
+        {
+            List<Saving> saving = new List<Saving>();
 
+            foreach (var item in outputSavingData)
+            {
+                Saving tempVar = new Saving();
+                tempVar.name = item.Key;
+                tempVar.money = item.Value;
+                saving.Add(tempVar);
+            }
+
+            string outputDataTxt = JsonConvert.SerializeObject(saving);
+            StreamWriter _streamWriter = new StreamWriter(outputDataPath);
+            _streamWriter.Write(outputDataTxt);
+            _streamWriter.Flush();
+            _streamWriter.Close();
+            //MessageBox.Show(outputDataTxt);
+
+        }
     }
 }

@@ -195,7 +195,8 @@ namespace MoneyTracer
 
         private void menuSave_Click(object sender, EventArgs e)
         {
-            saveDataSaving();
+            SaveDataSaving();
+            MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
         private List<string> GetAllSavingName()
@@ -204,6 +205,7 @@ namespace MoneyTracer
             string tempResult = string.Empty;
             List<string> savingNameList = new List<string>();
 
+            //detect per character until find "\n"
             foreach (var theChar in names)
             {
                 if (theChar == '\n')
@@ -221,32 +223,36 @@ namespace MoneyTracer
             return savingNameList;
         }
 
-        private List<decimal> GetAllSavingMoney()
+        private List<int> GetAllSavingMoney()
         {
-            List<decimal> savingMoneyList = new List<decimal>();
+            List<int> savingMoneyList = new List<int>();
 
             foreach (var theChar in panel3.Controls)
             {
                 if (theChar is NumericUpDown a)
                 {
-                    savingMoneyList.Add(a.Value);
+                    savingMoneyList.Add(Convert.ToInt32(a.Value));
                 }
             }
 
             return savingMoneyList;
         }
 
-        private void saveDataSaving()
+        private void SaveDataSaving()
         {
-
+            //get the list first
             List<string> savingNameList = GetAllSavingName();
-            List<decimal> savingMoneyList = GetAllSavingMoney();
+            List<int> savingMoneyList = GetAllSavingMoney();
 
+            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
+            //add it to dictionary
             for(int i = 0; i < savingMoneyList.Count; i++)
             {
-                MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
+                outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
+                //MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
             }
 
+            JsonData.SavingTheData(outputSavingData);
 
         }
     }
