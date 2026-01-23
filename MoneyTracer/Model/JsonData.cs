@@ -90,12 +90,12 @@ namespace MoneyTracer.Model
             }
         }
 
-        public static void SavingTheData(Dictionary<string, int> outputSavingData)
+        public static void SavingTheData()
         {
             List<Saving> savings = new List<Saving>();
             List<Weekbudget> weekbudgets = new List<Weekbudget>();
 
-            foreach (var item in outputSavingData)
+            foreach (var item in StoredData.storedSavingData)
             {
                 if (item.Key.Contains("Investment") || item.Key.Contains("Week"))
                 {
@@ -115,6 +115,7 @@ namespace MoneyTracer.Model
             Rootobject rootobject = new Rootobject();
             rootobject.saving = savings.ToArray();
             rootobject.weekBudget = weekbudgets.ToArray();
+            rootobject.balance = StoredData.storedBalance;
 
             string outputDataTxt = JsonConvert.SerializeObject(rootobject);
             StreamWriter _streamWriter = new StreamWriter(outputDataPath);

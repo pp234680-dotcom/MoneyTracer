@@ -238,6 +238,22 @@ namespace MoneyTracer
             return savingMoneyList;
         }
 
+        private int GetBalanceNum()
+        {
+            string a = txtBalance.Text;
+            string result = string.Empty;
+            for(int i = 0; i < a.Length; i++)
+            {
+                char theChar = a[i];
+                if (theChar > 47 && theChar < 58)
+                {
+                    result += theChar;
+                }
+            }
+
+            return Convert.ToInt32(result);
+        }
+
         private void SaveDataSaving()
         {
             //get the list first
@@ -252,7 +268,12 @@ namespace MoneyTracer
                 //MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
             }
 
-            JsonData.SavingTheData(outputSavingData);
+            balance = GetBalanceNum();
+
+
+            StoredData.storedSavingData = outputSavingData;
+            StoredData.storedBalance = balance;
+            JsonData.SavingTheData();
 
         }
     }
