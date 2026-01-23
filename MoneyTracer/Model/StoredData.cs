@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace MoneyTracer.Model
 {
+
     internal class StoredData
     {
         public static Dictionary<string, int> storedSavingData = new Dictionary<string, int>();

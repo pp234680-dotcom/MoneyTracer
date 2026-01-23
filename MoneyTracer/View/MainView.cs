@@ -1,9 +1,11 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-//todo : load & save file
+//todo : Load file
 //todo : check if the money is correct
+//todo : a button for adding new saving
 //todo : design
+//todo : load & save file
 
 namespace MoneyTracer
 {
@@ -245,7 +247,11 @@ namespace MoneyTracer
             for(int i = 0; i < a.Length; i++)
             {
                 char theChar = a[i];
-                if (theChar > 47 && theChar < 58)
+                if (theChar == '-')
+                {
+                    result += theChar;
+                }
+                else if (theChar > 47 && theChar < 58)
                 {
                     result += theChar;
                 }
