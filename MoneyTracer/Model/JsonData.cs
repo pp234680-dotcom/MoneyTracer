@@ -92,17 +92,31 @@ namespace MoneyTracer.Model
 
         public static void SavingTheData(Dictionary<string, int> outputSavingData)
         {
-            List<Saving> saving = new List<Saving>();
+            List<Saving> savings = new List<Saving>();
+            List<Weekbudget> weekbudgets = new List<Weekbudget>();
 
             foreach (var item in outputSavingData)
             {
-                Saving tempVar = new Saving();
-                tempVar.name = item.Key;
-                tempVar.money = item.Value;
-                saving.Add(tempVar);
+                if (item.Key.Contains("Investment") || item.Key.Contains("Week"))
+                {
+                    Weekbudget theWeekBudget = new Weekbudget();
+                    theWeekBudget.name = item.Key;
+                    theWeekBudget.money = item.Value;
+                    weekbudgets.Add(theWeekBudget);
+                }
+                else
+                {
+                    Saving theSaving = new Saving();
+                    theSaving.name = item.Key;
+                    theSaving.money = item.Value;
+                    savings.Add(theSaving);
+                }
             }
+            Rootobject rootobject = new Rootobject();
+            rootobject.saving = savings.ToArray();
+            rootobject.weekBudget = weekbudgets.ToArray();
 
-            string outputDataTxt = JsonConvert.SerializeObject(saving);
+            string outputDataTxt = JsonConvert.SerializeObject(rootobject);
             StreamWriter _streamWriter = new StreamWriter(outputDataPath);
             _streamWriter.Write(outputDataTxt);
             _streamWriter.Flush();
