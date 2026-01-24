@@ -30,13 +30,17 @@ namespace MoneyTracer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             label5 = new Label();
             spendingNumUpDown = new NumericUpDown();
             txtBalance = new Label();
             label3 = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
-            panel3 = new Panel();
+            savingMoneyInputBox = new TextBox();
+            savingNameInputBox = new TextBox();
+            addSavingButton = new Button();
+            savingPanel = new Panel();
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
@@ -51,7 +55,7 @@ namespace MoneyTracer
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
-            panel3.SuspendLayout();
+            savingPanel.SuspendLayout();
             panel2.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -110,8 +114,11 @@ namespace MoneyTracer
             // homepagePage
             // 
             homepagePage.BackColor = Color.FloralWhite;
+            homepagePage.Controls.Add(savingMoneyInputBox);
+            homepagePage.Controls.Add(savingNameInputBox);
+            homepagePage.Controls.Add(addSavingButton);
             homepagePage.Controls.Add(label5);
-            homepagePage.Controls.Add(panel3);
+            homepagePage.Controls.Add(savingPanel);
             homepagePage.Controls.Add(panel2);
             homepagePage.Location = new Point(4, 28);
             homepagePage.Name = "homepagePage";
@@ -120,16 +127,43 @@ namespace MoneyTracer
             homepagePage.TabIndex = 1;
             homepagePage.Text = "Homepage";
             // 
-            // panel3
+            // savingMoneyInputBox
             // 
-            panel3.AutoScroll = true;
-            panel3.BackColor = Color.LightYellow;
-            panel3.Controls.Add(txtboxSavingMoney);
-            panel3.Controls.Add(txtboxSavingName);
-            panel3.Location = new Point(15, 230);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(431, 357);
-            panel3.TabIndex = 9;
+            savingMoneyInputBox.Location = new Point(244, 230);
+            savingMoneyInputBox.Name = "savingMoneyInputBox";
+            savingMoneyInputBox.PlaceholderText = "(1234)";
+            savingMoneyInputBox.Size = new Size(81, 27);
+            savingMoneyInputBox.TabIndex = 11;
+            // 
+            // savingNameInputBox
+            // 
+            savingNameInputBox.Location = new Point(74, 230);
+            savingNameInputBox.Name = "savingNameInputBox";
+            savingNameInputBox.PlaceholderText = "(Saving Name)";
+            savingNameInputBox.Size = new Size(139, 27);
+            savingNameInputBox.TabIndex = 11;
+            // 
+            // addSavingButton
+            // 
+            addSavingButton.BackgroundImage = (Image)resources.GetObject("addSavingButton.BackgroundImage");
+            addSavingButton.BackgroundImageLayout = ImageLayout.Zoom;
+            addSavingButton.Location = new Point(28, 230);
+            addSavingButton.Name = "addSavingButton";
+            addSavingButton.Size = new Size(27, 27);
+            addSavingButton.TabIndex = 10;
+            addSavingButton.UseVisualStyleBackColor = true;
+            addSavingButton.Click += addSavingButton_Click;
+            // 
+            // savingPanel
+            // 
+            savingPanel.AutoScroll = true;
+            savingPanel.BackColor = Color.LightYellow;
+            savingPanel.Controls.Add(txtboxSavingMoney);
+            savingPanel.Controls.Add(txtboxSavingName);
+            savingPanel.Location = new Point(15, 266);
+            savingPanel.Name = "savingPanel";
+            savingPanel.Size = new Size(431, 321);
+            savingPanel.TabIndex = 9;
             // 
             // txtboxSavingMoney
             // 
@@ -253,7 +287,7 @@ namespace MoneyTracer
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
             homepagePage.PerformLayout();
-            panel3.ResumeLayout(false);
+            savingPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             menuStrip1.ResumeLayout(false);
@@ -274,7 +308,7 @@ namespace MoneyTracer
         private Label txtTotalSaving;
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
-        private Panel panel3;
+        private Panel savingPanel;
         private Label txtCharge;
         private NumericUpDown spendingNumUpDown;
         private Label txtBalance;
@@ -282,5 +316,8 @@ namespace MoneyTracer
         private ToolStripMenuItem testToolStripMenuItem;
         private ToolStripMenuItem menuOpen;
         private ToolStripMenuItem menuSave;
+        private TextBox savingMoneyInputBox;
+        private TextBox savingNameInputBox;
+        private Button addSavingButton;
     }
 }

@@ -1,6 +1,7 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+//todo : delete saving
 //todo : Load file
 //todo : check if the money is correct
 //todo : a button for adding new saving
@@ -20,6 +21,8 @@ namespace MoneyTracer
         private string titleBalance = "Balance : $";
         private string titleCharge = "Buffer Cash Usage : $";
         private string titleTotalSaving = "Total Saving : $";
+        private Dictionary<string, int> savingData = JsonData.SavingMoneyData;
+        private Dictionary<string, int> weekBudgetData = JsonData.WeekBalanceData;
 
         public MainView()
         {
@@ -43,7 +46,7 @@ namespace MoneyTracer
             return val;
         }
 
-        private void addingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue)
+        private void AddingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue)
         {
             numUpDownY += 44;
 
@@ -60,15 +63,30 @@ namespace MoneyTracer
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
             numericUpDown.BackColor = Color.Beige;
-            panel3.Controls.Add(numericUpDown);
+            savingPanel.Controls.Add(numericUpDown);
         }
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            //empty the value
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
-            Dictionary<string, int> savingData = JsonData.SavingMoneyData;
-            Dictionary<string, int> weekBudgetData = JsonData.WeekBalanceData;
+            var panelControls = savingPanel.Controls;
+            for (int i = panelControls.Count - 1; i > -1; i--) 
+            {
+                if (panelControls[i] is NumericUpDown theNumUpDown)
+                {
+                    savingPanel.Controls.Remove(theNumUpDown);
+                }
+            }
+            
+
+            //set size
+            Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtboxSavingName.Size.Width, 26);
+            txtboxSavingMoney.Size = sizeOfTxtMoney;
+            txtboxSavingName.Size = sizeOfTxtName;
+
             int numUpDownX = txtboxSavingMoney.Location.X + 50;
             int numUpDownY = txtboxSavingMoney.Location.Y - 46;
             int loopCount = 0;
@@ -100,9 +118,10 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                addingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
             }
 
+            //Get weekBudget data
             foreach (var item in weekBudgetData)
             {
                 loopCount++;
@@ -129,7 +148,7 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                addingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
 
             }
 
@@ -229,7 +248,7 @@ namespace MoneyTracer
         {
             List<int> savingMoneyList = new List<int>();
 
-            foreach (var theChar in panel3.Controls)
+            foreach (var theChar in savingPanel.Controls)
             {
                 if (theChar is NumericUpDown a)
                 {
@@ -244,7 +263,7 @@ namespace MoneyTracer
         {
             string a = txtBalance.Text;
             string result = string.Empty;
-            for(int i = 0; i < a.Length; i++)
+            for (int i = 0; i < a.Length; i++)
             {
                 char theChar = a[i];
                 if (theChar == '-')
@@ -268,7 +287,7 @@ namespace MoneyTracer
 
             Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
             //add it to dictionary
-            for(int i = 0; i < savingMoneyList.Count; i++)
+            for (int i = 0; i < savingMoneyList.Count; i++)
             {
                 outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
                 //MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
@@ -281,6 +300,79 @@ namespace MoneyTracer
             StoredData.storedBalance = balance;
             JsonData.SavingTheData();
 
+        }
+
+        private int GetNumWithoutAnyCharacter(string theString)
+        {
+            string result = string.Empty;
+            foreach (char theChar in theString)
+            {
+                if (theChar == '-')
+                {
+                    result += theChar;
+                }
+                else if (theChar > 47 && theChar < 58)
+                {
+                    result += theChar;
+                }
+            }
+            return Convert.ToInt32(result);
+        }
+
+        private void UpdateSavingDictionary()
+        {
+            List<string> names = new List<string>();
+            List<int> values = new List<int>();
+
+            foreach(var item in savingData)
+            {
+                names.Add(item.Key);
+            }
+
+            foreach(var item in savingPanel.Controls)
+            {
+                if(item is NumericUpDown theNumUpDown)
+                {
+                    values.Add(Convert.ToInt32(theNumUpDown.Value));
+                }
+            }
+
+            for(int i = 0; i< names.Count; i++)
+            {
+                savingData[names[i]] = values[i];
+            }
+
+        }
+
+        private void addSavingButton_Click(object sender, EventArgs e)
+        {
+            if (savingNameInputBox.Text == string.Empty) return;
+            if (savingMoneyInputBox.Text == string.Empty) return;
+
+            int inputNum = 0;
+            string inputName = savingNameInputBox.Text;
+
+            try
+            {
+                inputNum = Convert.ToInt32(savingMoneyInputBox.Text);
+            }
+            catch
+            {
+                return;
+            }
+
+            if (inputNum < 0) return;
+
+            foreach(string item in savingData.Keys)
+            {
+                if (item == inputName) return;
+            }
+
+            UpdateSavingDictionary();
+            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+
+            savingData.Add(inputName, inputNum);
+            MainView_Load(sender, e);
         }
     }
 }
