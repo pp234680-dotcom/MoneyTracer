@@ -30,13 +30,24 @@ namespace MoneyTracer
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             label5 = new Label();
             spendingNumUpDown = new NumericUpDown();
             txtBalance = new Label();
             label3 = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
-            panel3 = new Panel();
+            label1 = new Label();
+            cboModeSelector = new ComboBox();
+            flowLayoutPanel1 = new FlowLayoutPanel();
+            panelAddSaving = new Panel();
+            btnAddSaving = new Button();
+            savingMoneyInputBox = new TextBox();
+            savingNameInputBox = new TextBox();
+            panelDeleteSaving = new Panel();
+            cboDelList = new ComboBox();
+            btnDelSaving = new Button();
+            savingPanel = new Panel();
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
@@ -44,11 +55,20 @@ namespace MoneyTracer
             txtTotalSaving = new Label();
             savingPage = new TabPage();
             spendingPage = new TabPage();
+            menuStrip1 = new MenuStrip();
+            testToolStripMenuItem = new ToolStripMenuItem();
+            menuOpen = new ToolStripMenuItem();
+            menuSave = new ToolStripMenuItem();
+            _openFileDialog = new OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
-            panel3.SuspendLayout();
+            flowLayoutPanel1.SuspendLayout();
+            panelAddSaving.SuspendLayout();
+            panelDeleteSaving.SuspendLayout();
+            savingPanel.SuspendLayout();
             panel2.SuspendLayout();
+            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // label5
@@ -96,35 +116,133 @@ namespace MoneyTracer
             tabControl1.Controls.Add(homepagePage);
             tabControl1.Controls.Add(savingPage);
             tabControl1.Controls.Add(spendingPage);
-            tabControl1.Location = new Point(12, 12);
+            tabControl1.Location = new Point(12, 40);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(473, 625);
+            tabControl1.Size = new Size(473, 658);
             tabControl1.TabIndex = 8;
             // 
             // homepagePage
             // 
             homepagePage.BackColor = Color.FloralWhite;
+            homepagePage.Controls.Add(label1);
+            homepagePage.Controls.Add(cboModeSelector);
+            homepagePage.Controls.Add(flowLayoutPanel1);
             homepagePage.Controls.Add(label5);
-            homepagePage.Controls.Add(panel3);
+            homepagePage.Controls.Add(savingPanel);
             homepagePage.Controls.Add(panel2);
             homepagePage.Location = new Point(4, 28);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(465, 593);
+            homepagePage.Size = new Size(465, 626);
             homepagePage.TabIndex = 1;
             homepagePage.Text = "Homepage";
             // 
-            // panel3
+            // label1
             // 
-            panel3.AutoScroll = true;
-            panel3.BackColor = Color.LightYellow;
-            panel3.Controls.Add(txtboxSavingMoney);
-            panel3.Controls.Add(txtboxSavingName);
-            panel3.Location = new Point(15, 230);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(431, 357);
-            panel3.TabIndex = 9;
+            label1.AutoSize = true;
+            label1.Location = new Point(25, 238);
+            label1.Name = "label1";
+            label1.Size = new Size(57, 19);
+            label1.TabIndex = 13;
+            label1.Text = "Mode :";
+            // 
+            // cboModeSelector
+            // 
+            cboModeSelector.FormattingEnabled = true;
+            cboModeSelector.Items.AddRange(new object[] { "Add", "Delete" });
+            cboModeSelector.Location = new Point(28, 260);
+            cboModeSelector.Name = "cboModeSelector";
+            cboModeSelector.Size = new Size(82, 27);
+            cboModeSelector.TabIndex = 12;
+            cboModeSelector.SelectedIndexChanged += cboModeSelector_SelectedIndexChanged;
+            // 
+            // flowLayoutPanel1
+            // 
+            flowLayoutPanel1.Controls.Add(panelAddSaving);
+            flowLayoutPanel1.Controls.Add(panelDeleteSaving);
+            flowLayoutPanel1.FlowDirection = FlowDirection.BottomUp;
+            flowLayoutPanel1.Location = new Point(140, 212);
+            flowLayoutPanel1.Name = "flowLayoutPanel1";
+            flowLayoutPanel1.Size = new Size(304, 81);
+            flowLayoutPanel1.TabIndex = 10;
+            // 
+            // panelAddSaving
+            // 
+            panelAddSaving.Controls.Add(btnAddSaving);
+            panelAddSaving.Controls.Add(savingMoneyInputBox);
+            panelAddSaving.Controls.Add(savingNameInputBox);
+            panelAddSaving.Location = new Point(3, 44);
+            panelAddSaving.Name = "panelAddSaving";
+            panelAddSaving.Size = new Size(289, 34);
+            panelAddSaving.TabIndex = 12;
+            // 
+            // btnAddSaving
+            // 
+            btnAddSaving.BackgroundImage = (Image)resources.GetObject("btnAddSaving.BackgroundImage");
+            btnAddSaving.BackgroundImageLayout = ImageLayout.Zoom;
+            btnAddSaving.Location = new Point(245, 3);
+            btnAddSaving.Name = "btnAddSaving";
+            btnAddSaving.Size = new Size(27, 27);
+            btnAddSaving.TabIndex = 10;
+            btnAddSaving.UseVisualStyleBackColor = true;
+            btnAddSaving.Click += addSavingButton_Click;
+            // 
+            // savingMoneyInputBox
+            // 
+            savingMoneyInputBox.Location = new Point(156, 3);
+            savingMoneyInputBox.Name = "savingMoneyInputBox";
+            savingMoneyInputBox.PlaceholderText = "($$$)";
+            savingMoneyInputBox.Size = new Size(81, 27);
+            savingMoneyInputBox.TabIndex = 11;
+            // 
+            // savingNameInputBox
+            // 
+            savingNameInputBox.Location = new Point(6, 3);
+            savingNameInputBox.Name = "savingNameInputBox";
+            savingNameInputBox.PlaceholderText = "(Saving Name)";
+            savingNameInputBox.Size = new Size(139, 27);
+            savingNameInputBox.TabIndex = 11;
+            // 
+            // panelDeleteSaving
+            // 
+            panelDeleteSaving.Controls.Add(cboDelList);
+            panelDeleteSaving.Controls.Add(btnDelSaving);
+            panelDeleteSaving.Location = new Point(3, 4);
+            panelDeleteSaving.Name = "panelDeleteSaving";
+            panelDeleteSaving.Size = new Size(289, 34);
+            panelDeleteSaving.TabIndex = 12;
+            // 
+            // cboDelList
+            // 
+            cboDelList.FormattingEnabled = true;
+            cboDelList.Location = new Point(6, 3);
+            cboDelList.Name = "cboDelList";
+            cboDelList.Size = new Size(139, 27);
+            cboDelList.TabIndex = 12;
+            // 
+            // btnDelSaving
+            // 
+            btnDelSaving.BackgroundImage = (Image)resources.GetObject("btnDelSaving.BackgroundImage");
+            btnDelSaving.BackgroundImageLayout = ImageLayout.Zoom;
+            btnDelSaving.Location = new Point(156, 3);
+            btnDelSaving.Name = "btnDelSaving";
+            btnDelSaving.Size = new Size(27, 27);
+            btnDelSaving.TabIndex = 10;
+            btnDelSaving.UseVisualStyleBackColor = true;
+            btnDelSaving.Click += btnDelSaving_Click;
+            // 
+            // savingPanel
+            // 
+            savingPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            savingPanel.AutoScroll = true;
+            savingPanel.BackColor = Color.LightYellow;
+            savingPanel.Controls.Add(txtboxSavingMoney);
+            savingPanel.Controls.Add(txtboxSavingName);
+            savingPanel.Location = new Point(15, 299);
+            savingPanel.Name = "savingPanel";
+            savingPanel.Size = new Size(431, 316);
+            savingPanel.TabIndex = 9;
             // 
             // txtboxSavingMoney
             // 
@@ -163,7 +281,7 @@ namespace MoneyTracer
             // 
             txtCharge.AutoSize = true;
             txtCharge.ForeColor = Color.White;
-            txtCharge.Location = new Point(16, 95);
+            txtCharge.Location = new Point(16, 105);
             txtCharge.Name = "txtCharge";
             txtCharge.Size = new Size(166, 19);
             txtCharge.TabIndex = 10;
@@ -174,7 +292,7 @@ namespace MoneyTracer
             txtTotalSaving.AutoSize = true;
             txtTotalSaving.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
             txtTotalSaving.ForeColor = Color.White;
-            txtTotalSaving.Location = new Point(16, 125);
+            txtTotalSaving.Location = new Point(16, 137);
             txtTotalSaving.Name = "txtTotalSaving";
             txtTotalSaving.Size = new Size(133, 19);
             txtTotalSaving.TabIndex = 2;
@@ -186,7 +304,7 @@ namespace MoneyTracer
             savingPage.Location = new Point(4, 28);
             savingPage.Name = "savingPage";
             savingPage.Padding = new Padding(3);
-            savingPage.Size = new Size(465, 593);
+            savingPage.Size = new Size(465, 626);
             savingPage.TabIndex = 0;
             savingPage.Text = "Saving";
             // 
@@ -195,31 +313,75 @@ namespace MoneyTracer
             spendingPage.Location = new Point(4, 28);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(465, 593);
+            spendingPage.Size = new Size(465, 626);
             spendingPage.TabIndex = 2;
             spendingPage.Text = "Spending";
             spendingPage.UseVisualStyleBackColor = true;
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.ImageScalingSize = new Size(20, 20);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(505, 27);
+            menuStrip1.TabIndex = 9;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // testToolStripMenuItem
+            // 
+            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
+            testToolStripMenuItem.Name = "testToolStripMenuItem";
+            testToolStripMenuItem.Size = new Size(47, 23);
+            testToolStripMenuItem.Text = "File";
+            // 
+            // menuOpen
+            // 
+            menuOpen.Name = "menuOpen";
+            menuOpen.Size = new Size(165, 26);
+            menuOpen.Text = "Open Files";
+            menuOpen.Click += menuOpen_Click;
+            // 
+            // menuSave
+            // 
+            menuSave.Name = "menuSave";
+            menuSave.Size = new Size(165, 26);
+            menuSave.Text = "Save Files";
+            menuSave.Click += menuSave_Click;
+            // 
+            // _openFileDialog
+            // 
+            _openFileDialog.FileName = "openFileDialog123";
             // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(505, 649);
+            ClientSize = new Size(505, 710);
             Controls.Add(tabControl1);
+            Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainView";
-            Text = "Money Tracer beta 0.1";
+            Text = "Money Tracer beta";
             Load += MainView_Load;
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).EndInit();
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
             homepagePage.PerformLayout();
-            panel3.ResumeLayout(false);
+            flowLayoutPanel1.ResumeLayout(false);
+            panelAddSaving.ResumeLayout(false);
+            panelAddSaving.PerformLayout();
+            panelDeleteSaving.ResumeLayout(false);
+            savingPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -234,9 +396,24 @@ namespace MoneyTracer
         private Label txtTotalSaving;
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
-        private Panel panel3;
+        private Panel savingPanel;
         private Label txtCharge;
         private NumericUpDown spendingNumUpDown;
         private Label txtBalance;
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem testToolStripMenuItem;
+        private ToolStripMenuItem menuOpen;
+        private ToolStripMenuItem menuSave;
+        private TextBox savingMoneyInputBox;
+        private TextBox savingNameInputBox;
+        private Button btnAddSaving;
+        private Panel panelAddSaving;
+        private FlowLayoutPanel flowLayoutPanel1;
+        private Panel panelDeleteSaving;
+        private ComboBox cboDelList;
+        private Button btnDelSaving;
+        private ComboBox cboModeSelector;
+        private Label label1;
+        private OpenFileDialog _openFileDialog;
     }
 }

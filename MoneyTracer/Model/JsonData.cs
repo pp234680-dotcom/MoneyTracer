@@ -10,18 +10,19 @@ using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
-//todo : load & save file
-//todo : check if the money is correct
-//todo : design
+
 
 
 namespace MoneyTracer.Model
 {
+
     public class Rootobject
     {
+        public int balance { get; set; }
         public Saving[] saving { get; set; }
         public Weekbudget[] weekBudget { get; set; }
-        public int balance { get; set; }
+        public Wallet[] Wallet { get; set; }
+        public Bank[] Bank { get; set; }
     }
 
     public class Saving
@@ -36,14 +37,51 @@ namespace MoneyTracer.Model
         public int money { get; set; }
     }
 
+    public class Wallet
+    {
+        public string name { get; set; }
+        public int money { get; set; }
+    }
+
+    public class Bank
+    {
+        public string name { get; set; }
+        public int money { get; set; }
+    }
+
+
     internal class JsonData
     {
-        static string dataPath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\test002.json";
-        static Rootobject root = JsonConvert.DeserializeObject<Rootobject>(jsonString);
-
-        public static string jsonString
+        static string outputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
+        static string outputDataPath = outputDataFolder;
+        public static string loadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+        static string jsonString 
         {
-            get { return File.ReadAllText(dataPath); }
+            get
+            {
+                return File.ReadAllText(loadFilePath);
+            }
+        }
+
+        static Rootobject rootObject
+        {
+            get
+            {
+                return JsonConvert.DeserializeObject<Rootobject>(jsonString);
+            }
+        }
+
+
+        private static void GetOutputFilePath()
+        {
+
+            DateTime _dateTime = DateTime.Now;
+            string time = _dateTime.ToString();
+            time = time.Replace('/', '_');
+            time = time.Replace(':', '.');
+
+            string fileName = $"{time} savingData.json";
+            outputDataPath = outputDataFolder + fileName;
         }
 
         public static Dictionary<string, int> SavingMoneyData
@@ -53,7 +91,7 @@ namespace MoneyTracer.Model
                 Dictionary<string, int> result = new Dictionary<string, int>();
 
                 //get each item
-                foreach (Saving item in root.saving)
+                foreach (Saving item in rootObject.saving)
                 {
                     string name = item.name.ToString();
                     int money = Convert.ToInt32(item.money);
@@ -69,8 +107,8 @@ namespace MoneyTracer.Model
             get
             {
                 Dictionary<string, int> result = new Dictionary<string, int>();
-                
-                foreach(Weekbudget item in root.weekBudget)
+
+                foreach (Weekbudget item in rootObject.weekBudget)
                 {
                     string name = item.name;
                     int money = item.money;
@@ -81,15 +119,50 @@ namespace MoneyTracer.Model
             }
         }
 
-
         public static int BalanceValue
         {
-            get 
+            get
             {
                 int result = 0;
-                result = root.balance;
+                result = rootObject.balance;
                 return result;
             }
+        }
+
+        public static void SavingTheData()
+        {
+            GetOutputFilePath();
+
+            List<Saving> savings = new List<Saving>();
+            List<Weekbudget> weekbudgets = new List<Weekbudget>();
+
+            foreach (var item in StoredData.storedSavingData)
+            {
+                if (item.Key.Contains("Investment") || item.Key.Contains("Week"))
+                {
+                    Weekbudget theWeekBudget = new Weekbudget();
+                    theWeekBudget.name = item.Key;
+                    theWeekBudget.money = item.Value;
+                    weekbudgets.Add(theWeekBudget);
+                }
+                else
+                {
+                    Saving theSaving = new Saving();
+                    theSaving.name = item.Key;
+                    theSaving.money = item.Value;
+                    savings.Add(theSaving);
+                }
+            }
+            Rootobject rootobject = new Rootobject();
+            rootobject.saving = savings.ToArray();
+            rootobject.weekBudget = weekbudgets.ToArray();
+            rootobject.balance = StoredData.storedBalance;
+
+            string outputDataTxt = JsonConvert.SerializeObject(rootobject);
+            StreamWriter _streamWriter = new StreamWriter(outputDataPath);
+            _streamWriter.Write(outputDataTxt);
+            _streamWriter.Flush();
+            _streamWriter.Close();
         }
     }
 }

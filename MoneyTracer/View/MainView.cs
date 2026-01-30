@@ -1,11 +1,18 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.AxHost;
+//todo : add saving fail pops out message
+//todo : Load file
+//todo : check if the money is correct
+//todo : design
+//todo : load & save file
 
 namespace MoneyTracer
 {
     public partial class MainView : Form
     {
+
         public int savingTotal = 0;
         public decimal buffer = 0;
         private decimal previousVal = 0;
@@ -14,6 +21,8 @@ namespace MoneyTracer
         private string titleBalance = "Balance : $";
         private string titleCharge = "Buffer Cash Usage : $";
         private string titleTotalSaving = "Total Saving : $";
+        private Dictionary<string, int> savingData = JsonData.SavingMoneyData;
+        private Dictionary<string, int> weekBudgetData = JsonData.WeekBalanceData;
 
         public MainView()
         {
@@ -37,7 +46,7 @@ namespace MoneyTracer
             return val;
         }
 
-        private void addingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue)
+        private void AddingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue)
         {
             numUpDownY += 44;
 
@@ -54,15 +63,54 @@ namespace MoneyTracer
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
             numericUpDown.BackColor = Color.Beige;
-            panel3.Controls.Add(numericUpDown);
+            savingPanel.Controls.Add(numericUpDown);
+        }
+
+        private void ModeSwitchAddOrDel(bool isAddModeNow)
+        {
+            panelAddSaving.Visible = isAddModeNow;
+            panelDeleteSaving.Visible = !isAddModeNow;
         }
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            //empty the value
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
-            Dictionary<string, int> savingData = JsonData.SavingMoneyData;
-            Dictionary<string, int> weekBudgetData = JsonData.WeekBalanceData;
+            var panelControls = savingPanel.Controls;
+            for (int i = panelControls.Count - 1; i > -1; i--)
+            {
+                if (panelControls[i] is NumericUpDown theNumUpDown)
+                {
+                    savingPanel.Controls.Remove(theNumUpDown);
+                }
+            }
+            savingMoneyInputBox.Text = string.Empty;
+            savingNameInputBox.Text = string.Empty;
+            savingTotal = 0;
+
+            //add save data to del list
+            cboDelList.Items.Clear();
+            foreach (var item in savingData)
+            {
+                cboDelList.Items.Add(item.Key);
+            }
+            if (cboDelList.SelectedIndex == -1 && cboDelList.Items.Count > 0) cboDelList.SelectedIndex = 0;
+            else cboDelList.Text = string.Empty;
+
+            //Mode select - add or delete
+            if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
+
+
+            //set size
+            Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtboxSavingName.Size.Width, 26);
+            txtboxSavingMoney.Size = sizeOfTxtMoney;
+            txtboxSavingName.Size = sizeOfTxtName;
+
+
+
+            //this is for numericUpDown
             int numUpDownX = txtboxSavingMoney.Location.X + 50;
             int numUpDownY = txtboxSavingMoney.Location.Y - 46;
             int loopCount = 0;
@@ -94,10 +142,11 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                addingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
             }
 
-            foreach(var item in weekBudgetData)
+            //Get weekBudget data
+            foreach (var item in weekBudgetData)
             {
                 loopCount++;
                 savingTotal += item.Value;
@@ -123,7 +172,7 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                addingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
 
             }
 
@@ -187,6 +236,217 @@ namespace MoneyTracer
 
             decimal temp2 = savingTotal - spendingNumUpDown.Value;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(temp2.ToString());
+        }
+
+        private void menuSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveDataSaving();
+                MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Saving Fail \n{ex.Message}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private List<string> GetAllSavingName()
+        {
+            string names = txtboxSavingName.Text;
+            string tempResult = string.Empty;
+            List<string> savingNameList = new List<string>();
+
+            //detect per character until find "\n"
+            foreach (var theChar in names)
+            {
+                if (theChar == '\n')
+                {
+                    if (tempResult == string.Empty) continue;
+                    savingNameList.Add(tempResult);
+                    tempResult = string.Empty;
+                }
+                else
+                {
+                    tempResult += theChar;
+                }
+            }
+
+            return savingNameList;
+        }
+
+        private List<int> GetAllSavingMoney()
+        {
+            List<int> savingMoneyList = new List<int>();
+
+            foreach (var theChar in savingPanel.Controls)
+            {
+                if (theChar is NumericUpDown a)
+                {
+                    savingMoneyList.Add(Convert.ToInt32(a.Value));
+                }
+            }
+
+            return savingMoneyList;
+        }
+
+        private int GetBalanceNum()
+        {
+            string a = txtBalance.Text;
+            string result = string.Empty;
+            for (int i = 0; i < a.Length; i++)
+            {
+                char theChar = a[i];
+                if (theChar == '-')
+                {
+                    result += theChar;
+                }
+                else if (theChar > 47 && theChar < 58)
+                {
+                    result += theChar;
+                }
+            }
+
+            return Convert.ToInt32(result);
+        }
+
+        private void SaveDataSaving()
+        {
+            //get the list first
+            List<string> savingNameList = GetAllSavingName();
+            List<int> savingMoneyList = GetAllSavingMoney();
+
+            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
+            //add it to dictionary
+            for (int i = 0; i < savingMoneyList.Count; i++)
+            {
+                outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
+                //MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
+            }
+
+            balance = GetBalanceNum();
+
+
+            StoredData.storedSavingData = outputSavingData;
+            StoredData.storedBalance = balance;
+            JsonData.SavingTheData();
+
+        }
+
+        private int GetNumWithoutAnyCharacter(string theString)
+        {
+            string result = string.Empty;
+
+            //fillter only pass '0'~'9' or '-'
+            foreach (char theChar in theString)
+            {
+                if (theChar == '-')
+                {
+                    result += theChar;
+                }
+                else if (theChar > 47 && theChar < 58)
+                {
+                    result += theChar;
+                }
+            }
+            return Convert.ToInt32(result);
+        }
+
+        /// <summary>
+        /// Do update because if you don't update this, it will refresh with origin data
+        /// </summary>
+        private void UpdateSavingDictionary()
+        {
+            List<string> names = new List<string>();
+            List<int> values = new List<int>();
+
+            //get all names again
+            foreach (var item in savingData)
+            {
+                names.Add(item.Key);
+            }
+
+            //get all money again
+            foreach (var item in savingPanel.Controls)
+            {
+                if (item is NumericUpDown theNumUpDown)
+                {
+                    values.Add(Convert.ToInt32(theNumUpDown.Value));
+                }
+            }
+
+            //update saving data
+            for (int i = 0; i < names.Count; i++)
+            {
+                savingData[names[i]] = values[i];
+            }
+        }
+
+        private void addSavingButton_Click(object sender, EventArgs e)
+        {
+            //Check if box is empty
+            if (savingNameInputBox.Text == string.Empty) return;
+            if (savingMoneyInputBox.Text == string.Empty) return;
+
+            int inputNum = 0;
+            string inputName = savingNameInputBox.Text;
+
+            //if there's char are non numbers, cancel the method
+            try
+            {
+                inputNum = Convert.ToInt32(savingMoneyInputBox.Text);
+            }
+            catch
+            {
+                return;
+            }
+
+            //if the saving less than 0, return
+            if (inputNum < 0) return;
+
+            //check if there's exist saving name
+            foreach (string item in savingData.Keys)
+            {
+                if (item == inputName) return;
+            }
+
+            //update SavingData & Balance Values just in case be replaced with origin data
+            UpdateSavingDictionary();
+            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+
+            //after get update, fill the value in, and reload all the values
+            savingData.Add(inputName, inputNum);
+            MainView_Load(sender, e);
+        }
+
+        private void cboModeSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboModeSelector.SelectedIndex == 0) ModeSwitchAddOrDel(true);
+            else if (cboModeSelector.SelectedIndex == 1) ModeSwitchAddOrDel(false);
+        }
+
+        private void btnDelSaving_Click(object sender, EventArgs e)
+        {
+            //update SavingData & Balance Values just in case be replaced with origin data
+            UpdateSavingDictionary();
+            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+
+            //after get update, fill the value in, and reload all the values
+            savingData.Remove(cboDelList.Text);
+            MainView_Load(sender, e);
+        }
+
+        private void menuOpen_Click(object sender, EventArgs e)
+        {
+            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                JsonData.loadFilePath = _openFileDialog.FileName;
+            }
+
+            balance = JsonData.BalanceValue;
+            savingData = JsonData.SavingMoneyData;
+            weekBudgetData = JsonData.WeekBalanceData;
+            MainView_Load(sender, e);
         }
     }
 }
