@@ -2,11 +2,12 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
-//todo : add saving fail pops out message
-//todo : Load file
 //todo : check if the money is correct
 //todo : design
-//todo : load & save file
+
+//not that important
+//todo : Loading default file
+//todo : save files location
 
 namespace MoneyTracer
 {
