@@ -1,10 +1,10 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-//todo : delete saving
+using static System.Windows.Forms.AxHost;
+//todo : add saving fail pops out message
 //todo : Load file
 //todo : check if the money is correct
-//todo : a button for adding new saving
 //todo : design
 //todo : load & save file
 
@@ -66,20 +66,41 @@ namespace MoneyTracer
             savingPanel.Controls.Add(numericUpDown);
         }
 
+        private void ModeSwitchAddOrDel(bool isAddModeNow)
+        {
+            panelAddSaving.Visible = isAddModeNow;
+            panelDeleteSaving.Visible = !isAddModeNow;
+        }
+
         private void MainView_Load(object sender, EventArgs e)
         {
             //empty the value
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
             var panelControls = savingPanel.Controls;
-            for (int i = panelControls.Count - 1; i > -1; i--) 
+            for (int i = panelControls.Count - 1; i > -1; i--)
             {
                 if (panelControls[i] is NumericUpDown theNumUpDown)
                 {
                     savingPanel.Controls.Remove(theNumUpDown);
                 }
             }
-            
+            savingMoneyInputBox.Text = string.Empty;
+            savingNameInputBox.Text = string.Empty;
+            savingTotal = 0;
+
+            //add save data to del list
+            cboDelList.Items.Clear();
+            foreach (var item in savingData)
+            {
+                cboDelList.Items.Add(item.Key);
+            }
+            if (cboDelList.SelectedIndex == -1 && cboDelList.Items.Count > 0) cboDelList.SelectedIndex = 0;
+            else cboDelList.Text = string.Empty;
+
+            //Mode select - add or delete
+            if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
+
 
             //set size
             Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
@@ -87,6 +108,9 @@ namespace MoneyTracer
             txtboxSavingMoney.Size = sizeOfTxtMoney;
             txtboxSavingName.Size = sizeOfTxtName;
 
+
+
+            //this is for numericUpDown
             int numUpDownX = txtboxSavingMoney.Location.X + 50;
             int numUpDownY = txtboxSavingMoney.Location.Y - 46;
             int loopCount = 0;
@@ -216,8 +240,15 @@ namespace MoneyTracer
 
         private void menuSave_Click(object sender, EventArgs e)
         {
-            SaveDataSaving();
-            MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+            try
+            {
+                SaveDataSaving();
+                MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Saving Fail \n{ex.Message}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private List<string> GetAllSavingName()
@@ -305,6 +336,8 @@ namespace MoneyTracer
         private int GetNumWithoutAnyCharacter(string theString)
         {
             string result = string.Empty;
+
+            //fillter only pass '0'~'9' or '-'
             foreach (char theChar in theString)
             {
                 if (theChar == '-')
@@ -319,39 +352,46 @@ namespace MoneyTracer
             return Convert.ToInt32(result);
         }
 
+        /// <summary>
+        /// Do update because if you don't update this, it will refresh with origin data
+        /// </summary>
         private void UpdateSavingDictionary()
         {
             List<string> names = new List<string>();
             List<int> values = new List<int>();
 
-            foreach(var item in savingData)
+            //get all names again
+            foreach (var item in savingData)
             {
                 names.Add(item.Key);
             }
 
-            foreach(var item in savingPanel.Controls)
+            //get all money again
+            foreach (var item in savingPanel.Controls)
             {
-                if(item is NumericUpDown theNumUpDown)
+                if (item is NumericUpDown theNumUpDown)
                 {
                     values.Add(Convert.ToInt32(theNumUpDown.Value));
                 }
             }
 
-            for(int i = 0; i< names.Count; i++)
+            //update saving data
+            for (int i = 0; i < names.Count; i++)
             {
                 savingData[names[i]] = values[i];
             }
-
         }
 
         private void addSavingButton_Click(object sender, EventArgs e)
         {
+            //Check if box is empty
             if (savingNameInputBox.Text == string.Empty) return;
             if (savingMoneyInputBox.Text == string.Empty) return;
 
             int inputNum = 0;
             string inputName = savingNameInputBox.Text;
 
+            //if there's char are non numbers, cancel the method
             try
             {
                 inputNum = Convert.ToInt32(savingMoneyInputBox.Text);
@@ -361,17 +401,51 @@ namespace MoneyTracer
                 return;
             }
 
+            //if the saving less than 0, return
             if (inputNum < 0) return;
 
-            foreach(string item in savingData.Keys)
+            //check if there's exist saving name
+            foreach (string item in savingData.Keys)
             {
                 if (item == inputName) return;
             }
 
+            //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
             balance = GetNumWithoutAnyCharacter(txtBalance.Text);
 
+            //after get update, fill the value in, and reload all the values
             savingData.Add(inputName, inputNum);
+            MainView_Load(sender, e);
+        }
+
+        private void cboModeSelector_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboModeSelector.SelectedIndex == 0) ModeSwitchAddOrDel(true);
+            else if (cboModeSelector.SelectedIndex == 1) ModeSwitchAddOrDel(false);
+        }
+
+        private void btnDelSaving_Click(object sender, EventArgs e)
+        {
+            //update SavingData & Balance Values just in case be replaced with origin data
+            UpdateSavingDictionary();
+            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+
+            //after get update, fill the value in, and reload all the values
+            savingData.Remove(cboDelList.Text);
+            MainView_Load(sender, e);
+        }
+
+        private void menuOpen_Click(object sender, EventArgs e)
+        {
+            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                JsonData.loadFilePath = _openFileDialog.FileName;
+            }
+
+            balance = JsonData.BalanceValue;
+            savingData = JsonData.SavingMoneyData;
+            weekBudgetData = JsonData.WeekBalanceData;
             MainView_Load(sender, e);
         }
     }

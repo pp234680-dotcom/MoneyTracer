@@ -54,9 +54,22 @@ namespace MoneyTracer.Model
     {
         static string outputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
         static string outputDataPath = outputDataFolder;
-        static string loadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
-        static string jsonString = File.ReadAllText(loadFilePath);
-        static Rootobject rootObject = JsonConvert.DeserializeObject<Rootobject>(jsonString);
+        public static string loadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+        static string jsonString 
+        {
+            get
+            {
+                return File.ReadAllText(loadFilePath);
+            }
+        }
+
+        static Rootobject rootObject
+        {
+            get
+            {
+                return JsonConvert.DeserializeObject<Rootobject>(jsonString);
+            }
+        }
 
 
         private static void GetOutputFilePath()
