@@ -64,11 +64,21 @@ namespace MoneyTracer
         private readonly string titleBalance = "Balance : $";
         private readonly string titleBuffer = "Buffer Cash Usage : $";
         private readonly string titleTotalSaving = "Total Saving : $";
+        private readonly string titleTotalSpending = "Total Spending : $";
 
 
         public MainView()
         {
             InitializeComponent();
+        }
+
+        private void MainView_Load(object sender, EventArgs e)
+        {
+            //Setup the homepage
+            initializeTheHomePage();
+
+            //Setup the saving page
+            initializeTheSpendingPage();
         }
 
         private string decimalSpreadtor(string val)
@@ -320,7 +330,7 @@ namespace MoneyTracer
         private void initializeTheSpendingPage()
         {
             //empty the value
-            ClearAllSpendingDisplayValue(); //haven't finish
+            ClearAllSpendingDisplayValue();
 
             //set size, make txtBoxSpending's height stay in 26
             Size sizeOfTxtMoney = new Size(txtBoxSpendingMoney.Size.Width, 26);
@@ -336,18 +346,14 @@ namespace MoneyTracer
             //getting spending data
             GetSpendingDataAndAppendTheTitleAndMoneyVal(ref loopCount, ref numUpDownX, ref numUpDownY);
 
+            //update total value
+            txtSpendingTotal.Text = titleTotalSpending + decimalSpreadtor(spendingTotal.ToString());
+
             //add spending data to del list
             AddSpendningDataToDelList();
         }
 
-        private void MainView_Load(object sender, EventArgs e)
-        {
-            //Setup the homepage
-            initializeTheHomePage();
-
-            //Setup the saving page
-            initializeTheSpendingPage();
-        }
+        
 
         private static Size AddSizeToTheControl(Size theSize)
         {

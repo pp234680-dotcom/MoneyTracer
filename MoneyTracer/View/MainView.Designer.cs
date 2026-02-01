@@ -72,6 +72,7 @@ namespace MoneyTracer
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
+            txtSpendingTotal = new Label();
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
@@ -317,6 +318,7 @@ namespace MoneyTracer
             // spendingPage
             // 
             spendingPage.BackColor = Color.FloralWhite;
+            spendingPage.Controls.Add(txtSpendingTotal);
             spendingPage.Controls.Add(label6);
             spendingPage.Controls.Add(cboModeSelector2);
             spendingPage.Controls.Add(flowLayoutPanel2);
@@ -488,6 +490,15 @@ namespace MoneyTracer
             // 
             _openFileDialog.FileName = "openFileDialog123";
             // 
+            // txtSpendingTotal
+            // 
+            txtSpendingTotal.AutoSize = true;
+            txtSpendingTotal.Location = new Point(16, 8);
+            txtSpendingTotal.Name = "txtSpendingTotal";
+            txtSpendingTotal.Size = new Size(45, 19);
+            txtSpendingTotal.TabIndex = 17;
+            txtSpendingTotal.Text = "$123";
+            // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -569,5 +580,6 @@ namespace MoneyTracer
         private Panel spendingPanel;
         private Label txtBoxSpendingMoney;
         private Label txtBoxSpendingName;
+        private Label txtSpendingTotal;
     }
 }
