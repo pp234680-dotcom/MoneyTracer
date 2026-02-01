@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 //todo : when adding a saving or spending, make sure the name should't start with number
+//todo : output buffer value
 //todo : load & save the spending data
 //todo : saving should be interact with spending
 //todo : check if the money is correct
@@ -147,6 +148,11 @@ namespace MoneyTracer
 
         private void ClearAllSavingDisplayValue()
         {
+            savingTotal = 0;
+
+            previousVal = 0;
+            nowVal = 0;
+
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
             var panelControls = savingPanel.Controls;
@@ -159,7 +165,7 @@ namespace MoneyTracer
             }
             savingMoneyInputBox.Text = string.Empty;
             savingNameInputBox.Text = string.Empty;
-            savingTotal = 0;
+            
         }
 
         private void AddSaveDataToDelList()
@@ -313,6 +319,7 @@ namespace MoneyTracer
             //update total value
             savingTotal += balance;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(savingTotal.ToString());
+            txtBalance.Text = titleBalance + decimalSpreadtor((balance + bufferValue).ToString());
 
             //add save data to del list
             AddSaveDataToDelList();
@@ -557,7 +564,7 @@ namespace MoneyTracer
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
-            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+            //balance = GetNumWithoutAnyCharacter(txtBalance.Text); //shit this thing will cause balance repeatly minus buffer
         }
         private void addSavingButton_Click(object sender, EventArgs e)
         {
