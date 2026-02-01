@@ -437,7 +437,7 @@ namespace MoneyTracer
             // txtBoxSpendingMoney
             // 
             txtBoxSpendingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxSpendingMoney.Location = new Point(272, 19);
+            txtBoxSpendingMoney.Location = new Point(248, 19);
             txtBoxSpendingMoney.Name = "txtBoxSpendingMoney";
             txtBoxSpendingMoney.Size = new Size(135, 26);
             txtBoxSpendingMoney.TabIndex = 9;

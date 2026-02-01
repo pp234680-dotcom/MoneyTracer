@@ -2,6 +2,8 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
+//todo : when adding a saving or spending, make sure the name should't start with number
+//todo : saving should be interact with spending
 //todo : check if the money is correct
 //todo : design
 
@@ -72,15 +74,30 @@ namespace MoneyTracer
         {
             if (val[0] != '-')
             {
-                if (val.Length > 3)
+                if (val.Length > 6)
+                {
+                    MessageBox.Show("shit");
+                    val = val.Insert(val.Length - 6, ",");
+                    val = val.Insert(val.Length - 3, ",");
+                }
+                else if (val.Length > 3)
                 {
                     val = val.Insert(val.Length - 3, ",");
                 }
-                else if (val.Length > 6)
+                
+            }
+            else if (val[0] == '-')
+            {
+                if (val.Length > 7)
                 {
                     val = val.Insert(val.Length - 6, ",");
                     val = val.Insert(val.Length - 3, ",");
                 }
+                else if (val.Length > 4)
+                {
+                    val = val.Insert(val.Length - 3, ",");
+                }
+                
             }
             return val;
         }
@@ -194,7 +211,7 @@ namespace MoneyTracer
             }
         }
 
-        private void GetSpendingDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        private void GetSpendingDataAndAppendTheTitleAndMoneyVal(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
         {
             foreach (var item in spendingDataDictionary)
             {
@@ -210,7 +227,9 @@ namespace MoneyTracer
                 }
 
                 //money comma add
-                string moneyVal = item.Value.ToString();
+                int theMoney = item.Value;
+                theMoney *= -1;
+                string moneyVal = theMoney.ToString();
                 moneyVal = decimalSpreadtor(moneyVal);
 
                 //insert value
@@ -314,7 +333,7 @@ namespace MoneyTracer
             int loopCount = 0;
 
             //getting spending data
-            GetSpendingDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+            GetSpendingDataAndAppendTheTitleAndMoneyVal(ref loopCount, ref numUpDownX, ref numUpDownY);
 
             //add spending data to del list
             AddSpendningDataToDelList();
@@ -634,9 +653,6 @@ namespace MoneyTracer
             {
                 return;
             }
-
-            //if the spending less than 0, return
-            if (inputNum < 0) return;
 
             //check if there's exist spending name
             foreach (string item in spendingDataDictionary.Keys)
