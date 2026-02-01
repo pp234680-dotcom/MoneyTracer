@@ -29,11 +29,11 @@ namespace MoneyTracer
         private Dictionary<string, int> weekBudgetDataDictionary = JsonData.WeekBalanceData;
 
         public int savingTotal = 0;
-        public decimal buffer = 0;
+        public decimal bufferValue = 0;
         private decimal previousVal = 0;
         private decimal nowVal = 0;        
         private readonly string titleBalance = "Balance : $";
-        private readonly string titleCharge = "Buffer Cash Usage : $";
+        private readonly string titleBuffer = "Buffer Cash Usage : $";
         private readonly string titleTotalSaving = "Total Saving : $";
 
 
@@ -247,8 +247,8 @@ namespace MoneyTracer
             }
 
             //subtract each other
-            buffer -= nowVal - previousVal;
-            txtBuffer.Text = titleCharge + decimalSpreadtor(buffer.ToString());
+            bufferValue -= nowVal - previousVal;
+            txtBuffer.Text = titleBuffer + decimalSpreadtor(bufferValue.ToString());
 
             DoValueUpdate();
         }
@@ -260,7 +260,7 @@ namespace MoneyTracer
 
         private void DoValueUpdate()
         {
-            decimal temp = balance - spendingNumUpDown.Value + buffer;
+            decimal temp = balance - spendingNumUpDown.Value + bufferValue;
             txtBalance.Text = titleBalance + decimalSpreadtor(temp.ToString());
 
             decimal temp2 = savingTotal - spendingNumUpDown.Value;
@@ -475,6 +475,9 @@ namespace MoneyTracer
             balance = JsonData.BalanceValue;
             savingDataDictionary = JsonData.SavingMoneyData;
             weekBudgetDataDictionary = JsonData.WeekBalanceData;
+
+            bufferValue = 0;
+            txtBuffer.Text = titleBuffer + bufferValue.ToString();
             MainView_Load(sender, e);
         }
     }
