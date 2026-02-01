@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
 //todo : when adding a saving or spending, make sure the name should't start with number
+//todo : load & save the spending data
 //todo : saving should be interact with spending
 //todo : check if the money is correct
 //todo : design
