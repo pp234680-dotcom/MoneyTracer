@@ -54,6 +54,7 @@ namespace MoneyTracer
             txtBuffer = new Label();
             txtTotalSaving = new Label();
             spendingPage = new TabPage();
+            txtSpendingTotal = new Label();
             label6 = new Label();
             cboModeSelector2 = new ComboBox();
             flowLayoutPanel2 = new FlowLayoutPanel();
@@ -72,7 +73,6 @@ namespace MoneyTracer
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
-            txtSpendingTotal = new Label();
             ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
@@ -211,7 +211,7 @@ namespace MoneyTracer
             savingMoneyInputBox.Name = "savingMoneyInputBox";
             savingMoneyInputBox.PlaceholderText = "($$$)";
             savingMoneyInputBox.Size = new Size(81, 27);
-            savingMoneyInputBox.TabIndex = 11;
+            savingMoneyInputBox.TabIndex = 12;
             // 
             // savingNameInputBox
             // 
@@ -330,6 +330,15 @@ namespace MoneyTracer
             spendingPage.TabIndex = 0;
             spendingPage.Text = "Spending";
             // 
+            // txtSpendingTotal
+            // 
+            txtSpendingTotal.AutoSize = true;
+            txtSpendingTotal.Location = new Point(16, 8);
+            txtSpendingTotal.Name = "txtSpendingTotal";
+            txtSpendingTotal.Size = new Size(45, 19);
+            txtSpendingTotal.TabIndex = 17;
+            txtSpendingTotal.Text = "$123";
+            // 
             // label6
             // 
             label6.AutoSize = true;
@@ -386,7 +395,7 @@ namespace MoneyTracer
             spendingMoneyInputBox.Name = "spendingMoneyInputBox";
             spendingMoneyInputBox.PlaceholderText = "($$$)";
             spendingMoneyInputBox.Size = new Size(81, 27);
-            spendingMoneyInputBox.TabIndex = 11;
+            spendingMoneyInputBox.TabIndex = 12;
             // 
             // spendingNameInputBox
             // 
@@ -489,15 +498,6 @@ namespace MoneyTracer
             // _openFileDialog
             // 
             _openFileDialog.FileName = "openFileDialog123";
-            // 
-            // txtSpendingTotal
-            // 
-            txtSpendingTotal.AutoSize = true;
-            txtSpendingTotal.Location = new Point(16, 8);
-            txtSpendingTotal.Name = "txtSpendingTotal";
-            txtSpendingTotal.Size = new Size(45, 19);
-            txtSpendingTotal.TabIndex = 17;
-            txtSpendingTotal.Text = "$123";
             // 
             // MainView
             // 
