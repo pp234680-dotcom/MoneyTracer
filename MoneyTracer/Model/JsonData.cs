@@ -16,6 +16,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 namespace MoneyTracer.Model
 {
 
+
     public class Rootobject
     {
         public int balance { get; set; }
@@ -23,6 +24,7 @@ namespace MoneyTracer.Model
         public Weekbudget[] weekBudget { get; set; }
         public Wallet[] Wallet { get; set; }
         public Bank[] Bank { get; set; }
+        public Spending[] Spending { get; set; }
     }
 
     public class Saving
@@ -49,25 +51,32 @@ namespace MoneyTracer.Model
         public int money { get; set; }
     }
 
+    public class Spending
+    {
+        public string name { get; set; }
+        public int money { get; set; }
+    }
+
+
 
     internal class JsonData
     {
-        static string outputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
-        static string outputDataPath = outputDataFolder;
-        public static string loadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
-        static string jsonString 
+        static string OutputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
+        static string OutputDataPath = OutputDataFolder;
+        public static string LoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+        static string JsonString
         {
             get
             {
-                return File.ReadAllText(loadFilePath);
+                return File.ReadAllText(LoadFilePath);
             }
         }
 
-        static Rootobject rootObject
+        static Rootobject _rootObject
         {
             get
             {
-                return JsonConvert.DeserializeObject<Rootobject>(jsonString);
+                return JsonConvert.DeserializeObject<Rootobject>(JsonString);
             }
         }
 
@@ -81,7 +90,7 @@ namespace MoneyTracer.Model
             time = time.Replace(':', '.');
 
             string fileName = $"{time} savingData.json";
-            outputDataPath = outputDataFolder + fileName;
+            OutputDataPath = OutputDataFolder + fileName;
         }
 
         public static Dictionary<string, int> SavingMoneyData
@@ -91,7 +100,7 @@ namespace MoneyTracer.Model
                 Dictionary<string, int> result = new Dictionary<string, int>();
 
                 //get each item
-                foreach (Saving item in rootObject.saving)
+                foreach (Saving item in _rootObject.saving)
                 {
                     string name = item.name.ToString();
                     int money = Convert.ToInt32(item.money);
@@ -108,7 +117,24 @@ namespace MoneyTracer.Model
             {
                 Dictionary<string, int> result = new Dictionary<string, int>();
 
-                foreach (Weekbudget item in rootObject.weekBudget)
+                foreach (Weekbudget item in _rootObject.weekBudget)
+                {
+                    string name = item.name;
+                    int money = item.money;
+                    result.Add(name, money);
+                }
+
+                return result;
+            }
+        }
+
+        public static Dictionary<string, int> SpendingData
+        {
+            get
+            {
+                Dictionary<string, int> result = new Dictionary<string, int>();
+
+                foreach (Spending item in _rootObject.Spending)
                 {
                     string name = item.name;
                     int money = item.money;
@@ -124,7 +150,7 @@ namespace MoneyTracer.Model
             get
             {
                 int result = 0;
-                result = rootObject.balance;
+                result = _rootObject.balance;
                 return result;
             }
         }
@@ -159,7 +185,7 @@ namespace MoneyTracer.Model
             rootobject.balance = StoredData.storedBalance;
 
             string outputDataTxt = JsonConvert.SerializeObject(rootobject);
-            StreamWriter _streamWriter = new StreamWriter(outputDataPath);
+            StreamWriter _streamWriter = new StreamWriter(OutputDataPath);
             _streamWriter.Write(outputDataTxt);
             _streamWriter.Flush();
             _streamWriter.Close();

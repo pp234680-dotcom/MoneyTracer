@@ -38,14 +38,14 @@ namespace MoneyTracer
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             label1 = new Label();
-            cboModeSelector = new ComboBox();
+            cboModeSelector1 = new ComboBox();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panelAddSaving = new Panel();
             btnAddSaving = new Button();
             savingMoneyInputBox = new TextBox();
             savingNameInputBox = new TextBox();
             panelDeleteSaving = new Panel();
-            cboDelList = new ComboBox();
+            cboDelSavingList = new ComboBox();
             btnDelSaving = new Button();
             savingPanel = new Panel();
             txtboxSavingMoney = new Label();
@@ -53,8 +53,20 @@ namespace MoneyTracer
             panel2 = new Panel();
             txtBuffer = new Label();
             txtTotalSaving = new Label();
-            savingPage = new TabPage();
             spendingPage = new TabPage();
+            label6 = new Label();
+            cboModeSelector2 = new ComboBox();
+            flowLayoutPanel2 = new FlowLayoutPanel();
+            panelAddSpending = new Panel();
+            btnAddSpending = new Button();
+            spendingMoneyInputBox = new TextBox();
+            spendingNameInputBox = new TextBox();
+            panelDeleteSpending = new Panel();
+            cboDelSpendingList = new ComboBox();
+            butDelSpendingList = new Button();
+            spendingPanel = new Panel();
+            txtBoxSpendingMoney = new Label();
+            txtBoxSpendingName = new Label();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
@@ -68,6 +80,11 @@ namespace MoneyTracer
             panelDeleteSaving.SuspendLayout();
             savingPanel.SuspendLayout();
             panel2.SuspendLayout();
+            spendingPage.SuspendLayout();
+            flowLayoutPanel2.SuspendLayout();
+            panelAddSpending.SuspendLayout();
+            panelDeleteSpending.SuspendLayout();
+            spendingPanel.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -114,7 +131,6 @@ namespace MoneyTracer
             // tabControl1
             // 
             tabControl1.Controls.Add(homepagePage);
-            tabControl1.Controls.Add(savingPage);
             tabControl1.Controls.Add(spendingPage);
             tabControl1.Location = new Point(12, 40);
             tabControl1.Name = "tabControl1";
@@ -126,7 +142,7 @@ namespace MoneyTracer
             // 
             homepagePage.BackColor = Color.FloralWhite;
             homepagePage.Controls.Add(label1);
-            homepagePage.Controls.Add(cboModeSelector);
+            homepagePage.Controls.Add(cboModeSelector1);
             homepagePage.Controls.Add(flowLayoutPanel1);
             homepagePage.Controls.Add(label5);
             homepagePage.Controls.Add(savingPanel);
@@ -147,15 +163,15 @@ namespace MoneyTracer
             label1.TabIndex = 13;
             label1.Text = "Mode :";
             // 
-            // cboModeSelector
+            // cboModeSelector1
             // 
-            cboModeSelector.FormattingEnabled = true;
-            cboModeSelector.Items.AddRange(new object[] { "Add", "Delete" });
-            cboModeSelector.Location = new Point(28, 260);
-            cboModeSelector.Name = "cboModeSelector";
-            cboModeSelector.Size = new Size(82, 27);
-            cboModeSelector.TabIndex = 12;
-            cboModeSelector.SelectedIndexChanged += cboModeSelector_SelectedIndexChanged;
+            cboModeSelector1.FormattingEnabled = true;
+            cboModeSelector1.Items.AddRange(new object[] { "Add", "Delete" });
+            cboModeSelector1.Location = new Point(28, 260);
+            cboModeSelector1.Name = "cboModeSelector1";
+            cboModeSelector1.Size = new Size(82, 27);
+            cboModeSelector1.TabIndex = 12;
+            cboModeSelector1.SelectedIndexChanged += cboModeSelector1_SelectedIndexChanged;
             // 
             // flowLayoutPanel1
             // 
@@ -206,20 +222,20 @@ namespace MoneyTracer
             // 
             // panelDeleteSaving
             // 
-            panelDeleteSaving.Controls.Add(cboDelList);
+            panelDeleteSaving.Controls.Add(cboDelSavingList);
             panelDeleteSaving.Controls.Add(btnDelSaving);
             panelDeleteSaving.Location = new Point(3, 4);
             panelDeleteSaving.Name = "panelDeleteSaving";
             panelDeleteSaving.Size = new Size(289, 34);
             panelDeleteSaving.TabIndex = 12;
             // 
-            // cboDelList
+            // cboDelSavingList
             // 
-            cboDelList.FormattingEnabled = true;
-            cboDelList.Location = new Point(6, 3);
-            cboDelList.Name = "cboDelList";
-            cboDelList.Size = new Size(139, 27);
-            cboDelList.TabIndex = 12;
+            cboDelSavingList.FormattingEnabled = true;
+            cboDelSavingList.Location = new Point(6, 3);
+            cboDelSavingList.Name = "cboDelSavingList";
+            cboDelSavingList.Size = new Size(139, 27);
+            cboDelSavingList.TabIndex = 12;
             // 
             // btnDelSaving
             // 
@@ -298,25 +314,144 @@ namespace MoneyTracer
             txtTotalSaving.TabIndex = 2;
             txtTotalSaving.Text = "Bank Total : $300";
             // 
-            // savingPage
-            // 
-            savingPage.BackColor = Color.FloralWhite;
-            savingPage.Location = new Point(4, 28);
-            savingPage.Name = "savingPage";
-            savingPage.Padding = new Padding(3);
-            savingPage.Size = new Size(465, 626);
-            savingPage.TabIndex = 0;
-            savingPage.Text = "Saving";
-            // 
             // spendingPage
             // 
+            spendingPage.BackColor = Color.FloralWhite;
+            spendingPage.Controls.Add(label6);
+            spendingPage.Controls.Add(cboModeSelector2);
+            spendingPage.Controls.Add(flowLayoutPanel2);
+            spendingPage.Controls.Add(spendingPanel);
             spendingPage.Location = new Point(4, 28);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
             spendingPage.Size = new Size(465, 626);
-            spendingPage.TabIndex = 2;
+            spendingPage.TabIndex = 0;
             spendingPage.Text = "Spending";
-            spendingPage.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(17, 41);
+            label6.Name = "label6";
+            label6.Size = new Size(57, 19);
+            label6.TabIndex = 16;
+            label6.Text = "Mode :";
+            // 
+            // cboModeSelector2
+            // 
+            cboModeSelector2.FormattingEnabled = true;
+            cboModeSelector2.Items.AddRange(new object[] { "Add", "Delete" });
+            cboModeSelector2.Location = new Point(20, 63);
+            cboModeSelector2.Name = "cboModeSelector2";
+            cboModeSelector2.Size = new Size(82, 27);
+            cboModeSelector2.TabIndex = 15;
+            cboModeSelector2.SelectedIndexChanged += cboModeSelector2_SelectedIndexChanged;
+            // 
+            // flowLayoutPanel2
+            // 
+            flowLayoutPanel2.Controls.Add(panelAddSpending);
+            flowLayoutPanel2.Controls.Add(panelDeleteSpending);
+            flowLayoutPanel2.FlowDirection = FlowDirection.BottomUp;
+            flowLayoutPanel2.Location = new Point(132, 15);
+            flowLayoutPanel2.Name = "flowLayoutPanel2";
+            flowLayoutPanel2.Size = new Size(304, 81);
+            flowLayoutPanel2.TabIndex = 14;
+            // 
+            // panelAddSpending
+            // 
+            panelAddSpending.Controls.Add(btnAddSpending);
+            panelAddSpending.Controls.Add(spendingMoneyInputBox);
+            panelAddSpending.Controls.Add(spendingNameInputBox);
+            panelAddSpending.Location = new Point(3, 44);
+            panelAddSpending.Name = "panelAddSpending";
+            panelAddSpending.Size = new Size(289, 34);
+            panelAddSpending.TabIndex = 12;
+            // 
+            // btnAddSpending
+            // 
+            btnAddSpending.BackgroundImage = (Image)resources.GetObject("btnAddSpending.BackgroundImage");
+            btnAddSpending.BackgroundImageLayout = ImageLayout.Zoom;
+            btnAddSpending.Location = new Point(245, 3);
+            btnAddSpending.Name = "btnAddSpending";
+            btnAddSpending.Size = new Size(27, 27);
+            btnAddSpending.TabIndex = 10;
+            btnAddSpending.UseVisualStyleBackColor = true;
+            btnAddSpending.Click += btnAddSpending_Click;
+            // 
+            // spendingMoneyInputBox
+            // 
+            spendingMoneyInputBox.Location = new Point(156, 3);
+            spendingMoneyInputBox.Name = "spendingMoneyInputBox";
+            spendingMoneyInputBox.PlaceholderText = "($$$)";
+            spendingMoneyInputBox.Size = new Size(81, 27);
+            spendingMoneyInputBox.TabIndex = 11;
+            // 
+            // spendingNameInputBox
+            // 
+            spendingNameInputBox.Location = new Point(6, 3);
+            spendingNameInputBox.Name = "spendingNameInputBox";
+            spendingNameInputBox.PlaceholderText = "(Saving Name)";
+            spendingNameInputBox.Size = new Size(139, 27);
+            spendingNameInputBox.TabIndex = 11;
+            // 
+            // panelDeleteSpending
+            // 
+            panelDeleteSpending.Controls.Add(cboDelSpendingList);
+            panelDeleteSpending.Controls.Add(butDelSpendingList);
+            panelDeleteSpending.Location = new Point(3, 4);
+            panelDeleteSpending.Name = "panelDeleteSpending";
+            panelDeleteSpending.Size = new Size(289, 34);
+            panelDeleteSpending.TabIndex = 12;
+            // 
+            // cboDelSpendingList
+            // 
+            cboDelSpendingList.FormattingEnabled = true;
+            cboDelSpendingList.Location = new Point(6, 3);
+            cboDelSpendingList.Name = "cboDelSpendingList";
+            cboDelSpendingList.Size = new Size(139, 27);
+            cboDelSpendingList.TabIndex = 12;
+            // 
+            // butDelSpendingList
+            // 
+            butDelSpendingList.BackgroundImage = (Image)resources.GetObject("butDelSpendingList.BackgroundImage");
+            butDelSpendingList.BackgroundImageLayout = ImageLayout.Zoom;
+            butDelSpendingList.Location = new Point(156, 3);
+            butDelSpendingList.Name = "butDelSpendingList";
+            butDelSpendingList.Size = new Size(27, 27);
+            butDelSpendingList.TabIndex = 10;
+            butDelSpendingList.UseVisualStyleBackColor = true;
+            butDelSpendingList.Click += butDelSpendingList_Click;
+            // 
+            // spendingPanel
+            // 
+            spendingPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            spendingPanel.AutoScroll = true;
+            spendingPanel.BackColor = Color.LightYellow;
+            spendingPanel.Controls.Add(txtBoxSpendingMoney);
+            spendingPanel.Controls.Add(txtBoxSpendingName);
+            spendingPanel.Location = new Point(17, 102);
+            spendingPanel.Name = "spendingPanel";
+            spendingPanel.Size = new Size(419, 502);
+            spendingPanel.TabIndex = 10;
+            // 
+            // txtBoxSpendingMoney
+            // 
+            txtBoxSpendingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBoxSpendingMoney.Location = new Point(272, 19);
+            txtBoxSpendingMoney.Name = "txtBoxSpendingMoney";
+            txtBoxSpendingMoney.Size = new Size(135, 26);
+            txtBoxSpendingMoney.TabIndex = 9;
+            txtBoxSpendingMoney.Text = "Money(inactive)";
+            txtBoxSpendingMoney.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtBoxSpendingName
+            // 
+            txtBoxSpendingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBoxSpendingName.Location = new Point(3, 19);
+            txtBoxSpendingName.Name = "txtBoxSpendingName";
+            txtBoxSpendingName.Size = new Size(162, 26);
+            txtBoxSpendingName.TabIndex = 9;
+            txtBoxSpendingName.Text = "Name";
             // 
             // menuStrip1
             // 
@@ -338,14 +473,14 @@ namespace MoneyTracer
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(223, 26);
+            menuOpen.Size = new Size(165, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(223, 26);
+            menuSave.Size = new Size(165, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -378,6 +513,13 @@ namespace MoneyTracer
             savingPanel.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
+            spendingPage.ResumeLayout(false);
+            spendingPage.PerformLayout();
+            flowLayoutPanel2.ResumeLayout(false);
+            panelAddSpending.ResumeLayout(false);
+            panelAddSpending.PerformLayout();
+            panelDeleteSpending.ResumeLayout(false);
+            spendingPanel.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -389,7 +531,6 @@ namespace MoneyTracer
         private Label label5;
         private Label label3;
         private TabControl tabControl1;
-        private TabPage savingPage;
         private TabPage homepagePage;
         private TabPage spendingPage;
         private Panel panel2;
@@ -410,10 +551,23 @@ namespace MoneyTracer
         private Panel panelAddSaving;
         private FlowLayoutPanel flowLayoutPanel1;
         private Panel panelDeleteSaving;
-        private ComboBox cboDelList;
+        private ComboBox cboDelSavingList;
         private Button btnDelSaving;
-        private ComboBox cboModeSelector;
+        private ComboBox cboModeSelector1;
         private Label label1;
         private OpenFileDialog _openFileDialog;
+        private Label label6;
+        private ComboBox cboModeSelector2;
+        private FlowLayoutPanel flowLayoutPanel2;
+        private Panel panelAddSpending;
+        private Button btnAddSpending;
+        private TextBox spendingMoneyInputBox;
+        private TextBox spendingNameInputBox;
+        private Panel panelDeleteSpending;
+        private ComboBox cboDelSpendingList;
+        private Button butDelSpendingList;
+        private Panel spendingPanel;
+        private Label txtBoxSpendingMoney;
+        private Label txtBoxSpendingName;
     }
 }

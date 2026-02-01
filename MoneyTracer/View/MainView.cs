@@ -28,10 +28,36 @@ namespace MoneyTracer
         /// </summary>
         private Dictionary<string, int> weekBudgetDataDictionary = JsonData.WeekBalanceData;
 
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        private Dictionary<string, int> spendingDataDictionary = JsonData.SpendingData;
+
+        /// <summary>
+        /// Display spending in view
+        /// </summary>
         public int savingTotal = 0;
+
+        /// <summary>
+        /// Display spending in view
+        /// </summary>
+        public int spendingTotal = 0;
+
+        /// <summary>
+        /// Display buffer in view
+        /// </summary>
         public decimal bufferValue = 0;
+
+        /// <summary>
+        /// Count the buffer
+        /// </summary>
         private decimal previousVal = 0;
-        private decimal nowVal = 0;        
+
+        /// <summary>
+        /// Count the buffer
+        /// </summary>
+        private decimal nowVal = 0;
+
         private readonly string titleBalance = "Balance : $";
         private readonly string titleBuffer = "Buffer Cash Usage : $";
         private readonly string titleTotalSaving = "Total Saving : $";
@@ -59,7 +85,7 @@ namespace MoneyTracer
             return val;
         }
 
-        private void AddingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue)
+        private void AddingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
             numUpDownY += 44;
 
@@ -76,17 +102,23 @@ namespace MoneyTracer
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
             numericUpDown.BackColor = Color.Beige;
-            savingPanel.Controls.Add(numericUpDown);
+            thePanel.Controls.Add(numericUpDown);
         }
 
-        private void ModeSwitchAddOrDel(bool isAddModeNow)
+        private void ModeSwitch1AddOrDel(bool isAddModeNow)
         {
             panelAddSaving.Visible = isAddModeNow;
             panelDeleteSaving.Visible = !isAddModeNow;
         }
 
-        private void ClearAllValue()
-        { 
+        private void ModeSwitch2AddOrDel(bool isAddModeNow)
+        {
+            panelAddSpending.Visible = isAddModeNow;
+            panelDeleteSpending.Visible = !isAddModeNow;
+        }
+
+        private void ClearAllSavingDisplayValue()
+        {
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
             var panelControls = savingPanel.Controls;
@@ -104,16 +136,30 @@ namespace MoneyTracer
 
         private void AddSaveDataToDelList()
         {
-            cboDelList.Items.Clear();
+            cboDelSavingList.Items.Clear();
             foreach (var item in savingDataDictionary)
             {
-                cboDelList.Items.Add(item.Key);
+                cboDelSavingList.Items.Add(item.Key);
             }
-            if (cboDelList.SelectedIndex == -1 && cboDelList.Items.Count > 0) cboDelList.SelectedIndex = 0;
-            else cboDelList.Text = string.Empty;
+            if (cboDelSavingList.SelectedIndex == -1 && cboDelSavingList.Items.Count > 0) cboDelSavingList.SelectedIndex = 0;
+            else cboDelSavingList.Text = string.Empty;
 
             //Mode select - add or delete
-            if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
+            if (cboModeSelector1.SelectedIndex == -1) cboModeSelector1.SelectedIndex = 0;
+        }
+
+        private void AddSpendningDataToDelList()
+        {
+            cboDelSpendingList.Items.Clear();
+            foreach (var item in spendingDataDictionary)
+            {
+                cboDelSpendingList.Items.Add(item.Key);
+            }
+            if (cboDelSpendingList.SelectedIndex == -1 && cboDelSpendingList.Items.Count > 0) cboDelSpendingList.SelectedIndex = 0;
+            else cboDelSpendingList.Text = string.Empty;
+
+            //Mode select - add or delete
+            if (cboModeSelector2.SelectedIndex == -1) cboModeSelector2.SelectedIndex = 0;
         }
 
         private void GetSavingDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
@@ -144,7 +190,36 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
+            }
+        }
+
+        private void GetSpendingDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in spendingDataDictionary)
+            {
+                loopCount++;
+                spendingTotal += item.Value;
+
+                //name length limit
+                string name = item.Key;
+                if (name.Length > 24)
+                {
+                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Insert(name.Length - 1, "...");
+                }
+
+                //money comma add
+                string moneyVal = item.Value.ToString();
+                moneyVal = decimalSpreadtor(moneyVal);
+
+                //insert value
+                txtBoxSpendingName.Text += $"{name}\n\n";
+                txtBoxSpendingMoney.Text += $"${moneyVal}\n\n";
+
+                //set size
+                txtBoxSpendingMoney.Size = AddSizeToTheControl(txtBoxSpendingMoney.Size);
+                txtBoxSpendingName.Size = AddSizeToTheControl(txtBoxSpendingName.Size);
             }
         }
 
@@ -176,14 +251,14 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
+                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
             }
         }
 
-        private void MainView_Load(object sender, EventArgs e)
+        private void initializeTheHomePage()
         {
             //empty the value
-            ClearAllValue();
+            ClearAllSavingDisplayValue();
 
             //set size, make txtboxSaving's height stay in 26
             Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
@@ -197,7 +272,7 @@ namespace MoneyTracer
             int loopCount = 0;
 
             //getting saving data
-            GetSavingDataAndAppendTheTitleAndNumBox(ref loopCount,ref numUpDownX,ref numUpDownY);
+            GetSavingDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
 
             //Get weekBudget data
             GetWeekBudgetDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
@@ -211,6 +286,47 @@ namespace MoneyTracer
 
             //add save data to del list
             AddSaveDataToDelList();
+        }
+
+        private void ClearAllSpendingDisplayValue()
+        {
+            txtBoxSpendingName.Text = string.Empty;
+            txtBoxSpendingMoney.Text = string.Empty;
+
+            spendingMoneyInputBox.Text = string.Empty;
+            spendingNameInputBox.Text = string.Empty;
+            spendingTotal = 0;
+        }
+        private void initializeTheSpendingPage()
+        {
+            //empty the value
+            ClearAllSpendingDisplayValue(); //haven't finish
+
+            //set size, make txtBoxSpending's height stay in 26
+            Size sizeOfTxtMoney = new Size(txtBoxSpendingMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtBoxSpendingName.Size.Width, 26);
+            txtBoxSpendingMoney.Size = sizeOfTxtMoney;
+            txtBoxSpendingName.Size = sizeOfTxtName;
+
+            //this is for numericUpDown
+            int numUpDownX = txtBoxSpendingMoney.Location.X + 50;
+            int numUpDownY = txtBoxSpendingMoney.Location.Y - 46;
+            int loopCount = 0;
+
+            //getting spending data
+            GetSpendingDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+
+            //add spending data to del list
+            AddSpendningDataToDelList();
+        }
+
+        private void MainView_Load(object sender, EventArgs e)
+        {
+            //Setup the homepage
+            initializeTheHomePage();
+
+            //Setup the saving page
+            initializeTheSpendingPage();
         }
 
         private static Size AddSizeToTheControl(Size theSize)
@@ -411,6 +527,12 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateBeforeReload()
+        {
+            //update SavingData & Balance Values just in case be replaced with origin data
+            UpdateSavingDictionary();
+            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+        }
         private void addSavingButton_Click(object sender, EventArgs e)
         {
             //Check if box is empty
@@ -440,28 +562,32 @@ namespace MoneyTracer
             }
 
             //update SavingData & Balance Values just in case be replaced with origin data
-            UpdateSavingDictionary();
-            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+            UpdateBeforeReload();
 
             //after get update, fill the value in, and reload all the values
             savingDataDictionary.Add(inputName, inputNum);
             MainView_Load(sender, e);
         }
 
-        private void cboModeSelector_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboModeSelector1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboModeSelector.SelectedIndex == 0) ModeSwitchAddOrDel(true);
-            else if (cboModeSelector.SelectedIndex == 1) ModeSwitchAddOrDel(false);
+            if (cboModeSelector1.SelectedIndex == 0) ModeSwitch1AddOrDel(true);
+            else if (cboModeSelector1.SelectedIndex == 1) ModeSwitch1AddOrDel(false);
+        }
+
+        private void cboModeSelector2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboModeSelector2.SelectedIndex == 0) ModeSwitch2AddOrDel(true);
+            else if (cboModeSelector2.SelectedIndex == 1) ModeSwitch2AddOrDel(false);
         }
 
         private void btnDelSaving_Click(object sender, EventArgs e)
         {
             //update SavingData & Balance Values just in case be replaced with origin data
-            UpdateSavingDictionary();
-            balance = GetNumWithoutAnyCharacter(txtBalance.Text);
+            UpdateBeforeReload();
 
             //after get update, fill the value in, and reload all the values
-            savingDataDictionary.Remove(cboDelList.Text);
+            savingDataDictionary.Remove(cboDelSavingList.Text);
             MainView_Load(sender, e);
         }
 
@@ -469,7 +595,7 @@ namespace MoneyTracer
         {
             if (_openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                JsonData.loadFilePath = _openFileDialog.FileName;
+                JsonData.LoadFilePath = _openFileDialog.FileName;
             }
 
             balance = JsonData.BalanceValue;
@@ -478,6 +604,51 @@ namespace MoneyTracer
 
             bufferValue = 0;
             txtBuffer.Text = titleBuffer + bufferValue.ToString();
+            MainView_Load(sender, e);
+        }
+
+        private void butDelSpendingList_Click(object sender, EventArgs e)
+        {
+            UpdateBeforeReload();
+
+            //after get update, fill the value in, and reload all the values
+            spendingDataDictionary.Remove(cboDelSpendingList.Text);
+            MainView_Load(sender, e);
+        }
+
+        private void btnAddSpending_Click(object sender, EventArgs e)
+        {
+            //Check if box is empty
+            if (spendingNameInputBox.Text == string.Empty) return;
+            if (spendingMoneyInputBox.Text == string.Empty) return;
+
+            int inputNum = 0;
+            string inputName = spendingNameInputBox.Text;
+
+            //if there's char are non numbers, cancel the method
+            try
+            {
+                inputNum = Convert.ToInt32(spendingMoneyInputBox.Text);
+            }
+            catch
+            {
+                return;
+            }
+
+            //if the spending less than 0, return
+            if (inputNum < 0) return;
+
+            //check if there's exist spending name
+            foreach (string item in spendingDataDictionary.Keys)
+            {
+                if (item == inputName) return;
+            }
+
+            //update spendingData & Balance Values just in case be replaced with origin data
+            UpdateBeforeReload();
+
+            //after get update, fill the value in, and reload all the values
+            spendingDataDictionary.Add(inputName, inputNum);
             MainView_Load(sender, e);
         }
     }
