@@ -51,7 +51,7 @@ namespace MoneyTracer
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
-            txtCharge = new Label();
+            txtBuffer = new Label();
             txtTotalSaving = new Label();
             savingPage = new TabPage();
             spendingPage = new TabPage();
@@ -269,7 +269,7 @@ namespace MoneyTracer
             panel2.BackColor = Color.FromArgb(255, 192, 192);
             panel2.Controls.Add(spendingNumUpDown);
             panel2.Controls.Add(label3);
-            panel2.Controls.Add(txtCharge);
+            panel2.Controls.Add(txtBuffer);
             panel2.Controls.Add(txtBalance);
             panel2.Controls.Add(txtTotalSaving);
             panel2.Location = new Point(15, 45);
@@ -277,15 +277,15 @@ namespace MoneyTracer
             panel2.Size = new Size(431, 165);
             panel2.TabIndex = 8;
             // 
-            // txtCharge
+            // txtBuffer
             // 
-            txtCharge.AutoSize = true;
-            txtCharge.ForeColor = Color.White;
-            txtCharge.Location = new Point(16, 105);
-            txtCharge.Name = "txtCharge";
-            txtCharge.Size = new Size(166, 19);
-            txtCharge.TabIndex = 10;
-            txtCharge.Text = "Buffer Cash Usage : $0";
+            txtBuffer.AutoSize = true;
+            txtBuffer.ForeColor = Color.White;
+            txtBuffer.Location = new Point(16, 105);
+            txtBuffer.Name = "txtBuffer";
+            txtBuffer.Size = new Size(166, 19);
+            txtBuffer.TabIndex = 10;
+            txtBuffer.Text = "Buffer Cash Usage : $0";
             // 
             // txtTotalSaving
             // 
@@ -338,14 +338,14 @@ namespace MoneyTracer
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(165, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(165, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -397,7 +397,7 @@ namespace MoneyTracer
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
         private Panel savingPanel;
-        private Label txtCharge;
+        private Label txtBuffer;
         private NumericUpDown spendingNumUpDown;
         private Label txtBalance;
         private MenuStrip menuStrip1;

@@ -13,17 +13,29 @@ namespace MoneyTracer
 {
     public partial class MainView : Form
     {
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        private int balance = JsonData.BalanceValue;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        private Dictionary<string, int> savingDataDictionary = JsonData.SavingMoneyData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        private Dictionary<string, int> weekBudgetDataDictionary = JsonData.WeekBalanceData;
 
         public int savingTotal = 0;
         public decimal buffer = 0;
         private decimal previousVal = 0;
-        private decimal nowVal = 0;
-        private int balance = JsonData.BalanceValue;
-        private string titleBalance = "Balance : $";
-        private string titleCharge = "Buffer Cash Usage : $";
-        private string titleTotalSaving = "Total Saving : $";
-        private Dictionary<string, int> savingData = JsonData.SavingMoneyData;
-        private Dictionary<string, int> weekBudgetData = JsonData.WeekBalanceData;
+        private decimal nowVal = 0;        
+        private readonly string titleBalance = "Balance : $";
+        private readonly string titleCharge = "Buffer Cash Usage : $";
+        private readonly string titleTotalSaving = "Total Saving : $";
+
 
         public MainView()
         {
@@ -73,9 +85,8 @@ namespace MoneyTracer
             panelDeleteSaving.Visible = !isAddModeNow;
         }
 
-        private void MainView_Load(object sender, EventArgs e)
-        {
-            //empty the value
+        private void ClearAllValue()
+        { 
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
             var panelControls = savingPanel.Controls;
@@ -89,10 +100,12 @@ namespace MoneyTracer
             savingMoneyInputBox.Text = string.Empty;
             savingNameInputBox.Text = string.Empty;
             savingTotal = 0;
+        }
 
-            //add save data to del list
+        private void AddSaveDataToDelList()
+        {
             cboDelList.Items.Clear();
-            foreach (var item in savingData)
+            foreach (var item in savingDataDictionary)
             {
                 cboDelList.Items.Add(item.Key);
             }
@@ -101,28 +114,16 @@ namespace MoneyTracer
 
             //Mode select - add or delete
             if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
+        }
 
-
-            //set size
-            Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
-            Size sizeOfTxtName = new Size(txtboxSavingName.Size.Width, 26);
-            txtboxSavingMoney.Size = sizeOfTxtMoney;
-            txtboxSavingName.Size = sizeOfTxtName;
-
-
-
-            //this is for numericUpDown
-            int numUpDownX = txtboxSavingMoney.Location.X + 50;
-            int numUpDownY = txtboxSavingMoney.Location.Y - 46;
-            int loopCount = 0;
-
-            //getting saving data
-            foreach (var item in savingData)
+        private void GetSavingDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in savingDataDictionary)
             {
                 loopCount++;
                 savingTotal += item.Value;
 
-                //name lenth limit
+                //name length limit
                 string name = item.Key;
                 if (name.Length > 24)
                 {
@@ -145,9 +146,11 @@ namespace MoneyTracer
                 //adding nummeric shit
                 AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
             }
+        }
 
-            //Get weekBudget data
-            foreach (var item in weekBudgetData)
+        private void GetWeekBudgetDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in weekBudgetDataDictionary)
             {
                 loopCount++;
                 savingTotal += item.Value;
@@ -174,8 +177,30 @@ namespace MoneyTracer
 
                 //adding nummeric shit
                 AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value);
-
             }
+        }
+
+        private void MainView_Load(object sender, EventArgs e)
+        {
+            //empty the value
+            ClearAllValue();
+
+            //set size, make txtboxSaving's height stay in 26
+            Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtboxSavingName.Size.Width, 26);
+            txtboxSavingMoney.Size = sizeOfTxtMoney;
+            txtboxSavingName.Size = sizeOfTxtName;
+
+            //this is for numericUpDown
+            int numUpDownX = txtboxSavingMoney.Location.X + 50;
+            int numUpDownY = txtboxSavingMoney.Location.Y - 46;
+            int loopCount = 0;
+
+            //getting saving data
+            GetSavingDataAndAppendTheTitleAndNumBox(ref loopCount,ref numUpDownX,ref numUpDownY);
+
+            //Get weekBudget data
+            GetWeekBudgetDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
 
             //get balance value
             txtBalance.Text = titleBalance + decimalSpreadtor(balance.ToString());
@@ -183,6 +208,9 @@ namespace MoneyTracer
             //update total value
             savingTotal += balance;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(savingTotal.ToString());
+
+            //add save data to del list
+            AddSaveDataToDelList();
         }
 
         private static Size AddSizeToTheControl(Size theSize)
@@ -220,7 +248,7 @@ namespace MoneyTracer
 
             //subtract each other
             buffer -= nowVal - previousVal;
-            txtCharge.Text = titleCharge + decimalSpreadtor(buffer.ToString());
+            txtBuffer.Text = titleCharge + decimalSpreadtor(buffer.ToString());
 
             DoValueUpdate();
         }
@@ -362,7 +390,7 @@ namespace MoneyTracer
             List<int> values = new List<int>();
 
             //get all names again
-            foreach (var item in savingData)
+            foreach (var item in savingDataDictionary)
             {
                 names.Add(item.Key);
             }
@@ -379,7 +407,7 @@ namespace MoneyTracer
             //update saving data
             for (int i = 0; i < names.Count; i++)
             {
-                savingData[names[i]] = values[i];
+                savingDataDictionary[names[i]] = values[i];
             }
         }
 
@@ -406,7 +434,7 @@ namespace MoneyTracer
             if (inputNum < 0) return;
 
             //check if there's exist saving name
-            foreach (string item in savingData.Keys)
+            foreach (string item in savingDataDictionary.Keys)
             {
                 if (item == inputName) return;
             }
@@ -416,7 +444,7 @@ namespace MoneyTracer
             balance = GetNumWithoutAnyCharacter(txtBalance.Text);
 
             //after get update, fill the value in, and reload all the values
-            savingData.Add(inputName, inputNum);
+            savingDataDictionary.Add(inputName, inputNum);
             MainView_Load(sender, e);
         }
 
@@ -433,7 +461,7 @@ namespace MoneyTracer
             balance = GetNumWithoutAnyCharacter(txtBalance.Text);
 
             //after get update, fill the value in, and reload all the values
-            savingData.Remove(cboDelList.Text);
+            savingDataDictionary.Remove(cboDelList.Text);
             MainView_Load(sender, e);
         }
 
@@ -445,8 +473,8 @@ namespace MoneyTracer
             }
 
             balance = JsonData.BalanceValue;
-            savingData = JsonData.SavingMoneyData;
-            weekBudgetData = JsonData.WeekBalanceData;
+            savingDataDictionary = JsonData.SavingMoneyData;
+            weekBudgetDataDictionary = JsonData.WeekBalanceData;
             MainView_Load(sender, e);
         }
     }
