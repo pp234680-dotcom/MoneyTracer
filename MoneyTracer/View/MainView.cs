@@ -2,7 +2,6 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.AxHost;
-//todo : when adding a saving or spending, make sure the name should't start with number
 //todo : output buffer value
 //todo : load & save the spending data
 //todo : saving should be interact with spending
@@ -36,6 +35,11 @@ namespace MoneyTracer
         /// Global Value
         /// </summary>
         private Dictionary<string, int> spendingDataDictionary = JsonData.SpendingData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        //private Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
 
         /// <summary>
         /// Display spending in view
@@ -119,7 +123,7 @@ namespace MoneyTracer
             numUpDownY += 44;
 
             NumericUpDown numericUpDown = new NumericUpDown();
-            numericUpDown.Name = $"numericUpDown{loopCount}";
+            numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
             numericUpDown.Location = new Point(numUpDownX, numUpDownY);
             numericUpDown.Minimum = 0;
             numericUpDown.Maximum = 1000000;
@@ -380,25 +384,83 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
+        {
+            //test if i can get the name of control
+            labelTest.Text = theControl.Name;
+
+            //get sorted num by spliting the name
+            string[] splitedString = theControl.Name.Split(" ");
+            int sequence = Convert.ToInt32(splitedString[1]) - 1;
+            int loopCount = 0;
+            bool isSpendingNameFound = false;
+
+            //Find saving name in savingDataDictionary
+            foreach (var item in savingDataDictionary)
+            {
+                if (loopCount == sequence)
+                {
+                    string name = item.Key;
+
+                    //check if the if the saving name is exist in stored data, if not, create a new key
+                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
+                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
+
+                    //display my debug infomation
+                    labelTest.Text += $"\n{name}";
+
+                    isSpendingNameFound = true;
+                    break;
+                }
+                loopCount++;
+            }
+            foreach (var item in weekBudgetDataDictionary)
+            {
+                if (isSpendingNameFound == true) break;
+                if (loopCount == sequence)
+                {
+                    string name = item.Key;
+
+                    //check if the if the saving name is exist in stored data, if not, create a new key
+                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name,0);
+                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
+
+                    //display my debug infomation
+                    labelTest.Text += $"\n{name}";
+
+                    isSpendingNameFound = true;
+                    break;
+                }
+                loopCount++;
+            }
+        }
+
         private void numericUpDown_TextChanged(object sender, EventArgs e)
         {
+            NumericUpDown theControl = new NumericUpDown();
             if (sender is NumericUpDown a)
             {
+                theControl = a;
                 //Text content validity check
                 if (string.IsNullOrEmpty(a.Text)) a.Text = "0";
                 if (a.Text[0] == ',') a.Text = a.Text.Remove(0, 1);
+                a.Text = a.Text.Replace("-", string.Empty); //just in case that convert to int failly
 
                 //make current value as previous value
                 previousVal = nowVal;
 
                 //update the current value
-                nowVal = Convert.ToDecimal(a.Text);
+                nowVal = Convert.ToDecimal(a.Text);            
             }
 
             //subtract each other
             bufferValue -= nowVal - previousVal;
             txtBuffer.Text = titleBuffer + decimalSpreadtor(bufferValue.ToString());
 
+            //update buffer cash data
+            UpdateBufferCashLog(theControl, (nowVal - previousVal));
+
+            //Update the display text
             DoValueUpdate();
         }
 
@@ -407,6 +469,10 @@ namespace MoneyTracer
             DoValueUpdate();
         }
 
+
+        /// <summary>
+        /// Calculate and Update display balance & saving text
+        /// </summary>
         private void DoValueUpdate()
         {
             decimal temp = balance - spendingNumUpDown.Value + bufferValue;

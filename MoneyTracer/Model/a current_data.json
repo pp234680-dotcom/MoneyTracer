@@ -115,5 +115,7 @@
 			"name": "Esun Bank",
 			"money": 20076
 		}
-	]
+	],
+	"Spending": null,
+	"bufferLogs": []
 }

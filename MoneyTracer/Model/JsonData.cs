@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -25,6 +26,8 @@ namespace MoneyTracer.Model
         public Wallet[] Wallet { get; set; }
         public Bank[] Bank { get; set; }
         public Spending[] Spending { get; set; }
+
+        public BufferLog[] bufferLogs { get; set; }
     }
 
     public class Saving
@@ -57,7 +60,11 @@ namespace MoneyTracer.Model
         public int money { get; set; }
     }
 
-
+    public class BufferLog
+    {
+        public string name { get; set; }
+        public int money { get; set; }
+    }
 
     internal class JsonData
     {
@@ -183,6 +190,7 @@ namespace MoneyTracer.Model
             rootobject.saving = savings.ToArray();
             rootobject.weekBudget = weekbudgets.ToArray();
             rootobject.balance = StoredData.storedBalance;
+            rootobject.bufferLogs = StoredData.bufferLogs;
 
             string outputDataTxt = JsonConvert.SerializeObject(rootobject);
             StreamWriter _streamWriter = new StreamWriter(OutputDataPath);

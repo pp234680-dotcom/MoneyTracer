@@ -51,6 +51,7 @@ namespace MoneyTracer
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
+            labelTest = new Label();
             txtBuffer = new Label();
             txtTotalSaving = new Label();
             spendingPage = new TabPage();
@@ -284,6 +285,7 @@ namespace MoneyTracer
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
+            panel2.Controls.Add(labelTest);
             panel2.Controls.Add(spendingNumUpDown);
             panel2.Controls.Add(label3);
             panel2.Controls.Add(txtBuffer);
@@ -293,6 +295,15 @@ namespace MoneyTracer
             panel2.Name = "panel2";
             panel2.Size = new Size(431, 165);
             panel2.TabIndex = 8;
+            // 
+            // labelTest
+            // 
+            labelTest.AutoSize = true;
+            labelTest.Location = new Point(205, 65);
+            labelTest.Name = "labelTest";
+            labelTest.Size = new Size(51, 19);
+            labelTest.TabIndex = 14;
+            labelTest.Text = "label2";
             // 
             // txtBuffer
             // 
@@ -581,5 +592,6 @@ namespace MoneyTracer
         private Label txtBoxSpendingMoney;
         private Label txtBoxSpendingName;
         private Label txtSpendingTotal;
+        private Label labelTest;
     }
 }
