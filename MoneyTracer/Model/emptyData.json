@@ -28,5 +28,7 @@
 		}
 	],
 	"Wallet": [],
-	"Bank": []
+	"Bank": [],
+	"Spending": null,
+	"bufferLogs": []
 }

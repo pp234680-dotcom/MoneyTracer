@@ -115,5 +115,15 @@
 			"name": "Esun Bank",
 			"money": 20076
 		}
+	],
+	"Spending": [
+		{
+			"name": "Chocolate Milk",
+			"money": 60
+		},
+		{
+			"name": "Easy Card",
+			"money": 200
+		}
 	]
 }
