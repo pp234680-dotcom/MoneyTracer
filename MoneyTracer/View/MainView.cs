@@ -64,7 +64,7 @@ namespace MoneyTracer
         /// <summary>
         /// Display spending in view
         /// </summary>
-        public int walletTotal = 0;
+        public decimal walletTotal = 0;
 
         /// <summary>
         /// Count the buffer
@@ -114,8 +114,7 @@ namespace MoneyTracer
                     walletPanel.Controls.Remove(theNumUpDown);
                 }
             }
-            walletMoneyInputBox.Text = string.Empty;
-            walletNameInputBox.Text = string.Empty;
+
         }
 
         private void initializeTheWalletPage()
@@ -140,6 +139,7 @@ namespace MoneyTracer
 
             //update total value
             //walletTotal += balance; ???
+
             txtWalletTotal.Text = titleTotalWallet + decimalSpreadtor(walletTotal.ToString());
         }
 
@@ -188,7 +188,7 @@ namespace MoneyTracer
             numericUpDown.Size = new Size(91, 27);
             numericUpDown.TextAlign = HorizontalAlignment.Right;
             numericUpDown.ThousandsSeparator = true;
-            numericUpDown.TextChanged += numericUpDown_TextChanged;
+            numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
             numericUpDown.BackColor = Color.Beige;
@@ -574,6 +574,35 @@ namespace MoneyTracer
 
             //Update the display text
             DoValueUpdate();
+        }
+
+        private void numericUpDownWallet_TextChanged(object sender, EventArgs e)
+        {
+            NumericUpDown theControl = new NumericUpDown();
+            if (sender is NumericUpDown a)
+            {
+                theControl = a;
+                //Text content validity check
+                if (string.IsNullOrEmpty(a.Text)) a.Text = "0";
+                if (a.Text[0] == ',') a.Text = a.Text.Remove(0, 1);
+                a.Text = a.Text.Replace("-", string.Empty); //just in case that convert to int failly
+
+                //make current value as previous value
+                previousVal = nowVal;
+
+                //update the current value
+                nowVal = Convert.ToDecimal(a.Text);
+            }
+
+            //subtract each other
+            walletTotal += nowVal - previousVal;
+            txtWalletTotal.Text = titleTotalWallet + decimalSpreadtor(walletTotal.ToString());
+
+            //update buffer cash data
+            //UpdateBufferCashLog(theControl, (nowVal - previousVal));
+
+            //Update the display text
+            //DoValueUpdate();
         }
 
         private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
