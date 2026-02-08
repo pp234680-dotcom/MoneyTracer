@@ -87,7 +87,9 @@ namespace MoneyTracer.Model
             }
         }
 
-
+        /// <summary>
+        /// Generate file name by the date of the day, and the file path 
+        /// </summary>
         private static void GetOutputFilePath()
         {
 
@@ -142,6 +144,23 @@ namespace MoneyTracer.Model
                 Dictionary<string, int> result = new Dictionary<string, int>();
 
                 foreach (Spending item in _rootObject.Spending)
+                {
+                    string name = item.name;
+                    int money = item.money;
+                    result.Add(name, money);
+                }
+
+                return result;
+            }
+        }
+
+        public static Dictionary<string, int> WalletData
+        {
+            get
+            {
+                Dictionary<string, int> result = new Dictionary<string, int>();
+
+                foreach (Wallet item in _rootObject.Wallet)
                 {
                     string name = item.name;
                     int money = item.money;

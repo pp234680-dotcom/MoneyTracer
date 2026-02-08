@@ -1,7 +1,7 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-using static System.Windows.Forms.AxHost;
+//todo : update spending by spending page
 //todo : output buffer value
 //todo : load & save the spending data
 //todo : saving should be interact with spending
@@ -39,6 +39,11 @@ namespace MoneyTracer
         /// <summary>
         /// Global Value
         /// </summary>
+        private Dictionary<string, int> walletDataDictionary = JsonData.WalletData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
         //private Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
 
         /// <summary>
@@ -57,6 +62,11 @@ namespace MoneyTracer
         public decimal bufferValue = 0;
 
         /// <summary>
+        /// Display spending in view
+        /// </summary>
+        public int walletTotal = 0;
+
+        /// <summary>
         /// Count the buffer
         /// </summary>
         private decimal previousVal = 0;
@@ -70,6 +80,7 @@ namespace MoneyTracer
         private readonly string titleBuffer = "Buffer Cash Usage : $";
         private readonly string titleTotalSaving = "Total Saving : $";
         private readonly string titleTotalSpending = "Total Spending : $";
+        private readonly string titleTotalWallet = "Wallet : $";
 
 
         public MainView()
@@ -84,6 +95,52 @@ namespace MoneyTracer
 
             //Setup the saving page
             initializeTheSpendingPage();
+
+            //Setup the wallet page
+            initializeTheWalletPage();
+        }
+
+        private void ClearAllWalletDisplayValue()
+        {
+            walletTotal = 0;
+
+            txtBoxWalletName.Text = string.Empty;
+            txtBoxWalletMoney.Text = string.Empty;
+            var panelControls = walletPanel.Controls;
+            for (int i = panelControls.Count - 1; i > -1; i--)
+            {
+                if (panelControls[i] is NumericUpDown theNumUpDown)
+                {
+                    walletPanel.Controls.Remove(theNumUpDown);
+                }
+            }
+            walletMoneyInputBox.Text = string.Empty;
+            walletNameInputBox.Text = string.Empty;
+        }
+
+        private void initializeTheWalletPage()
+        {
+            //empty the value
+            ClearAllWalletDisplayValue();
+
+            //set size, make txtboxWallet's height stay in 26
+            Size sizeOfTxtMoney = new Size(txtBoxWalletMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtBoxWalletName.Size.Width, 26);
+            txtBoxWalletMoney.Size = sizeOfTxtMoney;
+            txtBoxWalletName.Size = sizeOfTxtName;
+
+            //this is for numericUpDown
+            int numUpDownX = txtBoxWalletMoney.Location.X + 50;
+            int numUpDownY = txtBoxWalletMoney.Location.Y - 46;
+            int loopCount = 0;
+
+            //getting wallet data
+            //modifying
+            GetWalletDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+
+            //update total value
+            //walletTotal += balance; ???
+            txtWalletTotal.Text = titleTotalWallet + decimalSpreadtor(walletTotal.ToString());
         }
 
         private string decimalSpreadtor(string val)
@@ -118,7 +175,27 @@ namespace MoneyTracer
             return val;
         }
 
-        private void AddingNumUpDown(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
+        private void AddingNumUpDownOnWalletpage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
+        {
+            numUpDownY += 44;
+
+            NumericUpDown numericUpDown = new NumericUpDown();
+            numericUpDown.Name = $"numericUpDownWallet {loopCount}"; //space is required, because it'll split by space later
+            numericUpDown.Location = new Point(numUpDownX, numUpDownY);
+            numericUpDown.Minimum = 0;
+            numericUpDown.Maximum = 1000000;
+            numericUpDown.Value = itemValue;
+            numericUpDown.Size = new Size(91, 27);
+            numericUpDown.TextAlign = HorizontalAlignment.Right;
+            numericUpDown.ThousandsSeparator = true;
+            numericUpDown.TextChanged += numericUpDown_TextChanged;
+            numericUpDown.GotFocus += numericUpDown_focus;
+            numericUpDown.MouseWheel += numericUpDown_focus;
+            numericUpDown.BackColor = Color.Beige;
+            thePanel.Controls.Add(numericUpDown);
+        }
+
+        private void AddingNumUpDownOnHomepage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
             numUpDownY += 44;
 
@@ -183,7 +260,7 @@ namespace MoneyTracer
             else cboDelSavingList.Text = string.Empty;
 
             //Mode select - add or delete
-            if (cboModeSelector1.SelectedIndex == -1) cboModeSelector1.SelectedIndex = 0;
+            if (cboModeSelectorHomepage.SelectedIndex == -1) cboModeSelectorHomepage.SelectedIndex = 0;
         }
 
         private void AddSpendningDataToDelList()
@@ -197,7 +274,42 @@ namespace MoneyTracer
             else cboDelSpendingList.Text = string.Empty;
 
             //Mode select - add or delete
-            if (cboModeSelector2.SelectedIndex == -1) cboModeSelector2.SelectedIndex = 0;
+            if (cboModeSelectorSpending.SelectedIndex == -1) cboModeSelectorSpending.SelectedIndex = 0;
+        }
+
+        private void GetWalletDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in walletDataDictionary)
+            {
+                loopCount++;
+                walletTotal += item.Value;
+
+                //name length limit
+                string name = item.Key;
+                if (name.Length > 24)
+                {
+                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Insert(name.Length - 1, "...");
+                }
+
+                //money comma add
+                string moneyVal = item.Value.ToString();
+                moneyVal = decimalSpreadtor(moneyVal);
+
+                //insert value
+                txtBoxWalletName.Text += $"{name}\n\n";
+                txtBoxWalletMoney.Text += $"${moneyVal}\n\n";
+
+                //set size
+                txtBoxWalletMoney.Size = AddSizeToTheControl(txtBoxWalletMoney.Size);
+                txtBoxWalletName.Size = AddSizeToTheControl(txtBoxWalletName.Size);
+
+                //adding nummeric shit
+                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, walletPanel);
+
+
+                txtBoxWalletMoney.Visible = false;
+            }
         }
 
         private void GetSavingDataAndAppendTheTitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
@@ -228,7 +340,7 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
+                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
             }
         }
 
@@ -291,7 +403,7 @@ namespace MoneyTracer
                 txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDown(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
+                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
             }
         }
 
@@ -670,14 +782,14 @@ namespace MoneyTracer
 
         private void cboModeSelector1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboModeSelector1.SelectedIndex == 0) ModeSwitch1AddOrDel(true);
-            else if (cboModeSelector1.SelectedIndex == 1) ModeSwitch1AddOrDel(false);
+            if (cboModeSelectorHomepage.SelectedIndex == 0) ModeSwitch1AddOrDel(true);
+            else if (cboModeSelectorHomepage.SelectedIndex == 1) ModeSwitch1AddOrDel(false);
         }
 
         private void cboModeSelector2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboModeSelector2.SelectedIndex == 0) ModeSwitch2AddOrDel(true);
-            else if (cboModeSelector2.SelectedIndex == 1) ModeSwitch2AddOrDel(false);
+            if (cboModeSelectorSpending.SelectedIndex == 0) ModeSwitch2AddOrDel(true);
+            else if (cboModeSelectorSpending.SelectedIndex == 1) ModeSwitch2AddOrDel(false);
         }
 
         private void btnDelSaving_Click(object sender, EventArgs e)
