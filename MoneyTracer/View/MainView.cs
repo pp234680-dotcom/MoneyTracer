@@ -387,7 +387,7 @@ namespace MoneyTracer
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
         {
             //test if i can get the name of control
-            labelTest.Text = theControl.Name;
+            //labelTest.Text = theControl.Name;
 
             //get sorted num by spliting the name
             string[] splitedString = theControl.Name.Split(" ");
@@ -407,7 +407,7 @@ namespace MoneyTracer
                     StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
 
                     //display my debug infomation
-                    labelTest.Text += $"\n{name}";
+                    //labelTest.Text += $"\n{name}";
 
                     isSpendingNameFound = true;
                     break;
@@ -426,7 +426,7 @@ namespace MoneyTracer
                     StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
 
                     //display my debug infomation
-                    labelTest.Text += $"\n{name}";
+                    //labelTest.Text += $"\n{name}";
 
                     isSpendingNameFound = true;
                     break;
