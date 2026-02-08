@@ -695,6 +695,35 @@ namespace MoneyTracer
             return Convert.ToInt32(result);
         }
 
+        private Dictionary<string, int> GetOutputWalletData()
+        {
+            //get wallet money val
+            List<int> walletMoneyList = new List<int>();
+            foreach (var theChar in walletPanel.Controls)
+            {
+                if (theChar is NumericUpDown a)
+                {
+                    walletMoneyList.Add(Convert.ToInt32(a.Value));
+                }
+            }
+
+            //get wallet money name
+            List<string> walletNameList = new List<string>();
+            foreach (var item in walletDataDictionary)
+            {
+                walletNameList.Add(item.Key);
+            }
+
+            Dictionary<string, int> outputWalletData = new Dictionary<string, int>();
+            //add it to dictionary
+            for (int i = 0; i < walletNameList.Count; i++)
+            {
+                outputWalletData.Add(walletNameList[i], walletMoneyList[i]);
+            }
+
+            return outputWalletData;
+        }
+        
         private void SaveDataSaving()
         {
             //get the list first
@@ -714,6 +743,8 @@ namespace MoneyTracer
 
             StoredData.storedSavingData = outputSavingData;
             StoredData.storedBalance = balance;
+            StoredData.storedWalletData = GetOutputWalletData();
+
             JsonData.SavingTheData();
 
         }
