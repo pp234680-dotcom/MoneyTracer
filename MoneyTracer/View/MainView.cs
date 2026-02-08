@@ -872,6 +872,7 @@ namespace MoneyTracer
             balance = JsonData.BalanceValue;
             savingDataDictionary = JsonData.SavingMoneyData;
             weekBudgetDataDictionary = JsonData.WeekBalanceData;
+            walletDataDictionary = JsonData.WalletData;
 
             bufferValue = 0;
             txtBuffer.Text = titleBuffer + bufferValue.ToString();
