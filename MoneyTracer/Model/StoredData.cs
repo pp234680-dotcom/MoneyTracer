@@ -10,6 +10,7 @@ namespace MoneyTracer.Model
     internal class StoredData
     {
         public static Dictionary<string, int> storedSavingData = new Dictionary<string, int>();
+        public static Dictionary<string, int> storedSpendingData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedWalletData = new Dictionary<string, int>();
         public static Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
         public static int storedBalance = new int();

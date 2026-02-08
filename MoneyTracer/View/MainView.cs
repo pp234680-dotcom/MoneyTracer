@@ -104,8 +104,8 @@ namespace MoneyTracer
         {
             walletTotal = 0;
 
-            txtBoxWalletName.Text = string.Empty;
-            txtBoxWalletMoney.Text = string.Empty;
+            txtWalletName.Text = string.Empty;
+            txtWalletMoney.Text = string.Empty;
             var panelControls = walletPanel.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
@@ -123,14 +123,14 @@ namespace MoneyTracer
             ClearAllWalletDisplayValue();
 
             //set size, make txtboxWallet's height stay in 26
-            Size sizeOfTxtMoney = new Size(txtBoxWalletMoney.Size.Width, 26);
-            Size sizeOfTxtName = new Size(txtBoxWalletName.Size.Width, 26);
-            txtBoxWalletMoney.Size = sizeOfTxtMoney;
-            txtBoxWalletName.Size = sizeOfTxtName;
+            Size sizeOfTxtMoney = new Size(txtWalletMoney.Size.Width, 26);
+            Size sizeOfTxtName = new Size(txtWalletName.Size.Width, 26);
+            txtWalletMoney.Size = sizeOfTxtMoney;
+            txtWalletName.Size = sizeOfTxtName;
 
             //this is for numericUpDown
-            int numUpDownX = txtBoxWalletMoney.Location.X + 50;
-            int numUpDownY = txtBoxWalletMoney.Location.Y - 46;
+            int numUpDownX = txtWalletMoney.Location.X + 50;
+            int numUpDownY = txtWalletMoney.Location.Y - 46;
             int loopCount = 0;
 
             //getting wallet data
@@ -297,18 +297,18 @@ namespace MoneyTracer
                 moneyVal = decimalSpreadtor(moneyVal);
 
                 //insert value
-                txtBoxWalletName.Text += $"{name}\n\n";
-                txtBoxWalletMoney.Text += $"${moneyVal}\n\n";
+                txtWalletName.Text += $"{name}\n\n";
+                txtWalletMoney.Text += $"${moneyVal}\n\n";
 
                 //set size
-                txtBoxWalletMoney.Size = AddSizeToTheControl(txtBoxWalletMoney.Size);
-                txtBoxWalletName.Size = AddSizeToTheControl(txtBoxWalletName.Size);
+                txtWalletMoney.Size = AddSizeToTheControl(txtWalletMoney.Size);
+                txtWalletName.Size = AddSizeToTheControl(txtWalletName.Size);
 
                 //adding nummeric shit
                 AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, walletPanel);
 
 
-                txtBoxWalletMoney.Visible = false;
+                txtWalletMoney.Visible = false;
             }
         }
 
@@ -723,7 +723,58 @@ namespace MoneyTracer
 
             return outputWalletData;
         }
-        
+
+        private Dictionary<string, int> GetOutputSpendingData()
+        {
+            //get spending money val
+            List<int> spendingMoneyList = new List<int>();
+            string money = txtBoxSpendingMoney.Text;
+            money = money.Replace("$", string.Empty);
+            money = money.Replace(",", string.Empty);
+            string tempResult = string.Empty;
+            foreach (var theChar in money)
+            {
+                if (theChar == '\n')
+                {
+                    if (tempResult == string.Empty) continue;
+                    spendingMoneyList.Add(Convert.ToInt32(tempResult));
+                    tempResult = string.Empty;
+                }
+                else
+                {
+                    tempResult += theChar;
+                }
+            }
+
+
+            //get spending money name
+            List<string> spendingNameList = new List<string>();
+            string names = txtBoxSpendingName.Text;
+            tempResult = string.Empty;
+            foreach (var theChar in names)
+            {
+                if (theChar == '\n')
+                {
+                    if (tempResult == string.Empty) continue;
+                    spendingNameList.Add(tempResult);
+                    tempResult = string.Empty;
+                }
+                else
+                {
+                    tempResult += theChar;
+                }
+            }
+
+            Dictionary<string, int> outputSpendingData = new Dictionary<string, int>();
+            //add it to dictionary
+            for (int i = 0; i < spendingNameList.Count; i++)
+            {
+                outputSpendingData.Add(spendingNameList[i], spendingMoneyList[i]);
+            }
+
+            return outputSpendingData;
+        }
+
         private void SaveDataSaving()
         {
             //get the list first
@@ -743,6 +794,7 @@ namespace MoneyTracer
 
             StoredData.storedSavingData = outputSavingData;
             StoredData.storedBalance = balance;
+            StoredData.storedSpendingData = GetOutputSpendingData();
             StoredData.storedWalletData = GetOutputWalletData();
 
             JsonData.SavingTheData();
@@ -776,7 +828,7 @@ namespace MoneyTracer
             List<string> names = new List<string>();
             List<int> values = new List<int>();
 
-            //get all names again
+            //get all money again
             foreach (var item in savingDataDictionary)
             {
                 names.Add(item.Key);
@@ -872,6 +924,7 @@ namespace MoneyTracer
             balance = JsonData.BalanceValue;
             savingDataDictionary = JsonData.SavingMoneyData;
             weekBudgetDataDictionary = JsonData.WeekBalanceData;
+            spendingDataDictionary = JsonData.SpendingData;
             walletDataDictionary = JsonData.WalletData;
 
             bufferValue = 0;

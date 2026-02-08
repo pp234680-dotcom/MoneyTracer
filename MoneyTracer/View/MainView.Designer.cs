@@ -71,8 +71,8 @@ namespace MoneyTracer
             walletPage = new TabPage();
             txtWalletTotal = new Label();
             walletPanel = new Panel();
-            txtBoxWalletMoney = new Label();
-            txtBoxWalletName = new Label();
+            txtWalletMoney = new Label();
+            txtWalletName = new Label();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
@@ -498,31 +498,31 @@ namespace MoneyTracer
             walletPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             walletPanel.AutoScroll = true;
             walletPanel.BackColor = Color.LightYellow;
-            walletPanel.Controls.Add(txtBoxWalletMoney);
-            walletPanel.Controls.Add(txtBoxWalletName);
+            walletPanel.Controls.Add(txtWalletMoney);
+            walletPanel.Controls.Add(txtWalletName);
             walletPanel.Location = new Point(17, 55);
             walletPanel.Name = "walletPanel";
             walletPanel.Size = new Size(419, 549);
             walletPanel.TabIndex = 18;
             // 
-            // txtBoxWalletMoney
+            // txtWalletMoney
             // 
-            txtBoxWalletMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxWalletMoney.Location = new Point(248, 19);
-            txtBoxWalletMoney.Name = "txtBoxWalletMoney";
-            txtBoxWalletMoney.Size = new Size(135, 26);
-            txtBoxWalletMoney.TabIndex = 9;
-            txtBoxWalletMoney.Text = "Money(inactive)";
-            txtBoxWalletMoney.TextAlign = ContentAlignment.TopRight;
+            txtWalletMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtWalletMoney.Location = new Point(248, 19);
+            txtWalletMoney.Name = "txtWalletMoney";
+            txtWalletMoney.Size = new Size(135, 26);
+            txtWalletMoney.TabIndex = 9;
+            txtWalletMoney.Text = "Money(inactive)";
+            txtWalletMoney.TextAlign = ContentAlignment.TopRight;
             // 
-            // txtBoxWalletName
+            // txtWalletName
             // 
-            txtBoxWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxWalletName.Location = new Point(3, 19);
-            txtBoxWalletName.Name = "txtBoxWalletName";
-            txtBoxWalletName.Size = new Size(162, 26);
-            txtBoxWalletName.TabIndex = 9;
-            txtBoxWalletName.Text = "Name";
+            txtWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtWalletName.Location = new Point(3, 19);
+            txtWalletName.Name = "txtWalletName";
+            txtWalletName.Size = new Size(162, 26);
+            txtWalletName.TabIndex = 9;
+            txtWalletName.Text = "Name";
             // 
             // menuStrip1
             // 
@@ -544,14 +544,14 @@ namespace MoneyTracer
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(165, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(165, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -647,7 +647,7 @@ namespace MoneyTracer
         private TabPage walletPage;
         private Label txtWalletTotal;
         private Panel walletPanel;
-        private Label txtBoxWalletMoney;
-        private Label txtBoxWalletName;
+        private Label txtWalletMoney;
+        private Label txtWalletName;
     }
 }
