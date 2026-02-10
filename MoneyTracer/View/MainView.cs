@@ -157,7 +157,7 @@ namespace MoneyTracer
                 {
                     val = val.Insert(val.Length - 3, ",");
                 }
-                
+
             }
             else if (val[0] == '-')
             {
@@ -170,7 +170,7 @@ namespace MoneyTracer
                 {
                     val = val.Insert(val.Length - 3, ",");
                 }
-                
+
             }
             return val;
         }
@@ -246,7 +246,7 @@ namespace MoneyTracer
             }
             savingMoneyInputBox.Text = string.Empty;
             savingNameInputBox.Text = string.Empty;
-            
+
         }
 
         private void AddSaveDataToDelList()
@@ -476,7 +476,7 @@ namespace MoneyTracer
             AddSpendningDataToDelList();
         }
 
-        
+
 
         private static Size AddSizeToTheControl(Size theSize)
         {
@@ -534,7 +534,7 @@ namespace MoneyTracer
                     string name = item.Key;
 
                     //check if the if the saving name is exist in stored data, if not, create a new key
-                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name,0);
+                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
                     StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
 
                     //display my debug infomation
@@ -562,7 +562,7 @@ namespace MoneyTracer
                 previousVal = nowVal;
 
                 //update the current value
-                nowVal = Convert.ToDecimal(a.Text);            
+                nowVal = Convert.ToDecimal(a.Text);
             }
 
             //subtract each other
@@ -972,6 +972,25 @@ namespace MoneyTracer
             //after get update, fill the value in, and reload all the values
             spendingDataDictionary.Add(inputName, inputNum);
             MainView_Load(sender, e);
+        }
+        private void spendingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnAddSpending_Click(sender, e);
+                e.SuppressKeyPress = true; //Damn this thing can prevent getting system Ding sound when press enter
+                spendingNameInputBox.Focus();
+            }
+        }
+
+        private void savingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Enter)
+            {
+                addSavingButton_Click(sender, e);
+                e.SuppressKeyPress = true; //Damn this thing can prevent getting system Ding sound when press enter
+                savingNameInputBox.Focus();
+            }
         }
     }
 }

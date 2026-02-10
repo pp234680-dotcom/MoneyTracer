@@ -220,6 +220,7 @@ namespace MoneyTracer
             savingMoneyInputBox.PlaceholderText = "($$$)";
             savingMoneyInputBox.Size = new Size(81, 27);
             savingMoneyInputBox.TabIndex = 12;
+            savingMoneyInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // savingNameInputBox
             // 
@@ -228,6 +229,7 @@ namespace MoneyTracer
             savingNameInputBox.PlaceholderText = "(Saving Name)";
             savingNameInputBox.Size = new Size(139, 27);
             savingNameInputBox.TabIndex = 11;
+            savingNameInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSaving
             // 
@@ -404,6 +406,7 @@ namespace MoneyTracer
             spendingMoneyInputBox.PlaceholderText = "($$$)";
             spendingMoneyInputBox.Size = new Size(81, 27);
             spendingMoneyInputBox.TabIndex = 12;
+            spendingMoneyInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // spendingNameInputBox
             // 
@@ -412,6 +415,7 @@ namespace MoneyTracer
             spendingNameInputBox.PlaceholderText = "(Saving Name)";
             spendingNameInputBox.Size = new Size(139, 27);
             spendingNameInputBox.TabIndex = 11;
+            spendingNameInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSpending
             // 
@@ -544,14 +548,14 @@ namespace MoneyTracer
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(223, 26);
+            menuOpen.Size = new Size(165, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(223, 26);
+            menuSave.Size = new Size(165, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
