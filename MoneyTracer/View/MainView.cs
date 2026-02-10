@@ -1,10 +1,10 @@
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-//todo : update spending by spending page
-//todo : output buffer value
+//todo : output total buffer value
+//todo : load buffer value
+//todo : buffer cash page
 //todo : load & save the spending data
-//todo : saving should be interact with spending
 //todo : check if the money is correct
 //todo : design
 
@@ -90,14 +90,14 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
-            //Setup the homepage
-            initializeTheHomePage();
-
             //Setup the saving page
             initializeTheSpendingPage();
 
             //Setup the wallet page
             initializeTheWalletPage();
+
+            //Setup the homepage
+            initializeTheHomePage();
         }
 
         private void ClearAllWalletDisplayValue()
@@ -429,13 +429,14 @@ namespace MoneyTracer
             //Get weekBudget data
             GetWeekBudgetDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
 
+            //tempShit - wait to be teleted
             //get balance value
             txtBalance.Text = titleBalance + decimalSpreadtor(balance.ToString());
 
             //update total value
             savingTotal += balance;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(savingTotal.ToString());
-            txtBalance.Text = titleBalance + decimalSpreadtor((balance + bufferValue).ToString());
+            txtBalance.Text = titleBalance + decimalSpreadtor((balance + bufferValue - spendingTotal).ToString());
 
             //add save data to del list
             AddSaveDataToDelList();
@@ -471,6 +472,7 @@ namespace MoneyTracer
 
             //update total value
             txtSpendingTotal.Text = titleTotalSpending + decimalSpreadtor(spendingTotal.ToString());
+            txtSpendingHomepage.Text = titleTotalSpending + decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
             AddSpendningDataToDelList();
@@ -616,10 +618,10 @@ namespace MoneyTracer
         /// </summary>
         private void DoValueUpdate()
         {
-            decimal temp = balance - spendingNumUpDown.Value + bufferValue;
+            decimal temp = balance - spendingTotal + bufferValue;
             txtBalance.Text = titleBalance + decimalSpreadtor(temp.ToString());
 
-            decimal temp2 = savingTotal - spendingNumUpDown.Value;
+            decimal temp2 = savingTotal - spendingTotal;
             txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(temp2.ToString());
         }
 
@@ -737,7 +739,7 @@ namespace MoneyTracer
                 if (theChar == '\n')
                 {
                     if (tempResult == string.Empty) continue;
-                    spendingMoneyList.Add(Convert.ToInt32(tempResult));
+                    spendingMoneyList.Add(Convert.ToInt32(tempResult) * -1);
                     tempResult = string.Empty;
                 }
                 else
@@ -927,8 +929,16 @@ namespace MoneyTracer
             spendingDataDictionary = JsonData.SpendingData;
             walletDataDictionary = JsonData.WalletData;
 
+            //tempShit - wait to be modify
             bufferValue = 0;
             txtBuffer.Text = titleBuffer + bufferValue.ToString();
+
+            //offset the value
+            foreach(var item in spendingDataDictionary)
+            {
+                balance += item.Value;
+            }
+
             MainView_Load(sender, e);
         }
 

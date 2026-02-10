@@ -32,9 +32,8 @@ namespace MoneyTracer
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             label5 = new Label();
-            spendingNumUpDown = new NumericUpDown();
             txtBalance = new Label();
-            label3 = new Label();
+            txtSpendingHomepage = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             label1 = new Label();
@@ -78,7 +77,6 @@ namespace MoneyTracer
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -105,16 +103,6 @@ namespace MoneyTracer
             label5.TabIndex = 7;
             label5.Text = "Total Status : Correct";
             // 
-            // spendingNumUpDown
-            // 
-            spendingNumUpDown.Location = new Point(108, 61);
-            spendingNumUpDown.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            spendingNumUpDown.Name = "spendingNumUpDown";
-            spendingNumUpDown.Size = new Size(65, 27);
-            spendingNumUpDown.TabIndex = 3;
-            spendingNumUpDown.ThousandsSeparator = true;
-            spendingNumUpDown.ValueChanged += spendingNumUpDown_ValueChanged;
-            // 
             // txtBalance
             // 
             txtBalance.AutoSize = true;
@@ -126,15 +114,15 @@ namespace MoneyTracer
             txtBalance.TabIndex = 2;
             txtBalance.Text = "Balance : $1,234";
             // 
-            // label3
+            // txtSpendingHomepage
             // 
-            label3.AutoSize = true;
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(16, 65);
-            label3.Name = "label3";
-            label3.Size = new Size(106, 19);
-            label3.TabIndex = 1;
-            label3.Text = "Spending : $0";
+            txtSpendingHomepage.AutoSize = true;
+            txtSpendingHomepage.ForeColor = Color.White;
+            txtSpendingHomepage.Location = new Point(16, 65);
+            txtSpendingHomepage.Name = "txtSpendingHomepage";
+            txtSpendingHomepage.Size = new Size(106, 19);
+            txtSpendingHomepage.TabIndex = 1;
+            txtSpendingHomepage.Text = "Spending : $0";
             // 
             // tabControl1
             // 
@@ -294,8 +282,7 @@ namespace MoneyTracer
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
-            panel2.Controls.Add(spendingNumUpDown);
-            panel2.Controls.Add(label3);
+            panel2.Controls.Add(txtSpendingHomepage);
             panel2.Controls.Add(txtBuffer);
             panel2.Controls.Add(txtBalance);
             panel2.Controls.Add(txtTotalSaving);
@@ -345,9 +332,9 @@ namespace MoneyTracer
             txtSpendingTotal.AutoSize = true;
             txtSpendingTotal.Location = new Point(17, 19);
             txtSpendingTotal.Name = "txtSpendingTotal";
-            txtSpendingTotal.Size = new Size(142, 19);
+            txtSpendingTotal.Size = new Size(162, 19);
             txtSpendingTotal.TabIndex = 17;
-            txtSpendingTotal.Text = "Total Saving : $123";
+            txtSpendingTotal.Text = "Total Spending : $123";
             // 
             // label6
             // 
@@ -577,7 +564,6 @@ namespace MoneyTracer
             Name = "MainView";
             Text = "Money Tracer beta";
             Load += MainView_Load;
-            ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).EndInit();
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
             homepagePage.PerformLayout();
@@ -607,7 +593,7 @@ namespace MoneyTracer
         #endregion
 
         private Label label5;
-        private Label label3;
+        private Label txtSpendingHomepage;
         private TabControl tabControl1;
         private TabPage homepagePage;
         private TabPage spendingPage;
@@ -617,7 +603,6 @@ namespace MoneyTracer
         private Label txtboxSavingName;
         private Panel savingPanel;
         private Label txtBuffer;
-        private NumericUpDown spendingNumUpDown;
         private Label txtBalance;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem testToolStripMenuItem;
