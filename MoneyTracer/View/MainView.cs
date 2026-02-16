@@ -551,6 +551,7 @@ namespace MoneyTracer
             if (name == string.Empty) return;
             if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
             StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
+            mainViewController.RemoveEmptyDataFromDictionary(ref StoredData.bufferLogDictionary);
 
             bufferDataDictionary = StoredData.bufferLogDictionary;
             InitializeTheBufferPage();
@@ -657,18 +658,7 @@ namespace MoneyTracer
 
         private void SaveDataSaving()
         {
-            //get the list first
-            List<string> savingNameList = mainViewController.GetAllNameFromLabel(txtboxSavingName);
-            List<int> savingMoneyList = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
-
-            //add it to dictionary
-            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
-            for (int i = 0; i < savingMoneyList.Count; i++)
-            {
-                outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
-            }
-
-            StoredData.storedSavingData = outputSavingData;
+            StoredData.storedSavingData = mainViewController.GetOutputDataOfCertainTab(txtboxSavingName, panelSaving);
             StoredData.storedBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);

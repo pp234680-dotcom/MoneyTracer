@@ -218,5 +218,20 @@ namespace MoneyTracer.Controller
                 theNameInputBox.Focus();
             }
         }
+
+        public static void RemoveEmptyDataFromDictionary(ref Dictionary<string, int> theDirctionary)
+        {
+            List<string> names = new List<string>();
+            foreach(var item in theDirctionary)
+            {
+                names.Add(item.Key);
+            }
+
+            for(int i = names.Count-1; i >= 0; i--)
+            {
+                string theName = names[i];
+                if (theDirctionary[theName] == 0) theDirctionary.Remove(theName);
+            }
+        }
     }
 }
