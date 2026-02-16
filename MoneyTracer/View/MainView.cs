@@ -1,8 +1,10 @@
+using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-//todo : output total buffer value
 //todo : load buffer value
+//todo : total saving is a bit weird when add or delete
+//todo : week value didn't update when add or delete
 //todo : buffer cash page
 //todo : load & save the spending data
 //todo : check if the money is correct
@@ -90,14 +92,23 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            //offset the value
+            DoBalanceUpdate();
+
+            //InitializingAllPage
+            InitializingAllPage();
+        }
+
+        private void InitializingAllPage()
+        {
             //Setup the saving page
-            initializeTheSpendingPage();
+            InitializeTheSpendingPage();
 
             //Setup the wallet page
-            initializeTheWalletPage();
+            InitializeTheWalletPage();
 
             //Setup the homepage
-            initializeTheHomePage();
+            InitializeTheHomePage();
         }
 
         private void ClearAllWalletDisplayValue()
@@ -106,74 +117,37 @@ namespace MoneyTracer
 
             txtWalletName.Text = string.Empty;
             txtWalletMoney.Text = string.Empty;
-            var panelControls = walletPanel.Controls;
+
+            var panelControls = panelWallet.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
                 if (panelControls[i] is NumericUpDown theNumUpDown)
                 {
-                    walletPanel.Controls.Remove(theNumUpDown);
+                    panelWallet.Controls.Remove(theNumUpDown);
                 }
             }
 
         }
 
-        private void initializeTheWalletPage()
+        private void InitializeTheWalletPage()
         {
             //empty the value
             ClearAllWalletDisplayValue();
 
             //set size, make txtboxWallet's height stay in 26
-            Size sizeOfTxtMoney = new Size(txtWalletMoney.Size.Width, 26);
-            Size sizeOfTxtName = new Size(txtWalletName.Size.Width, 26);
-            txtWalletMoney.Size = sizeOfTxtMoney;
-            txtWalletName.Size = sizeOfTxtName;
+            mainViewController.initializeTotalMoneyTxtTSize(txtWalletName, txtWalletMoney);
 
             //this is for numericUpDown
             int numUpDownX = txtWalletMoney.Location.X + 50;
             int numUpDownY = txtWalletMoney.Location.Y - 46;
             int loopCount = 0;
-
-            //getting wallet data
-            //modifying
             GetWalletDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
 
-            //update total value
-            //walletTotal += balance; ???
-
-            txtWalletTotal.Text = titleTotalWallet + decimalSpreadtor(walletTotal.ToString());
+            //update The Text
+            txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
         }
 
-        private string decimalSpreadtor(string val)
-        {
-            if (val[0] != '-')
-            {
-                if (val.Length > 6)
-                {
-                    MessageBox.Show("shit");
-                    val = val.Insert(val.Length - 6, ",");
-                    val = val.Insert(val.Length - 3, ",");
-                }
-                else if (val.Length > 3)
-                {
-                    val = val.Insert(val.Length - 3, ",");
-                }
-
-            }
-            else if (val[0] == '-')
-            {
-                if (val.Length > 7)
-                {
-                    val = val.Insert(val.Length - 6, ",");
-                    val = val.Insert(val.Length - 3, ",");
-                }
-                else if (val.Length > 4)
-                {
-                    val = val.Insert(val.Length - 3, ",");
-                }
-
-            }
-            return val;
-        }
+        
 
         private void AddingNumUpDownOnWalletpage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
@@ -215,13 +189,13 @@ namespace MoneyTracer
             thePanel.Controls.Add(numericUpDown);
         }
 
-        private void ModeSwitch1AddOrDel(bool isAddModeNow)
+        private void ModeSavingSwitchAddOrDel(bool isAddModeNow)
         {
             panelAddSaving.Visible = isAddModeNow;
             panelDeleteSaving.Visible = !isAddModeNow;
         }
 
-        private void ModeSwitch2AddOrDel(bool isAddModeNow)
+        private void ModeSpendingSwitchAddOrDel(bool isAddModeNow)
         {
             panelAddSpending.Visible = isAddModeNow;
             panelDeleteSpending.Visible = !isAddModeNow;
@@ -236,20 +210,20 @@ namespace MoneyTracer
 
             txtboxSavingName.Text = string.Empty;
             txtboxSavingMoney.Text = string.Empty;
-            var panelControls = savingPanel.Controls;
+
+            var panelControls = panelSaving.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
                 if (panelControls[i] is NumericUpDown theNumUpDown)
                 {
-                    savingPanel.Controls.Remove(theNumUpDown);
+                    panelSaving.Controls.Remove(theNumUpDown);
                 }
             }
             savingMoneyInputBox.Text = string.Empty;
             savingNameInputBox.Text = string.Empty;
-
         }
 
-        private void AddSaveDataToDelList()
+        private void AddSavingDataToDeletingComboBoxItem()
         {
             cboDelSavingList.Items.Clear();
             foreach (var item in savingDataDictionary)
@@ -294,18 +268,18 @@ namespace MoneyTracer
 
                 //money comma add
                 string moneyVal = item.Value.ToString();
-                moneyVal = decimalSpreadtor(moneyVal);
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
 
                 //insert value
                 txtWalletName.Text += $"{name}\n\n";
                 txtWalletMoney.Text += $"${moneyVal}\n\n";
 
                 //set size
-                txtWalletMoney.Size = AddSizeToTheControl(txtWalletMoney.Size);
-                txtWalletName.Size = AddSizeToTheControl(txtWalletName.Size);
+                txtWalletMoney.Size = mainViewController.AddSizeToTheControl(txtWalletMoney.Size);
+                txtWalletName.Size = mainViewController.AddSizeToTheControl(txtWalletName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, walletPanel);
+                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet);
 
 
                 txtWalletMoney.Visible = false;
@@ -329,18 +303,18 @@ namespace MoneyTracer
 
                 //money comma add
                 string moneyVal = item.Value.ToString();
-                moneyVal = decimalSpreadtor(moneyVal);
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
 
                 //insert value
                 txtboxSavingName.Text += $"{name}\n\n";
                 txtboxSavingMoney.Text += $"${moneyVal}\n\n";
 
                 //set size
-                txtboxSavingMoney.Size = AddSizeToTheControl(txtboxSavingMoney.Size);
-                txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
+                txtboxSavingMoney.Size = mainViewController.AddSizeToTheControl(txtboxSavingMoney.Size);
+                txtboxSavingName.Size = mainViewController.AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
+                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelSaving);
             }
         }
 
@@ -363,15 +337,15 @@ namespace MoneyTracer
                 int theMoney = item.Value;
                 theMoney *= -1;
                 string moneyVal = theMoney.ToString();
-                moneyVal = decimalSpreadtor(moneyVal);
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
 
                 //insert value
                 txtBoxSpendingName.Text += $"{name}\n\n";
                 txtBoxSpendingMoney.Text += $"${moneyVal}\n\n";
 
                 //set size
-                txtBoxSpendingMoney.Size = AddSizeToTheControl(txtBoxSpendingMoney.Size);
-                txtBoxSpendingName.Size = AddSizeToTheControl(txtBoxSpendingName.Size);
+                txtBoxSpendingMoney.Size = mainViewController.AddSizeToTheControl(txtBoxSpendingMoney.Size);
+                txtBoxSpendingName.Size = mainViewController.AddSizeToTheControl(txtBoxSpendingName.Size);
             }
         }
 
@@ -392,54 +366,42 @@ namespace MoneyTracer
 
                 //money comma add
                 string moneyVal = item.Value.ToString();
-                moneyVal = decimalSpreadtor(moneyVal);
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
 
                 //insert value
                 txtboxSavingName.Text += $"{name}\n\n";
                 txtboxSavingMoney.Text += $"${moneyVal}\n\n";
 
                 //set size
-                txtboxSavingMoney.Size = AddSizeToTheControl(txtboxSavingMoney.Size);
-                txtboxSavingName.Size = AddSizeToTheControl(txtboxSavingName.Size);
+                txtboxSavingMoney.Size = mainViewController.AddSizeToTheControl(txtboxSavingMoney.Size);
+                txtboxSavingName.Size = mainViewController.AddSizeToTheControl(txtboxSavingName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, savingPanel);
+                AddingNumUpDownOnHomepage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelSaving);
             }
         }
 
-        private void initializeTheHomePage()
+        private void InitializeTheHomePage()
         {
             //empty the value
             ClearAllSavingDisplayValue();
 
             //set size, make txtboxSaving's height stay in 26
-            Size sizeOfTxtMoney = new Size(txtboxSavingMoney.Size.Width, 26);
-            Size sizeOfTxtName = new Size(txtboxSavingName.Size.Width, 26);
-            txtboxSavingMoney.Size = sizeOfTxtMoney;
-            txtboxSavingName.Size = sizeOfTxtName;
+            mainViewController.initializeTotalMoneyTxtTSize(txtboxSavingName, txtboxSavingMoney);
 
-            //this is for numericUpDown
+            //setup numericUpDown value & getting saving data & Get weekBudget data
             int numUpDownX = txtboxSavingMoney.Location.X + 50;
             int numUpDownY = txtboxSavingMoney.Location.Y - 46;
             int loopCount = 0;
-
-            //getting saving data
             GetSavingDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
-
-            //Get weekBudget data
             GetWeekBudgetDataAndAppendTheTitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
-
-            //tempShit - wait to be teleted
-            //get balance value
-            txtBalance.Text = titleBalance + decimalSpreadtor(balance.ToString());
 
             //update total value
             savingTotal += balance;
-            txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(savingTotal.ToString());
-            txtBalance.Text = titleBalance + decimalSpreadtor((balance + bufferValue - spendingTotal).ToString());
+            DoValueUpdate();
 
             //add save data to del list
-            AddSaveDataToDelList();
+            AddSavingDataToDeletingComboBoxItem();
         }
 
         private void ClearAllSpendingDisplayValue()
@@ -451,16 +413,13 @@ namespace MoneyTracer
             spendingNameInputBox.Text = string.Empty;
             spendingTotal = 0;
         }
-        private void initializeTheSpendingPage()
+        private void InitializeTheSpendingPage()
         {
             //empty the value
             ClearAllSpendingDisplayValue();
 
             //set size, make txtBoxSpending's height stay in 26
-            Size sizeOfTxtMoney = new Size(txtBoxSpendingMoney.Size.Width, 26);
-            Size sizeOfTxtName = new Size(txtBoxSpendingName.Size.Width, 26);
-            txtBoxSpendingMoney.Size = sizeOfTxtMoney;
-            txtBoxSpendingName.Size = sizeOfTxtName;
+            mainViewController.initializeTotalMoneyTxtTSize(txtBoxSpendingName, txtBoxSpendingMoney);
 
             //this is for numericUpDown
             int numUpDownX = txtBoxSpendingMoney.Location.X + 50;
@@ -471,22 +430,11 @@ namespace MoneyTracer
             GetSpendingDataAndAppendTheTitleAndMoneyVal(ref loopCount, ref numUpDownX, ref numUpDownY);
 
             //update total value
-            txtSpendingTotal.Text = titleTotalSpending + decimalSpreadtor(spendingTotal.ToString());
-            txtSpendingHomepage.Text = titleTotalSpending + decimalSpreadtor(spendingTotal.ToString());
+            txtSpendingTotal.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
+            txtSpendingHomepage.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
             AddSpendningDataToDelList();
-        }
-
-
-
-        private static Size AddSizeToTheControl(Size theSize)
-        {
-            int w = theSize.Width;
-            int h = theSize.Height;
-            h += 43;
-            theSize = new Size(w, h);
-            return theSize;
         }
 
         private void numericUpDown_focus(object sender, EventArgs e)
@@ -500,9 +448,6 @@ namespace MoneyTracer
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
         {
-            //test if i can get the name of control
-            //labelTest.Text = theControl.Name;
-
             //get sorted num by spliting the name
             string[] splitedString = theControl.Name.Split(" ");
             int sequence = Convert.ToInt32(splitedString[1]) - 1;
@@ -569,7 +514,7 @@ namespace MoneyTracer
 
             //subtract each other
             bufferValue -= nowVal - previousVal;
-            txtBuffer.Text = titleBuffer + decimalSpreadtor(bufferValue.ToString());
+            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferValue.ToString());
 
             //update buffer cash data
             UpdateBufferCashLog(theControl, (nowVal - previousVal));
@@ -598,7 +543,7 @@ namespace MoneyTracer
 
             //subtract each other
             walletTotal += nowVal - previousVal;
-            txtWalletTotal.Text = titleTotalWallet + decimalSpreadtor(walletTotal.ToString());
+            txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
 
             //update buffer cash data
             //UpdateBufferCashLog(theControl, (nowVal - previousVal));
@@ -618,11 +563,21 @@ namespace MoneyTracer
         /// </summary>
         private void DoValueUpdate()
         {
-            decimal temp = balance - spendingTotal + bufferValue;
-            txtBalance.Text = titleBalance + decimalSpreadtor(temp.ToString());
+            decimal tempForBalance = balance + bufferValue - spendingTotal;
+            txtBalance.Text = titleBalance + mainViewController.decimalSpreadtor(tempForBalance.ToString());
 
-            decimal temp2 = savingTotal - spendingTotal;
-            txtTotalSaving.Text = titleTotalSaving + decimalSpreadtor(temp2.ToString());
+            decimal tempForSaving = savingTotal - spendingTotal;
+            txtTotalSaving.Text = titleTotalSaving + mainViewController.decimalSpreadtor(tempForSaving.ToString());
+        }
+
+        private void DoBalanceUpdate()
+        {
+            //Output Data Will save the data after minus spending
+            //So when get back the data should add the spending back, to prevent Balance get reduced repeatly
+            foreach (var item in spendingDataDictionary)
+            {
+                balance += item.Value;
+            }
         }
 
         private void menuSave_Click(object sender, EventArgs e)
@@ -636,190 +591,28 @@ namespace MoneyTracer
             {
                 MessageBox.Show($"Saving Fail \n{ex.Message}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }
-
-        private List<string> GetAllSavingName()
-        {
-            string names = txtboxSavingName.Text;
-            string tempResult = string.Empty;
-            List<string> savingNameList = new List<string>();
-
-            //detect per character until find "\n"
-            foreach (var theChar in names)
-            {
-                if (theChar == '\n')
-                {
-                    if (tempResult == string.Empty) continue;
-                    savingNameList.Add(tempResult);
-                    tempResult = string.Empty;
-                }
-                else
-                {
-                    tempResult += theChar;
-                }
-            }
-
-            return savingNameList;
-        }
-
-        private List<int> GetAllSavingMoney()
-        {
-            List<int> savingMoneyList = new List<int>();
-
-            foreach (var theChar in savingPanel.Controls)
-            {
-                if (theChar is NumericUpDown a)
-                {
-                    savingMoneyList.Add(Convert.ToInt32(a.Value));
-                }
-            }
-
-            return savingMoneyList;
-        }
-
-        private int GetBalanceNum()
-        {
-            string a = txtBalance.Text;
-            string result = string.Empty;
-            for (int i = 0; i < a.Length; i++)
-            {
-                char theChar = a[i];
-                if (theChar == '-')
-                {
-                    result += theChar;
-                }
-                else if (theChar > 47 && theChar < 58)
-                {
-                    result += theChar;
-                }
-            }
-
-            return Convert.ToInt32(result);
-        }
-
-        private Dictionary<string, int> GetOutputWalletData()
-        {
-            //get wallet money val
-            List<int> walletMoneyList = new List<int>();
-            foreach (var theChar in walletPanel.Controls)
-            {
-                if (theChar is NumericUpDown a)
-                {
-                    walletMoneyList.Add(Convert.ToInt32(a.Value));
-                }
-            }
-
-            //get wallet money name
-            List<string> walletNameList = new List<string>();
-            foreach (var item in walletDataDictionary)
-            {
-                walletNameList.Add(item.Key);
-            }
-
-            Dictionary<string, int> outputWalletData = new Dictionary<string, int>();
-            //add it to dictionary
-            for (int i = 0; i < walletNameList.Count; i++)
-            {
-                outputWalletData.Add(walletNameList[i], walletMoneyList[i]);
-            }
-
-            return outputWalletData;
-        }
-
-        private Dictionary<string, int> GetOutputSpendingData()
-        {
-            //get spending money val
-            List<int> spendingMoneyList = new List<int>();
-            string money = txtBoxSpendingMoney.Text;
-            money = money.Replace("$", string.Empty);
-            money = money.Replace(",", string.Empty);
-            string tempResult = string.Empty;
-            foreach (var theChar in money)
-            {
-                if (theChar == '\n')
-                {
-                    if (tempResult == string.Empty) continue;
-                    spendingMoneyList.Add(Convert.ToInt32(tempResult) * -1);
-                    tempResult = string.Empty;
-                }
-                else
-                {
-                    tempResult += theChar;
-                }
-            }
-
-
-            //get spending money name
-            List<string> spendingNameList = new List<string>();
-            string names = txtBoxSpendingName.Text;
-            tempResult = string.Empty;
-            foreach (var theChar in names)
-            {
-                if (theChar == '\n')
-                {
-                    if (tempResult == string.Empty) continue;
-                    spendingNameList.Add(tempResult);
-                    tempResult = string.Empty;
-                }
-                else
-                {
-                    tempResult += theChar;
-                }
-            }
-
-            Dictionary<string, int> outputSpendingData = new Dictionary<string, int>();
-            //add it to dictionary
-            for (int i = 0; i < spendingNameList.Count; i++)
-            {
-                outputSpendingData.Add(spendingNameList[i], spendingMoneyList[i]);
-            }
-
-            return outputSpendingData;
-        }
+        }       
 
         private void SaveDataSaving()
         {
             //get the list first
-            List<string> savingNameList = GetAllSavingName();
-            List<int> savingMoneyList = GetAllSavingMoney();
+            List<string> savingNameList = mainViewController.GetAllNameFromLabel(txtboxSavingName);
+            List<int> savingMoneyList = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
 
-            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
             //add it to dictionary
+            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
             for (int i = 0; i < savingMoneyList.Count; i++)
             {
                 outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
-                //MessageBox.Show($"{savingNameList[i]} : {savingMoneyList[i]}");
             }
 
-            balance = GetBalanceNum();
-
-
             StoredData.storedSavingData = outputSavingData;
-            StoredData.storedBalance = balance;
-            StoredData.storedSpendingData = GetOutputSpendingData();
-            StoredData.storedWalletData = GetOutputWalletData();
+            StoredData.storedBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+            StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
+            StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
 
             JsonData.SavingTheData();
 
-        }
-
-        private int GetNumWithoutAnyCharacter(string theString)
-        {
-            string result = string.Empty;
-
-            //fillter only pass '0'~'9' or '-'
-            foreach (char theChar in theString)
-            {
-                if (theChar == '-')
-                {
-                    result += theChar;
-                }
-                else if (theChar > 47 && theChar < 58)
-                {
-                    result += theChar;
-                }
-            }
-            return Convert.ToInt32(result);
         }
 
         /// <summary>
@@ -827,23 +620,8 @@ namespace MoneyTracer
         /// </summary>
         private void UpdateSavingDictionary()
         {
-            List<string> names = new List<string>();
-            List<int> values = new List<int>();
-
-            //get all money again
-            foreach (var item in savingDataDictionary)
-            {
-                names.Add(item.Key);
-            }
-
-            //get all money again
-            foreach (var item in savingPanel.Controls)
-            {
-                if (item is NumericUpDown theNumUpDown)
-                {
-                    values.Add(Convert.ToInt32(theNumUpDown.Value));
-                }
-            }
+            List<string> names = mainViewController.GetAllNameFromDictionary(savingDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
 
             //update saving data
             for (int i = 0; i < names.Count; i++)
@@ -856,8 +634,8 @@ namespace MoneyTracer
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
-            //balance = GetNumWithoutAnyCharacter(txtBalance.Text); //shit this thing will cause balance repeatly minus buffer
         }
+
         private void addSavingButton_Click(object sender, EventArgs e)
         {
             //Check if box is empty
@@ -891,19 +669,21 @@ namespace MoneyTracer
 
             //after get update, fill the value in, and reload all the values
             savingDataDictionary.Add(inputName, inputNum);
-            MainView_Load(sender, e);
+
+            //reload all pages
+            InitializingAllPage();
         }
 
         private void cboModeSelector1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboModeSelectorHomepage.SelectedIndex == 0) ModeSwitch1AddOrDel(true);
-            else if (cboModeSelectorHomepage.SelectedIndex == 1) ModeSwitch1AddOrDel(false);
+            if (cboModeSelectorHomepage.SelectedIndex == 0) ModeSavingSwitchAddOrDel(true);
+            else if (cboModeSelectorHomepage.SelectedIndex == 1) ModeSavingSwitchAddOrDel(false);
         }
 
         private void cboModeSelector2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cboModeSelectorSpending.SelectedIndex == 0) ModeSwitch2AddOrDel(true);
-            else if (cboModeSelectorSpending.SelectedIndex == 1) ModeSwitch2AddOrDel(false);
+            if (cboModeSelectorSpending.SelectedIndex == 0) ModeSpendingSwitchAddOrDel(true);
+            else if (cboModeSelectorSpending.SelectedIndex == 1) ModeSpendingSwitchAddOrDel(false);
         }
 
         private void btnDelSaving_Click(object sender, EventArgs e)
@@ -913,7 +693,9 @@ namespace MoneyTracer
 
             //after get update, fill the value in, and reload all the values
             savingDataDictionary.Remove(cboDelSavingList.Text);
-            MainView_Load(sender, e);
+
+            //reload all pages
+            InitializingAllPage();
         }
 
         private void menuOpen_Click(object sender, EventArgs e)
@@ -931,13 +713,7 @@ namespace MoneyTracer
 
             //tempShit - wait to be modify
             bufferValue = 0;
-            txtBuffer.Text = titleBuffer + bufferValue.ToString();
-
-            //offset the value
-            foreach(var item in spendingDataDictionary)
-            {
-                balance += item.Value;
-            }
+            txtBufferHomePage.Text = titleBuffer + bufferValue.ToString();
 
             MainView_Load(sender, e);
         }
@@ -948,7 +724,9 @@ namespace MoneyTracer
 
             //after get update, fill the value in, and reload all the values
             spendingDataDictionary.Remove(cboDelSpendingList.Text);
-            MainView_Load(sender, e);
+
+            //reload all pages
+            InitializingAllPage();
         }
 
         private void btnAddSpending_Click(object sender, EventArgs e)
@@ -981,26 +759,18 @@ namespace MoneyTracer
 
             //after get update, fill the value in, and reload all the values
             spendingDataDictionary.Add(inputName, inputNum);
-            MainView_Load(sender, e);
+
+            //reload all pages
+            InitializingAllPage();
         }
         private void spendingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
-            {
-                btnAddSpending_Click(sender, e);
-                e.SuppressKeyPress = true; //Damn this thing can prevent getting system Ding sound when press enter
-                spendingNameInputBox.Focus();
-            }
+            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddSpending_Click, spendingNameInputBox);
         }
 
         private void savingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            if(e.KeyCode == Keys.Enter)
-            {
-                addSavingButton_Click(sender, e);
-                e.SuppressKeyPress = true; //Damn this thing can prevent getting system Ding sound when press enter
-                savingNameInputBox.Focus();
-            }
+            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, addSavingButton_Click, savingNameInputBox);
         }
     }
 }
