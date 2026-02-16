@@ -2,6 +2,7 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
+using System.Xml.Linq;
 //todo : load buffer value
 //todo : total saving is a bit weird when add or delete
 //todo : week value didn't update when add or delete
@@ -46,6 +47,11 @@ namespace MoneyTracer
         /// <summary>
         /// Global Value
         /// </summary>
+        private Dictionary<string, int> bufferDataDictionary = JsonData.BufferData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
         //private Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
 
         /// <summary>
@@ -61,7 +67,7 @@ namespace MoneyTracer
         /// <summary>
         /// Display buffer in view
         /// </summary>
-        public decimal bufferValue = 0;
+        public decimal bufferTotal = 0;
 
         /// <summary>
         /// Display spending in view
@@ -95,6 +101,8 @@ namespace MoneyTracer
             //offset the value
             DoBalanceUpdate();
 
+            StoredData.bufferLogDictionary = JsonData.BufferData;
+
             //InitializingAllPage
             InitializingAllPage();
         }
@@ -106,6 +114,9 @@ namespace MoneyTracer
 
             //Setup the wallet page
             InitializeTheWalletPage();
+
+            //Setup the Buffer Cash page
+            InitializeTheBufferPage();
 
             //Setup the homepage
             InitializeTheHomePage();
@@ -127,6 +138,33 @@ namespace MoneyTracer
                 }
             }
 
+        }
+        private void ClearAllBufferDisplayValue()
+        {
+            bufferTotal = 0;
+
+            txtBufferName.Text = string.Empty;
+            txtBufferMoney.Text = string.Empty;
+        }
+
+        private void InitializeTheBufferPage()
+        {
+            //empty the value
+            ClearAllBufferDisplayValue();
+
+            //set size, make txtboxWallet's height stay in 26
+            mainViewController.initializeTotalMoneyTxtTSize(txtBufferName, txtBufferMoney);
+
+            //this is for numericUpDown
+            int numUpDownX = txtBufferName.Location.X + 50;
+            int numUpDownY = txtBufferMoney.Location.Y - 46;
+            int loopCount = 0;
+            GetBufferDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+
+            //update The Text
+            bufferTotal *= -1;
+            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
+            txtBufferTotal.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
         }
 
         private void InitializeTheWalletPage()
@@ -283,6 +321,35 @@ namespace MoneyTracer
 
 
                 txtWalletMoney.Visible = false;
+            }
+        }
+
+        private void GetBufferDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in bufferDataDictionary)
+            {
+                loopCount++;
+                bufferTotal += item.Value;
+
+                //name length limit
+                string name = item.Key;
+                if (name.Length > 24)
+                {
+                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Insert(name.Length - 1, "...");
+                }
+
+                //money comma add
+                string moneyVal = item.Value.ToString();
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
+
+                //insert value
+                txtBufferName.Text += $"{name}\n\n";
+                txtBufferMoney.Text += $"${moneyVal}\n\n";
+
+                //set size
+                txtBufferMoney.Size = mainViewController.AddSizeToTheControl(txtBufferMoney.Size);
+                txtBufferName.Size = mainViewController.AddSizeToTheControl(txtBufferName.Size);
             }
         }
 
@@ -453,21 +520,16 @@ namespace MoneyTracer
             int sequence = Convert.ToInt32(splitedString[1]) - 1;
             int loopCount = 0;
             bool isSpendingNameFound = false;
+            string name = string.Empty;
 
             //Find saving name in savingDataDictionary
             foreach (var item in savingDataDictionary)
             {
                 if (loopCount == sequence)
                 {
-                    string name = item.Key;
-
-                    //check if the if the saving name is exist in stored data, if not, create a new key
-                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
-                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
-
+                    name = item.Key;
                     //display my debug infomation
                     //labelTest.Text += $"\n{name}";
-
                     isSpendingNameFound = true;
                     break;
                 }
@@ -478,20 +540,20 @@ namespace MoneyTracer
                 if (isSpendingNameFound == true) break;
                 if (loopCount == sequence)
                 {
-                    string name = item.Key;
-
-                    //check if the if the saving name is exist in stored data, if not, create a new key
-                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
-                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
-
-                    //display my debug infomation
-                    //labelTest.Text += $"\n{name}";
-
+                    name = item.Key;
                     isSpendingNameFound = true;
                     break;
                 }
                 loopCount++;
             }
+
+            //check if the if the saving name is exist in stored data, if not, create a new key
+            if (name == string.Empty) return;
+            if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
+            StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
+
+            bufferDataDictionary = StoredData.bufferLogDictionary;
+            InitializeTheBufferPage();
         }
 
         private void numericUpDown_TextChanged(object sender, EventArgs e)
@@ -513,8 +575,7 @@ namespace MoneyTracer
             }
 
             //subtract each other
-            bufferValue -= nowVal - previousVal;
-            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferValue.ToString());
+            bufferTotal -= nowVal - previousVal;
 
             //update buffer cash data
             UpdateBufferCashLog(theControl, (nowVal - previousVal));
@@ -557,11 +618,13 @@ namespace MoneyTracer
         /// </summary>
         private void DoValueUpdate()
         {
-            decimal tempForBalance = balance + bufferValue - spendingTotal;
+            decimal tempForBalance = balance + bufferTotal - spendingTotal;
             txtBalance.Text = titleBalance + mainViewController.decimalSpreadtor(tempForBalance.ToString());
 
             decimal tempForSaving = savingTotal - spendingTotal;
             txtTotalSaving.Text = titleTotalSaving + mainViewController.decimalSpreadtor(tempForSaving.ToString());
+
+            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
         }
 
         private void DoBalanceUpdate()
@@ -571,6 +634,11 @@ namespace MoneyTracer
             foreach (var item in spendingDataDictionary)
             {
                 balance += item.Value;
+            }
+
+            foreach (var item in bufferDataDictionary)
+            {
+                balance -= item.Value;
             }
         }
 
@@ -704,10 +772,7 @@ namespace MoneyTracer
             weekBudgetDataDictionary = JsonData.WeekBalanceData;
             spendingDataDictionary = JsonData.SpendingData;
             walletDataDictionary = JsonData.WalletData;
-
-            //tempShit - wait to be modify
-            bufferValue = 0;
-            txtBufferHomePage.Text = titleBuffer + bufferValue.ToString();
+            bufferDataDictionary = JsonData.BufferData;
 
             MainView_Load(sender, e);
         }

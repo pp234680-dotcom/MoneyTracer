@@ -135,8 +135,8 @@ namespace MoneyTracer
             // 
             tabControl1.Controls.Add(homepagePage);
             tabControl1.Controls.Add(spendingPage);
-            tabControl1.Controls.Add(walletPage);
             tabControl1.Controls.Add(bufferPage);
+            tabControl1.Controls.Add(walletPage);
             tabControl1.Location = new Point(12, 40);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -307,9 +307,9 @@ namespace MoneyTracer
             txtBufferHomePage.ForeColor = Color.White;
             txtBufferHomePage.Location = new Point(16, 105);
             txtBufferHomePage.Name = "txtBufferHomePage";
-            txtBufferHomePage.Size = new Size(166, 19);
+            txtBufferHomePage.Size = new Size(184, 19);
             txtBufferHomePage.TabIndex = 10;
-            txtBufferHomePage.Text = "Buffer Cash Usage : $0";
+            txtBufferHomePage.Text = "Buffer Cash Usage : $123";
             // 
             // txtTotalSaving
             // 

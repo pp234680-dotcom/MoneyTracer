@@ -125,5 +125,8 @@
 			"name": "Easy Card",
 			"money": 200
 		}
-	]
+	],
+	"Bank": [],
+	"Spending": [],
+	"bufferLogs": []
 }

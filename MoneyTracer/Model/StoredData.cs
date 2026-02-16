@@ -14,6 +14,9 @@ namespace MoneyTracer.Model
         public static Dictionary<string, int> storedWalletData = new Dictionary<string, int>();
         public static Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
         public static int storedBalance = new int();
+        /// <summary>
+        /// tempshit - Wait for method extract
+        /// </summary>
         public static BufferLog[] bufferLogs
         {
             get

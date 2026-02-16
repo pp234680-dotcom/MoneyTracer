@@ -10,7 +10,6 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 
 
@@ -161,6 +160,23 @@ namespace MoneyTracer.Model
                 Dictionary<string, int> result = new Dictionary<string, int>();
 
                 foreach (Wallet item in _rootObject.Wallet)
+                {
+                    string name = item.name;
+                    int money = item.money;
+                    result.Add(name, money);
+                }
+
+                return result;
+            }
+        }
+
+        public static Dictionary<string, int> BufferData
+        {
+            get
+            {
+                Dictionary<string, int> result = new Dictionary<string, int>();
+
+                foreach (BufferLog item in _rootObject.bufferLogs)
                 {
                     string name = item.name;
                     int money = item.money;
