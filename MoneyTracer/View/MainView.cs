@@ -544,12 +544,6 @@ namespace MoneyTracer
             //subtract each other
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
-
-            //update buffer cash data
-            //UpdateBufferCashLog(theControl, (nowVal - previousVal));
-
-            //Update the display text
-            //DoValueUpdate();
         }
 
         private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
