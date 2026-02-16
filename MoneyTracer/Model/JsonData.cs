@@ -187,6 +187,23 @@ namespace MoneyTracer.Model
             }
         }
 
+        public static Dictionary<string, int> BankData
+        {
+            get
+            {
+                Dictionary<string, int> result = new Dictionary<string, int>();
+
+                foreach (Bank item in _rootObject.Bank)
+                {
+                    string name = item.name;
+                    int money = item.money;
+                    result.Add(name, money);
+                }
+
+                return result;
+            }
+        }
+
         public static int BalanceValue
         {
             get

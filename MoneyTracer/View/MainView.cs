@@ -263,30 +263,16 @@ namespace MoneyTracer
 
         private void AddSavingDataToDeletingComboBoxItem()
         {
-            cboDelSavingList.Items.Clear();
-            foreach (var item in savingDataDictionary)
-            {
-                cboDelSavingList.Items.Add(item.Key);
-            }
-            if (cboDelSavingList.SelectedIndex == -1 && cboDelSavingList.Items.Count > 0) cboDelSavingList.SelectedIndex = 0;
-            else cboDelSavingList.Text = string.Empty;
-
-            //Mode select - add or delete
-            if (cboModeSelectorHomepage.SelectedIndex == -1) cboModeSelectorHomepage.SelectedIndex = 0;
+            mainViewController.AddDataToDeletingComboBoxItem(cboDelSavingList
+                , savingDataDictionary
+                , cboModeSelectorHomepage);
         }
 
-        private void AddSpendningDataToDelList()
+        private void AddSpendingDataToDeletingComboBoxItem()
         {
-            cboDelSpendingList.Items.Clear();
-            foreach (var item in spendingDataDictionary)
-            {
-                cboDelSpendingList.Items.Add(item.Key);
-            }
-            if (cboDelSpendingList.SelectedIndex == -1 && cboDelSpendingList.Items.Count > 0) cboDelSpendingList.SelectedIndex = 0;
-            else cboDelSpendingList.Text = string.Empty;
-
-            //Mode select - add or delete
-            if (cboModeSelectorSpending.SelectedIndex == -1) cboModeSelectorSpending.SelectedIndex = 0;
+            mainViewController.AddDataToDeletingComboBoxItem(cboDelSpendingList
+                , spendingDataDictionary
+                , cboModeSelectorSpending);
         }
 
         private void GetWalletDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
@@ -501,7 +487,7 @@ namespace MoneyTracer
             txtSpendingHomepage.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
-            AddSpendningDataToDelList();
+            AddSpendingDataToDeletingComboBoxItem();
         }
 
         private void numericUpDown_focus(object sender, EventArgs e)
