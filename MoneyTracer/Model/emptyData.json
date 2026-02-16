@@ -27,8 +27,37 @@
 			"money": 0
 		}
 	],
-	"Wallet": [],
+	"Wallet": [
+		{
+			"name": "money1000",
+			"money": 0
+		},
+		{
+			"name": "money500",
+			"money": 0
+		},
+		{
+			"name": "money100",
+			"money": 0
+		},
+		{
+			"name": "money50",
+			"money": 0
+		},
+		{
+			"name": "money10",
+			"money": 0
+		},
+		{
+			"name": "money5",
+			"money": 0
+		},
+		{
+			"name": "money1",
+			"money": 0
+		}
+	],
 	"Bank": [],
-	"Spending": null,
+	"Spending": [],
 	"bufferLogs": []
 }

@@ -32,9 +32,8 @@ namespace MoneyTracer
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             label5 = new Label();
-            spendingNumUpDown = new NumericUpDown();
             txtBalance = new Label();
-            label3 = new Label();
+            txtSpendingHomepage = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             label1 = new Label();
@@ -47,11 +46,11 @@ namespace MoneyTracer
             panelDeleteSaving = new Panel();
             cboDelSavingList = new ComboBox();
             btnDelSaving = new Button();
-            savingPanel = new Panel();
+            panelSaving = new Panel();
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
-            txtBuffer = new Label();
+            txtBufferHomePage = new Label();
             txtTotalSaving = new Label();
             spendingPage = new TabPage();
             txtSpendingTotal = new Label();
@@ -65,34 +64,40 @@ namespace MoneyTracer
             panelDeleteSpending = new Panel();
             cboDelSpendingList = new ComboBox();
             butDelSpendingList = new Button();
-            spendingPanel = new Panel();
+            panelSpending = new Panel();
             txtBoxSpendingMoney = new Label();
             txtBoxSpendingName = new Label();
             walletPage = new TabPage();
             txtWalletTotal = new Label();
-            walletPanel = new Panel();
-            txtBoxWalletMoney = new Label();
-            txtBoxWalletName = new Label();
+            panelWallet = new Panel();
+            txtWalletMoney = new Label();
+            txtWalletName = new Label();
+            bufferPage = new TabPage();
+            txtBufferTotal = new Label();
+            panelBuffer = new Panel();
+            txtBufferMoney = new Label();
+            txtBufferName = new Label();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
-            ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).BeginInit();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             panelAddSaving.SuspendLayout();
             panelDeleteSaving.SuspendLayout();
-            savingPanel.SuspendLayout();
+            panelSaving.SuspendLayout();
             panel2.SuspendLayout();
             spendingPage.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             panelAddSpending.SuspendLayout();
             panelDeleteSpending.SuspendLayout();
-            spendingPanel.SuspendLayout();
+            panelSpending.SuspendLayout();
             walletPage.SuspendLayout();
-            walletPanel.SuspendLayout();
+            panelWallet.SuspendLayout();
+            bufferPage.SuspendLayout();
+            panelBuffer.SuspendLayout();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -105,16 +110,6 @@ namespace MoneyTracer
             label5.TabIndex = 7;
             label5.Text = "Total Status : Correct";
             // 
-            // spendingNumUpDown
-            // 
-            spendingNumUpDown.Location = new Point(108, 61);
-            spendingNumUpDown.Maximum = new decimal(new int[] { 10000, 0, 0, 0 });
-            spendingNumUpDown.Name = "spendingNumUpDown";
-            spendingNumUpDown.Size = new Size(65, 27);
-            spendingNumUpDown.TabIndex = 3;
-            spendingNumUpDown.ThousandsSeparator = true;
-            spendingNumUpDown.ValueChanged += spendingNumUpDown_ValueChanged;
-            // 
             // txtBalance
             // 
             txtBalance.AutoSize = true;
@@ -126,26 +121,28 @@ namespace MoneyTracer
             txtBalance.TabIndex = 2;
             txtBalance.Text = "Balance : $1,234";
             // 
-            // label3
+            // txtSpendingHomepage
             // 
-            label3.AutoSize = true;
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(16, 65);
-            label3.Name = "label3";
-            label3.Size = new Size(106, 19);
-            label3.TabIndex = 1;
-            label3.Text = "Spending : $0";
+            txtSpendingHomepage.AutoSize = true;
+            txtSpendingHomepage.ForeColor = Color.White;
+            txtSpendingHomepage.Location = new Point(16, 65);
+            txtSpendingHomepage.Name = "txtSpendingHomepage";
+            txtSpendingHomepage.Size = new Size(106, 19);
+            txtSpendingHomepage.TabIndex = 1;
+            txtSpendingHomepage.Text = "Spending : $0";
             // 
             // tabControl1
             // 
             tabControl1.Controls.Add(homepagePage);
             tabControl1.Controls.Add(spendingPage);
             tabControl1.Controls.Add(walletPage);
+            tabControl1.Controls.Add(bufferPage);
             tabControl1.Location = new Point(12, 40);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(473, 658);
             tabControl1.TabIndex = 8;
+            tabControl1.TabStop = false;
             // 
             // homepagePage
             // 
@@ -154,7 +151,7 @@ namespace MoneyTracer
             homepagePage.Controls.Add(cboModeSelectorHomepage);
             homepagePage.Controls.Add(flowLayoutPanel1);
             homepagePage.Controls.Add(label5);
-            homepagePage.Controls.Add(savingPanel);
+            homepagePage.Controls.Add(panelSaving);
             homepagePage.Controls.Add(panel2);
             homepagePage.Location = new Point(4, 28);
             homepagePage.Name = "homepagePage";
@@ -210,6 +207,7 @@ namespace MoneyTracer
             btnAddSaving.Name = "btnAddSaving";
             btnAddSaving.Size = new Size(27, 27);
             btnAddSaving.TabIndex = 10;
+            btnAddSaving.TabStop = false;
             btnAddSaving.UseVisualStyleBackColor = true;
             btnAddSaving.Click += addSavingButton_Click;
             // 
@@ -220,6 +218,7 @@ namespace MoneyTracer
             savingMoneyInputBox.PlaceholderText = "($$$)";
             savingMoneyInputBox.Size = new Size(81, 27);
             savingMoneyInputBox.TabIndex = 12;
+            savingMoneyInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // savingNameInputBox
             // 
@@ -228,6 +227,7 @@ namespace MoneyTracer
             savingNameInputBox.PlaceholderText = "(Saving Name)";
             savingNameInputBox.Size = new Size(139, 27);
             savingNameInputBox.TabIndex = 11;
+            savingNameInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSaving
             // 
@@ -257,17 +257,17 @@ namespace MoneyTracer
             btnDelSaving.UseVisualStyleBackColor = true;
             btnDelSaving.Click += btnDelSaving_Click;
             // 
-            // savingPanel
+            // panelSaving
             // 
-            savingPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            savingPanel.AutoScroll = true;
-            savingPanel.BackColor = Color.LightYellow;
-            savingPanel.Controls.Add(txtboxSavingMoney);
-            savingPanel.Controls.Add(txtboxSavingName);
-            savingPanel.Location = new Point(15, 299);
-            savingPanel.Name = "savingPanel";
-            savingPanel.Size = new Size(431, 316);
-            savingPanel.TabIndex = 9;
+            panelSaving.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panelSaving.AutoScroll = true;
+            panelSaving.BackColor = Color.LightYellow;
+            panelSaving.Controls.Add(txtboxSavingMoney);
+            panelSaving.Controls.Add(txtboxSavingName);
+            panelSaving.Location = new Point(15, 299);
+            panelSaving.Name = "panelSaving";
+            panelSaving.Size = new Size(431, 316);
+            panelSaving.TabIndex = 9;
             // 
             // txtboxSavingMoney
             // 
@@ -292,9 +292,8 @@ namespace MoneyTracer
             // panel2
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
-            panel2.Controls.Add(spendingNumUpDown);
-            panel2.Controls.Add(label3);
-            panel2.Controls.Add(txtBuffer);
+            panel2.Controls.Add(txtSpendingHomepage);
+            panel2.Controls.Add(txtBufferHomePage);
             panel2.Controls.Add(txtBalance);
             panel2.Controls.Add(txtTotalSaving);
             panel2.Location = new Point(15, 45);
@@ -302,15 +301,15 @@ namespace MoneyTracer
             panel2.Size = new Size(431, 165);
             panel2.TabIndex = 8;
             // 
-            // txtBuffer
+            // txtBufferHomePage
             // 
-            txtBuffer.AutoSize = true;
-            txtBuffer.ForeColor = Color.White;
-            txtBuffer.Location = new Point(16, 105);
-            txtBuffer.Name = "txtBuffer";
-            txtBuffer.Size = new Size(166, 19);
-            txtBuffer.TabIndex = 10;
-            txtBuffer.Text = "Buffer Cash Usage : $0";
+            txtBufferHomePage.AutoSize = true;
+            txtBufferHomePage.ForeColor = Color.White;
+            txtBufferHomePage.Location = new Point(16, 105);
+            txtBufferHomePage.Name = "txtBufferHomePage";
+            txtBufferHomePage.Size = new Size(166, 19);
+            txtBufferHomePage.TabIndex = 10;
+            txtBufferHomePage.Text = "Buffer Cash Usage : $0";
             // 
             // txtTotalSaving
             // 
@@ -330,7 +329,7 @@ namespace MoneyTracer
             spendingPage.Controls.Add(label6);
             spendingPage.Controls.Add(cboModeSelectorSpending);
             spendingPage.Controls.Add(flowLayoutPanel2);
-            spendingPage.Controls.Add(spendingPanel);
+            spendingPage.Controls.Add(panelSpending);
             spendingPage.Location = new Point(4, 28);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
@@ -343,9 +342,9 @@ namespace MoneyTracer
             txtSpendingTotal.AutoSize = true;
             txtSpendingTotal.Location = new Point(17, 19);
             txtSpendingTotal.Name = "txtSpendingTotal";
-            txtSpendingTotal.Size = new Size(142, 19);
+            txtSpendingTotal.Size = new Size(162, 19);
             txtSpendingTotal.TabIndex = 17;
-            txtSpendingTotal.Text = "Total Saving : $123";
+            txtSpendingTotal.Text = "Total Spending : $123";
             // 
             // label6
             // 
@@ -394,6 +393,7 @@ namespace MoneyTracer
             btnAddSpending.Name = "btnAddSpending";
             btnAddSpending.Size = new Size(27, 27);
             btnAddSpending.TabIndex = 10;
+            btnAddSpending.TabStop = false;
             btnAddSpending.UseVisualStyleBackColor = true;
             btnAddSpending.Click += btnAddSpending_Click;
             // 
@@ -404,6 +404,7 @@ namespace MoneyTracer
             spendingMoneyInputBox.PlaceholderText = "($$$)";
             spendingMoneyInputBox.Size = new Size(81, 27);
             spendingMoneyInputBox.TabIndex = 12;
+            spendingMoneyInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // spendingNameInputBox
             // 
@@ -412,6 +413,7 @@ namespace MoneyTracer
             spendingNameInputBox.PlaceholderText = "(Saving Name)";
             spendingNameInputBox.Size = new Size(139, 27);
             spendingNameInputBox.TabIndex = 11;
+            spendingNameInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSpending
             // 
@@ -441,17 +443,17 @@ namespace MoneyTracer
             butDelSpendingList.UseVisualStyleBackColor = true;
             butDelSpendingList.Click += butDelSpendingList_Click;
             // 
-            // spendingPanel
+            // panelSpending
             // 
-            spendingPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            spendingPanel.AutoScroll = true;
-            spendingPanel.BackColor = Color.LightYellow;
-            spendingPanel.Controls.Add(txtBoxSpendingMoney);
-            spendingPanel.Controls.Add(txtBoxSpendingName);
-            spendingPanel.Location = new Point(17, 119);
-            spendingPanel.Name = "spendingPanel";
-            spendingPanel.Size = new Size(419, 485);
-            spendingPanel.TabIndex = 10;
+            panelSpending.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panelSpending.AutoScroll = true;
+            panelSpending.BackColor = Color.LightYellow;
+            panelSpending.Controls.Add(txtBoxSpendingMoney);
+            panelSpending.Controls.Add(txtBoxSpendingName);
+            panelSpending.Location = new Point(17, 119);
+            panelSpending.Name = "panelSpending";
+            panelSpending.Size = new Size(419, 485);
+            panelSpending.TabIndex = 10;
             // 
             // txtBoxSpendingMoney
             // 
@@ -476,7 +478,7 @@ namespace MoneyTracer
             // 
             walletPage.BackColor = Color.FloralWhite;
             walletPage.Controls.Add(txtWalletTotal);
-            walletPage.Controls.Add(walletPanel);
+            walletPage.Controls.Add(panelWallet);
             walletPage.Location = new Point(4, 28);
             walletPage.Name = "walletPage";
             walletPage.Padding = new Padding(3);
@@ -493,36 +495,87 @@ namespace MoneyTracer
             txtWalletTotal.TabIndex = 22;
             txtWalletTotal.Text = "Wallet : $123";
             // 
-            // walletPanel
+            // panelWallet
             // 
-            walletPanel.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            walletPanel.AutoScroll = true;
-            walletPanel.BackColor = Color.LightYellow;
-            walletPanel.Controls.Add(txtBoxWalletMoney);
-            walletPanel.Controls.Add(txtBoxWalletName);
-            walletPanel.Location = new Point(17, 55);
-            walletPanel.Name = "walletPanel";
-            walletPanel.Size = new Size(419, 549);
-            walletPanel.TabIndex = 18;
+            panelWallet.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panelWallet.AutoScroll = true;
+            panelWallet.BackColor = Color.LightYellow;
+            panelWallet.Controls.Add(txtWalletMoney);
+            panelWallet.Controls.Add(txtWalletName);
+            panelWallet.Location = new Point(17, 55);
+            panelWallet.Name = "panelWallet";
+            panelWallet.Size = new Size(419, 549);
+            panelWallet.TabIndex = 18;
             // 
-            // txtBoxWalletMoney
+            // txtWalletMoney
             // 
-            txtBoxWalletMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxWalletMoney.Location = new Point(248, 19);
-            txtBoxWalletMoney.Name = "txtBoxWalletMoney";
-            txtBoxWalletMoney.Size = new Size(135, 26);
-            txtBoxWalletMoney.TabIndex = 9;
-            txtBoxWalletMoney.Text = "Money(inactive)";
-            txtBoxWalletMoney.TextAlign = ContentAlignment.TopRight;
+            txtWalletMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtWalletMoney.Location = new Point(248, 19);
+            txtWalletMoney.Name = "txtWalletMoney";
+            txtWalletMoney.Size = new Size(135, 26);
+            txtWalletMoney.TabIndex = 9;
+            txtWalletMoney.Text = "Money(inactive)";
+            txtWalletMoney.TextAlign = ContentAlignment.TopRight;
             // 
-            // txtBoxWalletName
+            // txtWalletName
             // 
-            txtBoxWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxWalletName.Location = new Point(3, 19);
-            txtBoxWalletName.Name = "txtBoxWalletName";
-            txtBoxWalletName.Size = new Size(162, 26);
-            txtBoxWalletName.TabIndex = 9;
-            txtBoxWalletName.Text = "Name";
+            txtWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtWalletName.Location = new Point(3, 19);
+            txtWalletName.Name = "txtWalletName";
+            txtWalletName.Size = new Size(162, 26);
+            txtWalletName.TabIndex = 9;
+            txtWalletName.Text = "Name";
+            // 
+            // bufferPage
+            // 
+            bufferPage.BackColor = Color.FloralWhite;
+            bufferPage.Controls.Add(txtBufferTotal);
+            bufferPage.Controls.Add(panelBuffer);
+            bufferPage.Location = new Point(4, 28);
+            bufferPage.Name = "bufferPage";
+            bufferPage.Size = new Size(465, 626);
+            bufferPage.TabIndex = 3;
+            bufferPage.Text = "Buffer Cash";
+            // 
+            // txtBufferTotal
+            // 
+            txtBufferTotal.AutoSize = true;
+            txtBufferTotal.Location = new Point(17, 19);
+            txtBufferTotal.Name = "txtBufferTotal";
+            txtBufferTotal.Size = new Size(136, 19);
+            txtBufferTotal.TabIndex = 24;
+            txtBufferTotal.Text = "Total Buffer : $123";
+            // 
+            // panelBuffer
+            // 
+            panelBuffer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panelBuffer.AutoScroll = true;
+            panelBuffer.BackColor = Color.LightYellow;
+            panelBuffer.Controls.Add(txtBufferMoney);
+            panelBuffer.Controls.Add(txtBufferName);
+            panelBuffer.Location = new Point(17, 55);
+            panelBuffer.Name = "panelBuffer";
+            panelBuffer.Size = new Size(419, 549);
+            panelBuffer.TabIndex = 23;
+            // 
+            // txtBufferMoney
+            // 
+            txtBufferMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBufferMoney.Location = new Point(248, 19);
+            txtBufferMoney.Name = "txtBufferMoney";
+            txtBufferMoney.Size = new Size(135, 26);
+            txtBufferMoney.TabIndex = 9;
+            txtBufferMoney.Text = "Money(inactive)";
+            txtBufferMoney.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtBufferName
+            // 
+            txtBufferName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBufferName.Location = new Point(3, 19);
+            txtBufferName.Name = "txtBufferName";
+            txtBufferName.Size = new Size(162, 26);
+            txtBufferName.TabIndex = 9;
+            txtBufferName.Text = "Name";
             // 
             // menuStrip1
             // 
@@ -573,7 +626,6 @@ namespace MoneyTracer
             Name = "MainView";
             Text = "Money Tracer beta";
             Load += MainView_Load;
-            ((System.ComponentModel.ISupportInitialize)spendingNumUpDown).EndInit();
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
             homepagePage.PerformLayout();
@@ -581,7 +633,7 @@ namespace MoneyTracer
             panelAddSaving.ResumeLayout(false);
             panelAddSaving.PerformLayout();
             panelDeleteSaving.ResumeLayout(false);
-            savingPanel.ResumeLayout(false);
+            panelSaving.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             spendingPage.ResumeLayout(false);
@@ -590,10 +642,13 @@ namespace MoneyTracer
             panelAddSpending.ResumeLayout(false);
             panelAddSpending.PerformLayout();
             panelDeleteSpending.ResumeLayout(false);
-            spendingPanel.ResumeLayout(false);
+            panelSpending.ResumeLayout(false);
             walletPage.ResumeLayout(false);
             walletPage.PerformLayout();
-            walletPanel.ResumeLayout(false);
+            panelWallet.ResumeLayout(false);
+            bufferPage.ResumeLayout(false);
+            bufferPage.PerformLayout();
+            panelBuffer.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ResumeLayout(false);
@@ -603,7 +658,7 @@ namespace MoneyTracer
         #endregion
 
         private Label label5;
-        private Label label3;
+        private Label txtSpendingHomepage;
         private TabControl tabControl1;
         private TabPage homepagePage;
         private TabPage spendingPage;
@@ -611,9 +666,8 @@ namespace MoneyTracer
         private Label txtTotalSaving;
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
-        private Panel savingPanel;
-        private Label txtBuffer;
-        private NumericUpDown spendingNumUpDown;
+        private Panel panelSaving;
+        private Label txtBufferHomePage;
         private Label txtBalance;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem testToolStripMenuItem;
@@ -640,14 +694,19 @@ namespace MoneyTracer
         private Panel panelDeleteSpending;
         private ComboBox cboDelSpendingList;
         private Button butDelSpendingList;
-        private Panel spendingPanel;
+        private Panel panelSpending;
         private Label txtBoxSpendingMoney;
         private Label txtBoxSpendingName;
         private Label txtSpendingTotal;
         private TabPage walletPage;
         private Label txtWalletTotal;
-        private Panel walletPanel;
-        private Label txtBoxWalletMoney;
-        private Label txtBoxWalletName;
+        private Panel panelWallet;
+        private Label txtWalletMoney;
+        private Label txtWalletName;
+        private TabPage bufferPage;
+        private Label txtBufferTotal;
+        private Panel panelBuffer;
+        private Label txtBufferMoney;
+        private Label txtBufferName;
     }
 }
