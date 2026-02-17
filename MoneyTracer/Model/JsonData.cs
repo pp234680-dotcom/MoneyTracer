@@ -94,7 +94,7 @@ namespace MoneyTracer.Model
 
             DateTime _dateTime = DateTime.Now;
             string time = _dateTime.ToString();
-            time = time.Replace('/', '_');
+            time = time.Replace("/", string.Empty);
             time = time.Replace(':', '.');
 
             string fileName = $"{time} savingData.json";

@@ -1,9 +1,10 @@
 using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
+using System;
 using System.Windows.Forms;
 using System.Xml.Linq;
-//todo : check if the money is correct
+
 //todo : paste bank balance image
 //todo : design
 
@@ -948,6 +949,62 @@ namespace MoneyTracer
 
             if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + " Incorrect";
             else txtTotalStaus.Text = titleTotalStatus + " Correct";
+        }
+
+        private void btnAddImage_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage() == true)
+            {
+                int num = 0;
+                int y = 27;
+                foreach (var item in flowPanelScreenshot.Controls)
+                {
+                    if (item is PictureBox thePictureBox)
+                    {
+                        string theTempNameForNum = thePictureBox.Name;
+                        string theTempNum = theTempNameForNum.Split(" ")[1];
+                        num = Convert.ToInt32(theTempNum);
+
+                        y = thePictureBox.Location.Y;
+                        y += 150;
+                    }
+                }
+                num++;
+                string newPictureName = $"ScreenShot {num}";
+                PictureBox newPictureBox = new PictureBox();
+                newPictureBox.Name = newPictureName;
+                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Location = new Point(27, y);
+                newPictureBox.BackgroundImage = Clipboard.GetImage();
+                newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
+                flowPanelScreenshot.Controls.Add(newPictureBox);
+
+                cboDelImageList.Items.Add(newPictureName);
+
+                if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+            }
+            else MessageBox.Show("No picture in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string theName = string.Empty;
+            if (cboDelImageList.SelectedItem != null)
+            {
+                theName = cboDelImageList.SelectedItem.ToString();
+            }
+
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    if(thePictureBox.Name == theName)
+                    {
+                        flowPanelScreenshot.Controls.Remove(thePictureBox);
+                        cboDelImageList.Items.Remove(theName);
+                    }
+                }
+            }
         }
     }
 }
