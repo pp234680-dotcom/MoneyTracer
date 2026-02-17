@@ -69,10 +69,10 @@ namespace MoneyTracer.Model
 
     internal class JsonData
     {
-        public static readonly string OutputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
+        public static readonly string OutputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Data\";
         static string OutputDataPath = OutputDataFolder;
-        public static string LoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
-        public static readonly string DefaultLoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+        public static string LoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Data\current_data.json";
+        public static readonly string DefaultLoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Data\current_data.json";
 
         static string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
 
