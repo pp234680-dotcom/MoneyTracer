@@ -957,6 +957,17 @@ namespace MoneyTracer
 
         private void btnDelSaving_Click(object sender, EventArgs e)
         {
+            if (cboDelSavingList.Items.Count == 0) return;
+
+            //check if user want to remove this deposit
+            UpdateSavingDictionary();
+            string theSavingName = cboDelSavingList.SelectedItem.ToString();
+            if (savingDataDictionary[theSavingName] > 0)
+            {
+                var a = MessageBox.Show("The saving still remaining money, are you sure you want to delete it?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (a == DialogResult.No) return;
+            }
+
             btnDelASavingOrSpending(savingDataDictionary, cboDelSavingList);
         }
 
