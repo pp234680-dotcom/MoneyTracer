@@ -3,8 +3,6 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-//todo : Bank inbox should able to press enter key
-//todo : total saving is a bit weird when add or delete
 //todo : week value didn't update when add or delete
 //todo : check if the money is correct
 //todo : paste bank balance image
@@ -592,7 +590,7 @@ namespace MoneyTracer
                 loopCount++;
             }
 
-            //check if the if the saving name is exist in stored data, if not, create a new key
+            //check if the if the saving name is exist in stored data, if not, create indexOfName new key
             if (name == string.Empty) return;
             if (StoredData.storedBufferData.ContainsKey(name) == false) StoredData.storedBufferData.Add(name, 0);
             StoredData.storedBufferData[name] += Convert.ToInt32(bufferValue);
@@ -727,10 +725,27 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateWeekBalanceDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(weekBudgetDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
+
+            int limit = savingDataDictionary.Count; 
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                weekBudgetDataDictionary[theName] = values[i];
+            }
+        }
+
         private void UpdateBeforeReload()
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
+            UpdateWeekBalanceDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
