@@ -14,24 +14,5 @@ namespace MoneyTracer.Model
         public static Dictionary<string, int> storedWalletData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedBufferData = new Dictionary<string, int>();
         public static int storedBalance = new int();
-        /// <summary>
-        /// tempshit - Wait for method extract
-        /// </summary>
-        public static BufferLog[] bufferLogs
-        {
-            get
-            {
-                //Make dictionary into a Object array
-                List<BufferLog> resultList = new List<BufferLog>();
-                foreach (var theWord in storedBufferData)
-                {
-                    BufferLog bufferLog = new BufferLog();
-                    bufferLog.name = theWord.Key;
-                    bufferLog.money = theWord.Value;
-                    resultList.Add(bufferLog);
-                }
-                return resultList.ToArray();
-            }
-        }
     }
 }

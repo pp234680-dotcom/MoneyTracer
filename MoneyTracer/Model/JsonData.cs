@@ -222,7 +222,8 @@ namespace MoneyTracer.Model
             List<Weekbudget> weekbudgets = new List<Weekbudget>();
             List<Spending> spendings = new List<Spending>();
             List<Wallet> walletMoney = new List<Wallet>();
-            List<Bank> BankMoney = new List<Bank>();
+            List<Bank> bankMoney = new List<Bank>();
+            List<BufferLog> bufferMoney = new List<BufferLog>();
 
             foreach (var item in StoredData.storedSavingData)
             {
@@ -264,18 +265,26 @@ namespace MoneyTracer.Model
                     Bank theMoney = new Bank();
                     theMoney.name = item.Key;
                     theMoney.money = item.Value;
-                    BankMoney.Add(theMoney);
+                    bankMoney.Add(theMoney);
                 }
+            }
+
+            foreach (var theWord in StoredData.storedBufferData)
+            {
+                BufferLog theMoney = new BufferLog();
+                theMoney.name = theWord.Key;
+                theMoney.money = theWord.Value;
+                bufferMoney.Add(theMoney);
             }
 
             Rootobject rootobject = new Rootobject();
             rootobject.saving = savings.ToArray();
             rootobject.weekBudget = weekbudgets.ToArray();
             rootobject.balance = StoredData.storedBalance;
-            rootobject.bufferLogs = StoredData.bufferLogs;
+            rootobject.bufferLogs = bufferMoney.ToArray();
             rootobject.Spending = spendings.ToArray();
             rootobject.Wallet = walletMoney.ToArray();
-            rootobject.Bank = BankMoney.ToArray();
+            rootobject.Bank = bankMoney.ToArray();
 
             string outputDataTxt = JsonConvert.SerializeObject(rootobject);
             StreamWriter _streamWriter = new StreamWriter(OutputDataPath);
