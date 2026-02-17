@@ -12,7 +12,7 @@ namespace MoneyTracer.Model
         public static Dictionary<string, int> storedSavingData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedSpendingData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedWalletData = new Dictionary<string, int>();
-        public static Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
+        public static Dictionary<string, int> storedBufferData = new Dictionary<string, int>();
         public static int storedBalance = new int();
         /// <summary>
         /// tempshit - Wait for method extract
@@ -23,7 +23,7 @@ namespace MoneyTracer.Model
             {
                 //Make dictionary into a Object array
                 List<BufferLog> resultList = new List<BufferLog>();
-                foreach (var theWord in bufferLogDictionary)
+                foreach (var theWord in storedBufferData)
                 {
                     BufferLog bufferLog = new BufferLog();
                     bufferLog.name = theWord.Key;
