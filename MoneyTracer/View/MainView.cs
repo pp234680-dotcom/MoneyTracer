@@ -3,7 +3,6 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-//todo : week value didn't update when add or delete
 //todo : check if the money is correct
 //todo : paste bank balance image
 //todo : design
@@ -91,6 +90,7 @@ namespace MoneyTracer
         private readonly string titleTotalSaving = "Total Saving : $";
         private readonly string titleTotalSpending = "Total Spending : $";
         private readonly string titleTotalWallet = "Wallet : $";
+        private readonly string titleTotalStatus = "Total Status : ";
 
 
         public MainView()
@@ -189,6 +189,7 @@ namespace MoneyTracer
 
             //update The Text
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
+            txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
 
             //add spending data to del list
             AddBankDataToDeletingComboBoxItem();
@@ -649,6 +650,7 @@ namespace MoneyTracer
             //subtract each other
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
+            txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
         }
 
         private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
@@ -730,7 +732,7 @@ namespace MoneyTracer
             List<string> names = mainViewController.GetAllNameFromDictionary(weekBudgetDataDictionary);
             List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
 
-            int limit = savingDataDictionary.Count; 
+            int limit = savingDataDictionary.Count;
 
             //update saving data
             for (int i = limit; i < values.Count; i++)
@@ -741,11 +743,41 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateWalletDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(walletDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelWallet);
+
+            //update saving data
+            for (int i = 0; i < names.Count; i++)
+            {
+                walletDataDictionary[names[i]] = values[i];
+            }
+        }
+
+        private void UpdateBankDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(bankDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelWallet);
+
+            int limit = walletDataDictionary.Count;
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                bankDataDictionary[theName] = values[i];
+            }
+        }
+
         private void UpdateBeforeReload()
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
             UpdateWeekBalanceDictionary();
+            UpdateWalletDictionary();
+            UpdateBankDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
@@ -907,6 +939,15 @@ namespace MoneyTracer
         private void bankMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
+        }
+
+        private void timerCheckingMoney_Tick(object sender, EventArgs e)
+        {
+            int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
+            int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
+
+            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + " Incorrect";
+            else txtTotalStaus.Text = titleTotalStatus + " Correct";
         }
     }
 }

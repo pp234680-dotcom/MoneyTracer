@@ -30,8 +30,9 @@ namespace MoneyTracer
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
-            label5 = new Label();
+            txtTotalStaus = new Label();
             txtBalance = new Label();
             txtSpendingHomepage = new Label();
             tabControl1 = new TabControl();
@@ -51,6 +52,7 @@ namespace MoneyTracer
             txtboxSavingName = new Label();
             panel2 = new Panel();
             txtBufferHomePage = new Label();
+            txtWalletHomePage = new Label();
             txtTotalSaving = new Label();
             spendingPage = new TabPage();
             txtSpendingTotal = new Label();
@@ -92,6 +94,7 @@ namespace MoneyTracer
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
+            timerCheckingMoney = new System.Windows.Forms.Timer(components);
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -114,21 +117,21 @@ namespace MoneyTracer
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
-            // label5
+            // txtTotalStaus
             // 
-            label5.AutoSize = true;
-            label5.Location = new Point(18, 19);
-            label5.Name = "label5";
-            label5.Size = new Size(152, 19);
-            label5.TabIndex = 7;
-            label5.Text = "Total Status : Correct";
+            txtTotalStaus.AutoSize = true;
+            txtTotalStaus.Location = new Point(18, 19);
+            txtTotalStaus.Name = "txtTotalStaus";
+            txtTotalStaus.Size = new Size(152, 19);
+            txtTotalStaus.TabIndex = 7;
+            txtTotalStaus.Text = "Total Status : Correct";
             // 
             // txtBalance
             // 
             txtBalance.AutoSize = true;
             txtBalance.Font = new Font("Microsoft JhengHei UI", 15.7310925F, FontStyle.Bold, GraphicsUnit.Point, 136);
             txtBalance.ForeColor = Color.White;
-            txtBalance.Location = new Point(16, 21);
+            txtBalance.Location = new Point(16, 12);
             txtBalance.Name = "txtBalance";
             txtBalance.Size = new Size(216, 33);
             txtBalance.TabIndex = 2;
@@ -138,7 +141,7 @@ namespace MoneyTracer
             // 
             txtSpendingHomepage.AutoSize = true;
             txtSpendingHomepage.ForeColor = Color.White;
-            txtSpendingHomepage.Location = new Point(16, 65);
+            txtSpendingHomepage.Location = new Point(16, 56);
             txtSpendingHomepage.Name = "txtSpendingHomepage";
             txtSpendingHomepage.Size = new Size(106, 19);
             txtSpendingHomepage.TabIndex = 1;
@@ -163,7 +166,7 @@ namespace MoneyTracer
             homepagePage.Controls.Add(label1);
             homepagePage.Controls.Add(cboModeSelectorHomepage);
             homepagePage.Controls.Add(flowLayoutPanel1);
-            homepagePage.Controls.Add(label5);
+            homepagePage.Controls.Add(txtTotalStaus);
             homepagePage.Controls.Add(panelSaving);
             homepagePage.Controls.Add(panel2);
             homepagePage.Location = new Point(4, 28);
@@ -310,6 +313,7 @@ namespace MoneyTracer
             panel2.Controls.Add(txtSpendingHomepage);
             panel2.Controls.Add(txtBufferHomePage);
             panel2.Controls.Add(txtBalance);
+            panel2.Controls.Add(txtWalletHomePage);
             panel2.Controls.Add(txtTotalSaving);
             panel2.Location = new Point(15, 45);
             panel2.Name = "panel2";
@@ -320,18 +324,29 @@ namespace MoneyTracer
             // 
             txtBufferHomePage.AutoSize = true;
             txtBufferHomePage.ForeColor = Color.White;
-            txtBufferHomePage.Location = new Point(16, 105);
+            txtBufferHomePage.Location = new Point(16, 88);
             txtBufferHomePage.Name = "txtBufferHomePage";
             txtBufferHomePage.Size = new Size(184, 19);
             txtBufferHomePage.TabIndex = 10;
             txtBufferHomePage.Text = "Buffer Cash Usage : $123";
+            // 
+            // txtWalletHomePage
+            // 
+            txtWalletHomePage.AutoSize = true;
+            txtWalletHomePage.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
+            txtWalletHomePage.ForeColor = Color.White;
+            txtWalletHomePage.Location = new Point(16, 140);
+            txtWalletHomePage.Name = "txtWalletHomePage";
+            txtWalletHomePage.Size = new Size(104, 19);
+            txtWalletHomePage.TabIndex = 2;
+            txtWalletHomePage.Text = "Wallet : $123";
             // 
             // txtTotalSaving
             // 
             txtTotalSaving.AutoSize = true;
             txtTotalSaving.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
             txtTotalSaving.ForeColor = Color.White;
-            txtTotalSaving.Location = new Point(16, 137);
+            txtTotalSaving.Location = new Point(16, 114);
             txtTotalSaving.Name = "txtTotalSaving";
             txtTotalSaving.Size = new Size(133, 19);
             txtTotalSaving.TabIndex = 2;
@@ -426,7 +441,7 @@ namespace MoneyTracer
             // 
             spendingNameInputBox.Location = new Point(6, 3);
             spendingNameInputBox.Name = "spendingNameInputBox";
-            spendingNameInputBox.PlaceholderText = "(Saving Name)";
+            spendingNameInputBox.PlaceholderText = "(Spending Name)";
             spendingNameInputBox.Size = new Size(139, 27);
             spendingNameInputBox.TabIndex = 11;
             spendingNameInputBox.Enter += spendingNameInputBox_Enter;
@@ -622,7 +637,7 @@ namespace MoneyTracer
             // 
             bankNameInputBox.Location = new Point(6, 3);
             bankNameInputBox.Name = "bankNameInputBox";
-            bankNameInputBox.PlaceholderText = "(Saving Name)";
+            bankNameInputBox.PlaceholderText = "(Bank Name)";
             bankNameInputBox.Size = new Size(139, 27);
             bankNameInputBox.TabIndex = 11;
             bankNameInputBox.Enter += bankNameInputBox_Enter;
@@ -731,6 +746,11 @@ namespace MoneyTracer
             // 
             _openFileDialog.FileName = "openFileDialog123";
             // 
+            // timerCheckingMoney
+            // 
+            timerCheckingMoney.Enabled = true;
+            timerCheckingMoney.Tick += timerCheckingMoney_Tick;
+            // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 19F);
@@ -780,7 +800,7 @@ namespace MoneyTracer
 
         #endregion
 
-        private Label label5;
+        private Label txtTotalStaus;
         private Label txtSpendingHomepage;
         private TabControl tabControl1;
         private TabPage homepagePage;
@@ -841,5 +861,7 @@ namespace MoneyTracer
         private Panel panelDeleteBank;
         private ComboBox cboDelBankList;
         private Button btnDelBank;
+        private Label txtWalletHomePage;
+        private System.Windows.Forms.Timer timerCheckingMoney;
     }
 }
