@@ -3,8 +3,7 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.Xml.Linq;
-//todo : Tab don't select numUpDown
-//todo : Bank inbox should ablt to press enter key
+//todo : Bank inbox should able to press enter key
 //todo : total saving is a bit weird when add or delete
 //todo : week value didn't update when add or delete
 //todo : check if the money is correct
@@ -705,7 +704,7 @@ namespace MoneyTracer
         private void SaveDataSaving()
         {
             StoredData.storedSavingData = mainViewController.GetOutputDataOfCertainTab(txtboxSavingName, panelSaving);
-            StoredData.storedBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+            StoredData.storedBalanceData = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
 
@@ -888,6 +887,11 @@ namespace MoneyTracer
         private void spendingMoneyInputBox_Enter(object sender, EventArgs e)
         {
             mainViewController.TextBoxTabIndexChange(spendingMoneyInputBox, spendingNameInputBox);
+        }
+
+        private void bankMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
         }
     }
 }

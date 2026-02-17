@@ -280,7 +280,7 @@ namespace MoneyTracer.Model
             Rootobject rootobject = new Rootobject();
             rootobject.saving = savings.ToArray();
             rootobject.weekBudget = weekbudgets.ToArray();
-            rootobject.balance = StoredData.storedBalance;
+            rootobject.balance = StoredData.storedBalanceData;
             rootobject.bufferLogs = bufferMoney.ToArray();
             rootobject.Spending = spendings.ToArray();
             rootobject.Wallet = walletMoney.ToArray();

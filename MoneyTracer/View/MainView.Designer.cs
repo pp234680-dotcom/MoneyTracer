@@ -616,6 +616,7 @@ namespace MoneyTracer
             bankMoneyInputBox.Size = new Size(81, 27);
             bankMoneyInputBox.TabIndex = 11;
             bankMoneyInputBox.Enter += bankMoneyInputBox_Enter;
+            bankMoneyInputBox.KeyDown += bankMoneyInputBox_KeyDown;
             // 
             // bankNameInputBox
             // 
@@ -625,6 +626,7 @@ namespace MoneyTracer
             bankNameInputBox.Size = new Size(139, 27);
             bankNameInputBox.TabIndex = 11;
             bankNameInputBox.Enter += bankNameInputBox_Enter;
+            bankNameInputBox.KeyDown += bankMoneyInputBox_KeyDown;
             // 
             // panelDeleteBank
             // 
