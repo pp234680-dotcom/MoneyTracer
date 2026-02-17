@@ -2,10 +2,12 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : paste bank balance image
+//todo : add a button to clean spending , buffer, screenshot
 //todo : design
 
 //not that important
@@ -106,11 +108,13 @@ namespace MoneyTracer
 
             StoredData.storedBufferData = JsonData.BufferData;
 
-            //InitializingAllPage
-            InitializingAllPage();
+            //InitializingAllDataPage
+            InitializingAllDataPage();
+
+            InitializeScreenshotPage();
         }
 
-        private void InitializingAllPage()
+        private void InitializingAllDataPage()
         {
             //Setup the saving page
             InitializeTheSpendingPage();
@@ -123,6 +127,86 @@ namespace MoneyTracer
 
             //Setup the homepage
             InitializeTheHomePage();
+        }
+
+        private void CleanScreenshotPage()
+        {
+            //Clean the items first
+            for (int i = flowPanelScreenshot.Controls.Count - 1; i >= 0; i--)
+            {
+                if (flowPanelScreenshot.Controls[i] is PictureBox thePictureBox)
+                {
+                    flowPanelScreenshot.Controls.Remove(thePictureBox);
+                }
+            }
+        }
+
+        private List<string> GetAllPicturePathWithSameTimeAsTheData()
+        {
+            //Read all picture with the Name that got same time as the data file's time
+            //Get all the .png path in the folder
+            string folderPath = JsonData.OutputDataFolder;
+            string[] filePaths = Directory.GetFiles(folderPath, "*.png");
+            if (filePaths == null) return new List<string>();
+
+            //Get the time of the data
+            string dataPath = JsonData.LoadFilePath;
+            dataPath = dataPath.Replace(folderPath, string.Empty);
+            string dataTime = dataPath.Split("savingData")[0];
+
+            //Only keep the file with the same time as ReadData's time
+            List<string> picturePaths = new List<string>();
+            foreach (var thePath in filePaths)
+            {
+                if (thePath.Contains(dataTime)) picturePaths.Add(thePath);
+            }
+
+            return picturePaths;
+        }
+
+        private void AddScreenshotToFlowPanel(List<string> picturePaths)
+        {
+            foreach (var thePath in picturePaths)
+            {
+                int num = 0;
+                int y = 27;
+                foreach (var item in flowPanelScreenshot.Controls)
+                {
+                    if (item is PictureBox thePictureBox)
+                    {
+                        string theTempNameForNum = thePictureBox.Name;
+                        string theTempNum = theTempNameForNum.Split(" ")[1];
+                        num = Convert.ToInt32(theTempNum);
+
+                        y = thePictureBox.Location.Y;
+                        y += 150;
+                    }
+                }
+                num++;
+                string newPictureName = $"ScreenShot {num}";
+                PictureBox newPictureBox = new PictureBox();
+                newPictureBox.Name = newPictureName;
+                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Location = new Point(27, y);
+                newPictureBox.BackgroundImage = Image.FromFile(thePath);
+                newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
+                flowPanelScreenshot.Controls.Add(newPictureBox);
+
+                cboDelImageList.Items.Add(newPictureName);
+
+                if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+            }
+        }
+
+        private void InitializeScreenshotPage()
+        {
+            CleanScreenshotPage();
+
+            //Read all picture with the Name that got same time as the dataFile's time
+            List<string> picturePaths = GetAllPicturePathWithSameTimeAsTheData();
+            if (picturePaths == null) return;
+
+            AddScreenshotToFlowPanel(picturePaths);
         }
 
         private void ClearAllWalletDisplayValue()
@@ -694,6 +778,7 @@ namespace MoneyTracer
             try
             {
                 SaveDataSaving();
+                mainViewController.SaveScreenShots(flowPanelScreenshot);
                 MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
@@ -816,7 +901,7 @@ namespace MoneyTracer
             theDataDictionary.Add(inputName, inputNum);
 
             //reload all pages
-            InitializingAllPage();
+            InitializingAllDataPage();
         }
 
         private void btnAddSaving_Click(object sender, EventArgs e)
@@ -861,7 +946,7 @@ namespace MoneyTracer
             theDataDictionary.Remove(theComboBoxList.Text);
 
             //reload all pages
-            InitializingAllPage();
+            InitializingAllDataPage();
         }
 
         private void btnDelSaving_Click(object sender, EventArgs e)
@@ -881,20 +966,27 @@ namespace MoneyTracer
 
         private void menuOpen_Click(object sender, EventArgs e)
         {
-            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                JsonData.LoadFilePath = _openFileDialog.FileName;
+                if (_openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    JsonData.LoadFilePath = _openFileDialog.FileName;
+                }
+
+                balance = JsonData.BalanceValue;
+                savingDataDictionary = JsonData.SavingMoneyData;
+                weekBudgetDataDictionary = JsonData.WeekBalanceData;
+                spendingDataDictionary = JsonData.SpendingData;
+                walletDataDictionary = JsonData.WalletData;
+                bufferDataDictionary = JsonData.BufferData;
+                bankDataDictionary = JsonData.BankData;
+
+                MainView_Load(sender, e);
             }
-
-            balance = JsonData.BalanceValue;
-            savingDataDictionary = JsonData.SavingMoneyData;
-            weekBudgetDataDictionary = JsonData.WeekBalanceData;
-            spendingDataDictionary = JsonData.SpendingData;
-            walletDataDictionary = JsonData.WalletData;
-            bufferDataDictionary = JsonData.BufferData;
-            bankDataDictionary = JsonData.BankData;
-
-            MainView_Load(sender, e);
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void spendingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
@@ -986,7 +1078,7 @@ namespace MoneyTracer
             else MessageBox.Show("No picture in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void btnDelImage_Click(object sender, EventArgs e)
         {
             string theName = string.Empty;
             if (cboDelImageList.SelectedItem != null)

@@ -98,7 +98,7 @@ namespace MoneyTracer
             imageNameInputBox = new TextBox();
             panel3 = new Panel();
             cboDelImageList = new ComboBox();
-            button2 = new Button();
+            btnDelImage = new Button();
             panel4 = new Panel();
             flowPanelScreenshot = new FlowLayoutPanel();
             menuStrip1 = new MenuStrip();
@@ -801,7 +801,7 @@ namespace MoneyTracer
             // panel3
             // 
             panel3.Controls.Add(cboDelImageList);
-            panel3.Controls.Add(button2);
+            panel3.Controls.Add(btnDelImage);
             panel3.Location = new Point(213, 3);
             panel3.Name = "panel3";
             panel3.Size = new Size(204, 34);
@@ -815,16 +815,16 @@ namespace MoneyTracer
             cboDelImageList.Size = new Size(139, 27);
             cboDelImageList.TabIndex = 12;
             // 
-            // button2
+            // btnDelImage
             // 
-            button2.BackgroundImage = (Image)resources.GetObject("button2.BackgroundImage");
-            button2.BackgroundImageLayout = ImageLayout.Zoom;
-            button2.Location = new Point(156, 3);
-            button2.Name = "button2";
-            button2.Size = new Size(27, 27);
-            button2.TabIndex = 10;
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
+            btnDelImage.BackgroundImage = (Image)resources.GetObject("btnDelImage.BackgroundImage");
+            btnDelImage.BackgroundImageLayout = ImageLayout.Zoom;
+            btnDelImage.Location = new Point(156, 3);
+            btnDelImage.Name = "btnDelImage";
+            btnDelImage.Size = new Size(27, 27);
+            btnDelImage.TabIndex = 10;
+            btnDelImage.UseVisualStyleBackColor = true;
+            btnDelImage.Click += btnDelImage_Click;
             // 
             // panel4
             // 
@@ -878,7 +878,7 @@ namespace MoneyTracer
             // 
             // _openFileDialog
             // 
-            _openFileDialog.FileName = "openFileDialog123";
+            _openFileDialog.Filter = "Json file|*.json|Data File|*.dat";
             // 
             // timerCheckingMoney
             // 
@@ -1013,7 +1013,7 @@ namespace MoneyTracer
         private TextBox imageNameInputBox;
         private Panel panel3;
         private ComboBox cboDelImageList;
-        private Button button2;
+        private Button btnDelImage;
         private Panel panel4;
         private FlowLayoutPanel flowPanelScreenshot;
     }
