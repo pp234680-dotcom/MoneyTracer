@@ -6,13 +6,8 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : paste bank balance image
-//todo : add a button to clean spending , buffer, screenshot
+//todo : screenshot page
 //todo : design
-
-//not that important
-//todo : Loading default file
-//todo : save files location
 
 namespace MoneyTracer
 {
