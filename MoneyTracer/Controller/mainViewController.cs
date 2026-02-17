@@ -218,5 +218,40 @@ namespace MoneyTracer.Controller
                 theNameInputBox.Focus();
             }
         }
+
+        public static void RemoveEmptyDataFromDictionary(ref Dictionary<string, int> theDirctionary)
+        {
+            List<string> names = new List<string>();
+            foreach(var item in theDirctionary)
+            {
+                names.Add(item.Key);
+            }
+
+            for(int i = names.Count-1; i >= 0; i--)
+            {
+                string theName = names[i];
+                if (theDirctionary[theName] == 0) theDirctionary.Remove(theName);
+            }
+        }
+
+        public static void AddDataToDeletingComboBoxItem(ComboBox theDelSavingComboBox, Dictionary<string,int>theDataDictionary, ComboBox cboModeSelector)
+        {
+            theDelSavingComboBox.Items.Clear();
+            foreach (var item in theDataDictionary)
+            {
+                theDelSavingComboBox.Items.Add(item.Key);
+            }
+            if (theDelSavingComboBox.SelectedIndex == -1 && theDelSavingComboBox.Items.Count > 0) theDelSavingComboBox.SelectedIndex = 0;
+            else theDelSavingComboBox.Text = string.Empty;
+
+            //Mode select - add or delete
+            if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
+        }
+
+        public static void TextBoxTabIndexChange(TextBox currentOne, TextBox theOtherOne)
+        {
+            currentOne.TabIndex = 1;
+            theOtherOne.TabIndex = 2;
+        }
     }
 }

@@ -2,12 +2,13 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
-//todo : load buffer value
+using System.Xml.Linq;
+//todo : Tab don't select numUpDown
+//todo : Bank inbox should ablt to press enter key
 //todo : total saving is a bit weird when add or delete
 //todo : week value didn't update when add or delete
-//todo : buffer cash page
-//todo : load & save the spending data
 //todo : check if the money is correct
+//todo : paste bank balance image
 //todo : design
 
 //not that important
@@ -46,7 +47,17 @@ namespace MoneyTracer
         /// <summary>
         /// Global Value
         /// </summary>
-        //private Dictionary<string, int> bufferLogDictionary = new Dictionary<string, int>();
+        private Dictionary<string, int> bufferDataDictionary = JsonData.BufferData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        private Dictionary<string, int> bankDataDictionary = JsonData.BankData;
+
+        /// <summary>
+        /// Global Value
+        /// </summary>
+        //private Dictionary<string, int> storedBufferData = new Dictionary<string, int>();
 
         /// <summary>
         /// Display spending in view
@@ -61,7 +72,7 @@ namespace MoneyTracer
         /// <summary>
         /// Display buffer in view
         /// </summary>
-        public decimal bufferValue = 0;
+        public decimal bufferTotal = 0;
 
         /// <summary>
         /// Display spending in view
@@ -95,6 +106,8 @@ namespace MoneyTracer
             //offset the value
             DoBalanceUpdate();
 
+            StoredData.storedBufferData = JsonData.BufferData;
+
             //InitializingAllPage
             InitializingAllPage();
         }
@@ -107,6 +120,9 @@ namespace MoneyTracer
             //Setup the wallet page
             InitializeTheWalletPage();
 
+            //Setup the Buffer Cash page
+            InitializeTheBufferPage();
+
             //Setup the homepage
             InitializeTheHomePage();
         }
@@ -118,6 +134,9 @@ namespace MoneyTracer
             txtWalletName.Text = string.Empty;
             txtWalletMoney.Text = string.Empty;
 
+            bankNameInputBox.Text = string.Empty;
+            bankMoneyInputBox.Text = string.Empty;
+
             var panelControls = panelWallet.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
@@ -127,6 +146,33 @@ namespace MoneyTracer
                 }
             }
 
+        }
+        private void ClearAllBufferDisplayValue()
+        {
+            bufferTotal = 0;
+
+            txtBufferName.Text = string.Empty;
+            txtBufferMoney.Text = string.Empty;
+        }
+
+        private void InitializeTheBufferPage()
+        {
+            //empty the value
+            ClearAllBufferDisplayValue();
+
+            //set size, make txtboxWallet's height stay in 26
+            mainViewController.initializeTotalMoneyTxtTSize(txtBufferName, txtBufferMoney);
+
+            //this is for numericUpDown
+            int numUpDownX = txtBufferName.Location.X + 50;
+            int numUpDownY = txtBufferMoney.Location.Y - 46;
+            int loopCount = 0;
+            GetBufferDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+
+            //update The Text
+            bufferTotal *= -1; //Total Should oppsite with bufferDataDictionary, so balance can gain the correct value
+            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
+            txtBufferTotal.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
         }
 
         private void InitializeTheWalletPage()
@@ -142,12 +188,16 @@ namespace MoneyTracer
             int numUpDownY = txtWalletMoney.Location.Y - 46;
             int loopCount = 0;
             GetWalletDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
+            GetBankDataAndAppendThetitleAndNumBox(ref loopCount, ref numUpDownX, ref numUpDownY);
 
             //update The Text
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
+
+            //add spending data to del list
+            AddBankDataToDeletingComboBoxItem();
         }
 
-        
+
 
         private void AddingNumUpDownOnWalletpage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
@@ -201,6 +251,12 @@ namespace MoneyTracer
             panelDeleteSpending.Visible = !isAddModeNow;
         }
 
+        private void ModeBankSwitchAddOrDel(bool isAddModeNow)
+        {
+            panelAddBank.Visible = isAddModeNow;
+            panelDeleteBank.Visible = !isAddModeNow;
+        }
+
         private void ClearAllSavingDisplayValue()
         {
             savingTotal = 0;
@@ -225,30 +281,23 @@ namespace MoneyTracer
 
         private void AddSavingDataToDeletingComboBoxItem()
         {
-            cboDelSavingList.Items.Clear();
-            foreach (var item in savingDataDictionary)
-            {
-                cboDelSavingList.Items.Add(item.Key);
-            }
-            if (cboDelSavingList.SelectedIndex == -1 && cboDelSavingList.Items.Count > 0) cboDelSavingList.SelectedIndex = 0;
-            else cboDelSavingList.Text = string.Empty;
-
-            //Mode select - add or delete
-            if (cboModeSelectorHomepage.SelectedIndex == -1) cboModeSelectorHomepage.SelectedIndex = 0;
+            mainViewController.AddDataToDeletingComboBoxItem(cboDelSavingList
+                , savingDataDictionary
+                , cboModeSelectorHomepage);
         }
 
-        private void AddSpendningDataToDelList()
+        private void AddSpendingDataToDeletingComboBoxItem()
         {
-            cboDelSpendingList.Items.Clear();
-            foreach (var item in spendingDataDictionary)
-            {
-                cboDelSpendingList.Items.Add(item.Key);
-            }
-            if (cboDelSpendingList.SelectedIndex == -1 && cboDelSpendingList.Items.Count > 0) cboDelSpendingList.SelectedIndex = 0;
-            else cboDelSpendingList.Text = string.Empty;
+            mainViewController.AddDataToDeletingComboBoxItem(cboDelSpendingList
+                , spendingDataDictionary
+                , cboModeSelectorSpending);
+        }
 
-            //Mode select - add or delete
-            if (cboModeSelectorSpending.SelectedIndex == -1) cboModeSelectorSpending.SelectedIndex = 0;
+        private void AddBankDataToDeletingComboBoxItem()
+        {
+            mainViewController.AddDataToDeletingComboBoxItem(cboDelBankList
+                , bankDataDictionary
+                , cboModeSelectorBank);
         }
 
         private void GetWalletDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
@@ -283,6 +332,70 @@ namespace MoneyTracer
 
 
                 txtWalletMoney.Visible = false;
+            }
+        }
+
+        private void GetBankDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in bankDataDictionary)
+            {
+                loopCount++;
+                walletTotal += item.Value;
+
+                //name length limit
+                string name = item.Key;
+                if (name.Length > 24)
+                {
+                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Insert(name.Length - 1, "...");
+                }
+
+                //money comma add
+                string moneyVal = item.Value.ToString();
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
+
+                //insert value
+                txtWalletName.Text += $"{name}\n\n";
+                txtWalletMoney.Text += $"${moneyVal}\n\n";
+
+                //set size
+                txtWalletMoney.Size = mainViewController.AddSizeToTheControl(txtWalletMoney.Size);
+                txtWalletName.Size = mainViewController.AddSizeToTheControl(txtWalletName.Size);
+
+                //adding nummeric shit
+                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet);
+
+
+                txtWalletMoney.Visible = false;
+            }
+        }
+
+        private void GetBufferDataAndAppendThetitleAndNumBox(ref int loopCount, ref int numUpDownX, ref int numUpDownY)
+        {
+            foreach (var item in bufferDataDictionary)
+            {
+                loopCount++;
+                bufferTotal += item.Value;
+
+                //name length limit
+                string name = item.Key;
+                if (name.Length > 24)
+                {
+                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Insert(name.Length - 1, "...");
+                }
+
+                //money comma add
+                string moneyVal = item.Value.ToString();
+                moneyVal = mainViewController.decimalSpreadtor(moneyVal);
+
+                //insert value
+                txtBufferName.Text += $"{name}\n\n";
+                txtBufferMoney.Text += $"${moneyVal}\n\n";
+
+                //set size
+                txtBufferMoney.Size = mainViewController.AddSizeToTheControl(txtBufferMoney.Size);
+                txtBufferName.Size = mainViewController.AddSizeToTheControl(txtBufferName.Size);
             }
         }
 
@@ -434,7 +547,7 @@ namespace MoneyTracer
             txtSpendingHomepage.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
-            AddSpendningDataToDelList();
+            AddSpendingDataToDeletingComboBoxItem();
         }
 
         private void numericUpDown_focus(object sender, EventArgs e)
@@ -453,21 +566,16 @@ namespace MoneyTracer
             int sequence = Convert.ToInt32(splitedString[1]) - 1;
             int loopCount = 0;
             bool isSpendingNameFound = false;
+            string name = string.Empty;
 
             //Find saving name in savingDataDictionary
             foreach (var item in savingDataDictionary)
             {
                 if (loopCount == sequence)
                 {
-                    string name = item.Key;
-
-                    //check if the if the saving name is exist in stored data, if not, create a new key
-                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
-                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
-
+                    name = item.Key;
                     //display my debug infomation
                     //labelTest.Text += $"\n{name}";
-
                     isSpendingNameFound = true;
                     break;
                 }
@@ -478,20 +586,21 @@ namespace MoneyTracer
                 if (isSpendingNameFound == true) break;
                 if (loopCount == sequence)
                 {
-                    string name = item.Key;
-
-                    //check if the if the saving name is exist in stored data, if not, create a new key
-                    if (StoredData.bufferLogDictionary.ContainsKey(name) == false) StoredData.bufferLogDictionary.Add(name, 0);
-                    StoredData.bufferLogDictionary[name] += Convert.ToInt32(bufferValue);
-
-                    //display my debug infomation
-                    //labelTest.Text += $"\n{name}";
-
+                    name = item.Key;
                     isSpendingNameFound = true;
                     break;
                 }
                 loopCount++;
             }
+
+            //check if the if the saving name is exist in stored data, if not, create a new key
+            if (name == string.Empty) return;
+            if (StoredData.storedBufferData.ContainsKey(name) == false) StoredData.storedBufferData.Add(name, 0);
+            StoredData.storedBufferData[name] += Convert.ToInt32(bufferValue);
+            mainViewController.RemoveEmptyDataFromDictionary(ref StoredData.storedBufferData);
+
+            bufferDataDictionary = StoredData.storedBufferData;
+            InitializeTheBufferPage();
         }
 
         private void numericUpDown_TextChanged(object sender, EventArgs e)
@@ -513,8 +622,7 @@ namespace MoneyTracer
             }
 
             //subtract each other
-            bufferValue -= nowVal - previousVal;
-            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferValue.ToString());
+            bufferTotal -= nowVal - previousVal;
 
             //update buffer cash data
             UpdateBufferCashLog(theControl, (nowVal - previousVal));
@@ -544,12 +652,6 @@ namespace MoneyTracer
             //subtract each other
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
-
-            //update buffer cash data
-            //UpdateBufferCashLog(theControl, (nowVal - previousVal));
-
-            //Update the display text
-            //DoValueUpdate();
         }
 
         private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
@@ -563,11 +665,13 @@ namespace MoneyTracer
         /// </summary>
         private void DoValueUpdate()
         {
-            decimal tempForBalance = balance + bufferValue - spendingTotal;
+            decimal tempForBalance = balance + bufferTotal - spendingTotal;
             txtBalance.Text = titleBalance + mainViewController.decimalSpreadtor(tempForBalance.ToString());
 
             decimal tempForSaving = savingTotal - spendingTotal;
             txtTotalSaving.Text = titleTotalSaving + mainViewController.decimalSpreadtor(tempForSaving.ToString());
+
+            txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
         }
 
         private void DoBalanceUpdate()
@@ -575,6 +679,11 @@ namespace MoneyTracer
             //Output Data Will save the data after minus spending
             //So when get back the data should add the spending back, to prevent Balance get reduced repeatly
             foreach (var item in spendingDataDictionary)
+            {
+                balance += item.Value;
+            }
+
+            foreach (var item in bufferDataDictionary)
             {
                 balance += item.Value;
             }
@@ -591,22 +700,11 @@ namespace MoneyTracer
             {
                 MessageBox.Show($"Saving Fail \n{ex.Message}", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-        }       
+        }
 
         private void SaveDataSaving()
         {
-            //get the list first
-            List<string> savingNameList = mainViewController.GetAllNameFromLabel(txtboxSavingName);
-            List<int> savingMoneyList = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
-
-            //add it to dictionary
-            Dictionary<string, int> outputSavingData = new Dictionary<string, int>();
-            for (int i = 0; i < savingMoneyList.Count; i++)
-            {
-                outputSavingData.Add(savingNameList[i], savingMoneyList[i]);
-            }
-
-            StoredData.storedSavingData = outputSavingData;
+            StoredData.storedSavingData = mainViewController.GetOutputDataOfCertainTab(txtboxSavingName, panelSaving);
             StoredData.storedBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
@@ -636,19 +734,19 @@ namespace MoneyTracer
             UpdateSavingDictionary();
         }
 
-        private void addSavingButton_Click(object sender, EventArgs e)
+        private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
         {
             //Check if box is empty
-            if (savingNameInputBox.Text == string.Empty) return;
-            if (savingMoneyInputBox.Text == string.Empty) return;
+            if (theNameInputBox.Text == string.Empty) return;
+            if (theMoneyInputBox.Text == string.Empty) return;
 
             int inputNum = 0;
-            string inputName = savingNameInputBox.Text;
+            string inputName = theNameInputBox.Text;
 
             //if there's char are non numbers, cancel the method
             try
             {
-                inputNum = Convert.ToInt32(savingMoneyInputBox.Text);
+                inputNum = Convert.ToInt32(theMoneyInputBox.Text);
             }
             catch
             {
@@ -659,7 +757,7 @@ namespace MoneyTracer
             if (inputNum < 0) return;
 
             //check if there's exist saving name
-            foreach (string item in savingDataDictionary.Keys)
+            foreach (string item in theDataDictionary.Keys)
             {
                 if (item == inputName) return;
             }
@@ -668,34 +766,70 @@ namespace MoneyTracer
             UpdateBeforeReload();
 
             //after get update, fill the value in, and reload all the values
-            savingDataDictionary.Add(inputName, inputNum);
+            theDataDictionary.Add(inputName, inputNum);
 
             //reload all pages
             InitializingAllPage();
         }
 
-        private void cboModeSelector1_SelectedIndexChanged(object sender, EventArgs e)
+        private void btnAddSaving_Click(object sender, EventArgs e)
+        {
+            btnAddASavingOrSpending(savingNameInputBox, savingMoneyInputBox, savingDataDictionary);
+        }
+
+        private void btnAddSpending_Click(object sender, EventArgs e)
+        {
+            btnAddASavingOrSpending(spendingNameInputBox, spendingMoneyInputBox, spendingDataDictionary);
+        }
+
+        private void btnAddBank_Click(object sender, EventArgs e)
+        {
+            btnAddASavingOrSpending(bankNameInputBox, bankMoneyInputBox, bankDataDictionary);
+        }
+
+        private void cboModeSelectorHomepage_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboModeSelectorHomepage.SelectedIndex == 0) ModeSavingSwitchAddOrDel(true);
             else if (cboModeSelectorHomepage.SelectedIndex == 1) ModeSavingSwitchAddOrDel(false);
         }
 
-        private void cboModeSelector2_SelectedIndexChanged(object sender, EventArgs e)
+        private void cboModeSelectorSpending_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cboModeSelectorSpending.SelectedIndex == 0) ModeSpendingSwitchAddOrDel(true);
             else if (cboModeSelectorSpending.SelectedIndex == 1) ModeSpendingSwitchAddOrDel(false);
         }
 
-        private void btnDelSaving_Click(object sender, EventArgs e)
+        private void cboModeSelectorBank_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cboModeSelectorBank.SelectedIndex == 0) ModeBankSwitchAddOrDel(true);
+            else if (cboModeSelectorBank.SelectedIndex == 1) ModeBankSwitchAddOrDel(false);
+        }
+
+        private void btnDelASavingOrSpending(Dictionary<string, int> theDataDictionary, ComboBox theComboBoxList)
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateBeforeReload();
 
             //after get update, fill the value in, and reload all the values
-            savingDataDictionary.Remove(cboDelSavingList.Text);
+            theDataDictionary.Remove(theComboBoxList.Text);
 
             //reload all pages
             InitializingAllPage();
+        }
+
+        private void btnDelSaving_Click(object sender, EventArgs e)
+        {
+            btnDelASavingOrSpending(savingDataDictionary, cboDelSavingList);
+        }
+
+        private void butDelSpendingList_Click(object sender, EventArgs e)
+        {
+            btnDelASavingOrSpending(spendingDataDictionary, cboDelSpendingList);
+        }
+
+        private void btnDelBank_Click(object sender, EventArgs e)
+        {
+            btnDelASavingOrSpending(bankDataDictionary, cboDelBankList);
         }
 
         private void menuOpen_Click(object sender, EventArgs e)
@@ -710,59 +844,12 @@ namespace MoneyTracer
             weekBudgetDataDictionary = JsonData.WeekBalanceData;
             spendingDataDictionary = JsonData.SpendingData;
             walletDataDictionary = JsonData.WalletData;
-
-            //tempShit - wait to be modify
-            bufferValue = 0;
-            txtBufferHomePage.Text = titleBuffer + bufferValue.ToString();
+            bufferDataDictionary = JsonData.BufferData;
+            bankDataDictionary = JsonData.BankData;
 
             MainView_Load(sender, e);
         }
 
-        private void butDelSpendingList_Click(object sender, EventArgs e)
-        {
-            UpdateBeforeReload();
-
-            //after get update, fill the value in, and reload all the values
-            spendingDataDictionary.Remove(cboDelSpendingList.Text);
-
-            //reload all pages
-            InitializingAllPage();
-        }
-
-        private void btnAddSpending_Click(object sender, EventArgs e)
-        {
-            //Check if box is empty
-            if (spendingNameInputBox.Text == string.Empty) return;
-            if (spendingMoneyInputBox.Text == string.Empty) return;
-
-            int inputNum = 0;
-            string inputName = spendingNameInputBox.Text;
-
-            //if there's char are non numbers, cancel the method
-            try
-            {
-                inputNum = Convert.ToInt32(spendingMoneyInputBox.Text);
-            }
-            catch
-            {
-                return;
-            }
-
-            //check if there's exist spending name
-            foreach (string item in spendingDataDictionary.Keys)
-            {
-                if (item == inputName) return;
-            }
-
-            //update spendingData & Balance Values just in case be replaced with origin data
-            UpdateBeforeReload();
-
-            //after get update, fill the value in, and reload all the values
-            spendingDataDictionary.Add(inputName, inputNum);
-
-            //reload all pages
-            InitializingAllPage();
-        }
         private void spendingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddSpending_Click, spendingNameInputBox);
@@ -770,7 +857,37 @@ namespace MoneyTracer
 
         private void savingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
         {
-            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, addSavingButton_Click, savingNameInputBox);
+            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddSaving_Click, savingNameInputBox);
+        }
+
+        private void bankMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(bankMoneyInputBox, bankNameInputBox);
+        }
+
+        private void bankNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(bankNameInputBox, bankMoneyInputBox);
+        }
+
+        private void savingMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(savingMoneyInputBox, savingNameInputBox);
+        }
+
+        private void savingNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(savingNameInputBox, savingMoneyInputBox);
+        }
+
+        private void spendingNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(spendingNameInputBox, spendingMoneyInputBox);
+        }
+
+        private void spendingMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(spendingMoneyInputBox, spendingNameInputBox);
         }
     }
 }

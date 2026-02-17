@@ -74,31 +74,31 @@
 	],
 	"Wallet": [
 		{
-			"name": "money1000",
+			"name": "Money1000",
 			"money": 2000
 		},
 		{
-			"name": "money500",
+			"name": "Money500",
 			"money": 0
 		},
 		{
-			"name": "money100",
+			"name": "Money100",
 			"money": 0
 		},
 		{
-			"name": "money50",
+			"name": "Money50",
 			"money": 50
 		},
 		{
-			"name": "money10",
+			"name": "Money10",
 			"money": 50
 		},
 		{
-			"name": "money5",
+			"name": "Money5",
 			"money": 5
 		},
 		{
-			"name": "money1",
+			"name": "Money1",
 			"money": 5
 		}
 	],
@@ -125,5 +125,6 @@
 			"name": "Easy Card",
 			"money": 200
 		}
-	]
+	],
+	"bufferLogs": []
 }
