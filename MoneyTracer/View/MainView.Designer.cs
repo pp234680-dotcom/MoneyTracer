@@ -105,7 +105,7 @@ namespace MoneyTracer
             testToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
-            cleanToolStripMenuItem = new ToolStripMenuItem();
+            cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
             tabControl1.SuspendLayout();
@@ -849,10 +849,10 @@ namespace MoneyTracer
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(505, 27);
+            menuStrip1.Size = new Size(505, 28);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -860,7 +860,7 @@ namespace MoneyTracer
             // 
             testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(47, 23);
+            testToolStripMenuItem.Size = new Size(47, 24);
             testToolStripMenuItem.Text = "File";
             // 
             // menuOpen
@@ -877,11 +877,12 @@ namespace MoneyTracer
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
-            // cleanToolStripMenuItem
+            // cleanTheLogToolStripMenuItem
             // 
-            cleanToolStripMenuItem.Name = "cleanToolStripMenuItem";
-            cleanToolStripMenuItem.Size = new Size(62, 23);
-            cleanToolStripMenuItem.Text = "Clean";
+            cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
+            cleanTheLogToolStripMenuItem.Size = new Size(119, 24);
+            cleanTheLogToolStripMenuItem.Text = "Clean the Log";
+            cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
             // _openFileDialog
             // 
@@ -1023,6 +1024,6 @@ namespace MoneyTracer
         private Button btnDelImage;
         private Panel panel4;
         private FlowLayoutPanel flowPanelScreenshot;
-        private ToolStripMenuItem cleanToolStripMenuItem;
+        private ToolStripMenuItem cleanTheLogToolStripMenuItem;
     }
 }

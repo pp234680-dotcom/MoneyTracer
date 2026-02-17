@@ -132,16 +132,19 @@ namespace MoneyTracer
             InitializeTheHomePage();
         }
 
-        private void CleanScreenshotPage()
+        private void ClearScreenshotPage()
         {
             //Clean the items first
             for (int i = flowPanelScreenshot.Controls.Count - 1; i >= 0; i--)
             {
                 if (flowPanelScreenshot.Controls[i] is PictureBox thePictureBox)
                 {
+                    cboDelImageList.Items.Remove(thePictureBox.Name);
                     flowPanelScreenshot.Controls.Remove(thePictureBox);
                 }
             }
+
+            cboDelImageList.Text = string.Empty;
         }
 
         private List<string> GetAllPicturePathWithSameTimeAsTheData()
@@ -203,7 +206,7 @@ namespace MoneyTracer
 
         private void InitializeScreenshotPage()
         {
-            CleanScreenshotPage();
+            ClearScreenshotPage();
 
             //Read all picture with the Name that got same time as the dataFile's time
             List<string> picturePaths = GetAllPicturePathWithSameTimeAsTheData();
@@ -986,7 +989,7 @@ namespace MoneyTracer
 
                 MainView_Load(sender, e);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1093,13 +1096,32 @@ namespace MoneyTracer
             {
                 if (item is PictureBox thePictureBox)
                 {
-                    if(thePictureBox.Name == theName)
+                    if (thePictureBox.Name == theName)
                     {
                         flowPanelScreenshot.Controls.Remove(thePictureBox);
                         cboDelImageList.Items.Remove(theName);
                     }
                 }
             }
+        }
+
+        private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            balance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+
+            ClearAllSpendingDisplayValue();
+            spendingDataDictionary = new Dictionary<string, int>();
+
+            ClearAllBufferDisplayValue();
+            bufferDataDictionary = new Dictionary<string, int>();
+
+            ClearScreenshotPage();
+
+            
+            UpdateBeforeReload();
+            InitializingAllDataPage();
+
+            MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }
