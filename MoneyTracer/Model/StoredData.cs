@@ -13,6 +13,6 @@ namespace MoneyTracer.Model
         public static Dictionary<string, int> storedSpendingData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedWalletData = new Dictionary<string, int>();
         public static Dictionary<string, int> storedBufferData = new Dictionary<string, int>();
-        public static int storedBalance = new int();
+        public static int storedBalanceData = new int();
     }
 }

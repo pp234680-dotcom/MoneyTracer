@@ -1,14 +1,13 @@
 using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
-//todo : Tab don't select numUpDown
-//todo : Bank inbox should ablt to press enter key
-//todo : total saving is a bit weird when add or delete
-//todo : week value didn't update when add or delete
-//todo : check if the money is correct
+
 //todo : paste bank balance image
+//todo : add a button to clean spending , buffer, screenshot
 //todo : design
 
 //not that important
@@ -94,6 +93,7 @@ namespace MoneyTracer
         private readonly string titleTotalSaving = "Total Saving : $";
         private readonly string titleTotalSpending = "Total Spending : $";
         private readonly string titleTotalWallet = "Wallet : $";
+        private readonly string titleTotalStatus = "Total Status : ";
 
 
         public MainView()
@@ -108,11 +108,13 @@ namespace MoneyTracer
 
             StoredData.storedBufferData = JsonData.BufferData;
 
-            //InitializingAllPage
-            InitializingAllPage();
+            //InitializingAllDataPage
+            InitializingAllDataPage();
+
+            InitializeScreenshotPage();
         }
 
-        private void InitializingAllPage()
+        private void InitializingAllDataPage()
         {
             //Setup the saving page
             InitializeTheSpendingPage();
@@ -125,6 +127,86 @@ namespace MoneyTracer
 
             //Setup the homepage
             InitializeTheHomePage();
+        }
+
+        private void CleanScreenshotPage()
+        {
+            //Clean the items first
+            for (int i = flowPanelScreenshot.Controls.Count - 1; i >= 0; i--)
+            {
+                if (flowPanelScreenshot.Controls[i] is PictureBox thePictureBox)
+                {
+                    flowPanelScreenshot.Controls.Remove(thePictureBox);
+                }
+            }
+        }
+
+        private List<string> GetAllPicturePathWithSameTimeAsTheData()
+        {
+            //Read all picture with the Name that got same time as the data file's time
+            //Get all the .png path in the folder
+            string folderPath = JsonData.OutputDataFolder;
+            string[] filePaths = Directory.GetFiles(folderPath, "*.png");
+            if (filePaths == null) return new List<string>();
+
+            //Get the time of the data
+            string dataPath = JsonData.LoadFilePath;
+            dataPath = dataPath.Replace(folderPath, string.Empty);
+            string dataTime = dataPath.Split("savingData")[0];
+
+            //Only keep the file with the same time as ReadData's time
+            List<string> picturePaths = new List<string>();
+            foreach (var thePath in filePaths)
+            {
+                if (thePath.Contains(dataTime)) picturePaths.Add(thePath);
+            }
+
+            return picturePaths;
+        }
+
+        private void AddScreenshotToFlowPanel(List<string> picturePaths)
+        {
+            foreach (var thePath in picturePaths)
+            {
+                int num = 0;
+                int y = 27;
+                foreach (var item in flowPanelScreenshot.Controls)
+                {
+                    if (item is PictureBox thePictureBox)
+                    {
+                        string theTempNameForNum = thePictureBox.Name;
+                        string theTempNum = theTempNameForNum.Split(" ")[1];
+                        num = Convert.ToInt32(theTempNum);
+
+                        y = thePictureBox.Location.Y;
+                        y += 150;
+                    }
+                }
+                num++;
+                string newPictureName = $"ScreenShot {num}";
+                PictureBox newPictureBox = new PictureBox();
+                newPictureBox.Name = newPictureName;
+                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Location = new Point(27, y);
+                newPictureBox.BackgroundImage = Image.FromFile(thePath);
+                newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
+                flowPanelScreenshot.Controls.Add(newPictureBox);
+
+                cboDelImageList.Items.Add(newPictureName);
+
+                if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+            }
+        }
+
+        private void InitializeScreenshotPage()
+        {
+            CleanScreenshotPage();
+
+            //Read all picture with the Name that got same time as the dataFile's time
+            List<string> picturePaths = GetAllPicturePathWithSameTimeAsTheData();
+            if (picturePaths == null) return;
+
+            AddScreenshotToFlowPanel(picturePaths);
         }
 
         private void ClearAllWalletDisplayValue()
@@ -192,6 +274,7 @@ namespace MoneyTracer
 
             //update The Text
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
+            txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
 
             //add spending data to del list
             AddBankDataToDeletingComboBoxItem();
@@ -593,7 +676,7 @@ namespace MoneyTracer
                 loopCount++;
             }
 
-            //check if the if the saving name is exist in stored data, if not, create a new key
+            //check if the if the saving name is exist in stored data, if not, create indexOfName new key
             if (name == string.Empty) return;
             if (StoredData.storedBufferData.ContainsKey(name) == false) StoredData.storedBufferData.Add(name, 0);
             StoredData.storedBufferData[name] += Convert.ToInt32(bufferValue);
@@ -652,6 +735,7 @@ namespace MoneyTracer
             //subtract each other
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
+            txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
         }
 
         private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
@@ -694,6 +778,7 @@ namespace MoneyTracer
             try
             {
                 SaveDataSaving();
+                mainViewController.SaveScreenShots(flowPanelScreenshot);
                 MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
@@ -705,7 +790,7 @@ namespace MoneyTracer
         private void SaveDataSaving()
         {
             StoredData.storedSavingData = mainViewController.GetOutputDataOfCertainTab(txtboxSavingName, panelSaving);
-            StoredData.storedBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+            StoredData.storedBalanceData = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
 
@@ -728,10 +813,57 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateWeekBalanceDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(weekBudgetDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelSaving);
+
+            int limit = savingDataDictionary.Count;
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                weekBudgetDataDictionary[theName] = values[i];
+            }
+        }
+
+        private void UpdateWalletDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(walletDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelWallet);
+
+            //update saving data
+            for (int i = 0; i < names.Count; i++)
+            {
+                walletDataDictionary[names[i]] = values[i];
+            }
+        }
+
+        private void UpdateBankDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(bankDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelWallet);
+
+            int limit = walletDataDictionary.Count;
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                bankDataDictionary[theName] = values[i];
+            }
+        }
+
         private void UpdateBeforeReload()
         {
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateSavingDictionary();
+            UpdateWeekBalanceDictionary();
+            UpdateWalletDictionary();
+            UpdateBankDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
@@ -769,7 +901,7 @@ namespace MoneyTracer
             theDataDictionary.Add(inputName, inputNum);
 
             //reload all pages
-            InitializingAllPage();
+            InitializingAllDataPage();
         }
 
         private void btnAddSaving_Click(object sender, EventArgs e)
@@ -814,7 +946,7 @@ namespace MoneyTracer
             theDataDictionary.Remove(theComboBoxList.Text);
 
             //reload all pages
-            InitializingAllPage();
+            InitializingAllDataPage();
         }
 
         private void btnDelSaving_Click(object sender, EventArgs e)
@@ -834,20 +966,27 @@ namespace MoneyTracer
 
         private void menuOpen_Click(object sender, EventArgs e)
         {
-            if (_openFileDialog.ShowDialog() == DialogResult.OK)
+            try
             {
-                JsonData.LoadFilePath = _openFileDialog.FileName;
+                if (_openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    JsonData.LoadFilePath = _openFileDialog.FileName;
+                }
+
+                balance = JsonData.BalanceValue;
+                savingDataDictionary = JsonData.SavingMoneyData;
+                weekBudgetDataDictionary = JsonData.WeekBalanceData;
+                spendingDataDictionary = JsonData.SpendingData;
+                walletDataDictionary = JsonData.WalletData;
+                bufferDataDictionary = JsonData.BufferData;
+                bankDataDictionary = JsonData.BankData;
+
+                MainView_Load(sender, e);
             }
-
-            balance = JsonData.BalanceValue;
-            savingDataDictionary = JsonData.SavingMoneyData;
-            weekBudgetDataDictionary = JsonData.WeekBalanceData;
-            spendingDataDictionary = JsonData.SpendingData;
-            walletDataDictionary = JsonData.WalletData;
-            bufferDataDictionary = JsonData.BufferData;
-            bankDataDictionary = JsonData.BankData;
-
-            MainView_Load(sender, e);
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void spendingMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
@@ -888,6 +1027,76 @@ namespace MoneyTracer
         private void spendingMoneyInputBox_Enter(object sender, EventArgs e)
         {
             mainViewController.TextBoxTabIndexChange(spendingMoneyInputBox, spendingNameInputBox);
+        }
+
+        private void bankMoneyInputBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
+        }
+
+        private void timerCheckingMoney_Tick(object sender, EventArgs e)
+        {
+            int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
+            int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
+
+            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + " Incorrect";
+            else txtTotalStaus.Text = titleTotalStatus + " Correct";
+        }
+
+        private void btnAddImage_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage() == true)
+            {
+                int num = 0;
+                int y = 27;
+                foreach (var item in flowPanelScreenshot.Controls)
+                {
+                    if (item is PictureBox thePictureBox)
+                    {
+                        string theTempNameForNum = thePictureBox.Name;
+                        string theTempNum = theTempNameForNum.Split(" ")[1];
+                        num = Convert.ToInt32(theTempNum);
+
+                        y = thePictureBox.Location.Y;
+                        y += 150;
+                    }
+                }
+                num++;
+                string newPictureName = $"ScreenShot {num}";
+                PictureBox newPictureBox = new PictureBox();
+                newPictureBox.Name = newPictureName;
+                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Location = new Point(27, y);
+                newPictureBox.BackgroundImage = Clipboard.GetImage();
+                newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
+                flowPanelScreenshot.Controls.Add(newPictureBox);
+
+                cboDelImageList.Items.Add(newPictureName);
+
+                if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+            }
+            else MessageBox.Show("No picture in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btnDelImage_Click(object sender, EventArgs e)
+        {
+            string theName = string.Empty;
+            if (cboDelImageList.SelectedItem != null)
+            {
+                theName = cboDelImageList.SelectedItem.ToString();
+            }
+
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    if(thePictureBox.Name == theName)
+                    {
+                        flowPanelScreenshot.Controls.Remove(thePictureBox);
+                        cboDelImageList.Items.Remove(theName);
+                    }
+                }
+            }
         }
     }
 }

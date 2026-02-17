@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using MoneyTracer.Controller;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Sockets;
 using System.Text;
@@ -67,14 +69,32 @@ namespace MoneyTracer.Model
 
     internal class JsonData
     {
-        static string OutputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
+        public static readonly string OutputDataFolder = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\";
         static string OutputDataPath = OutputDataFolder;
         public static string LoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+        public static readonly string DefaultLoadFilePath = @"C:\Users\jiahe\Documents\C#\MoneyTracer\MoneyTracer\Model\current_data.json";
+
+        static string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
+
         static string JsonString
         {
             get
             {
+                try
+                {
+                    string temp = File.ReadAllText(LoadFilePath);
+                    JsonConvert.DeserializeObject<Rootobject>(temp);
+                }
+                catch(Exception ex)
+                {
+                    LoadFilePath = DefaultLoadFilePath;
+                    StreamWriter _streamWriter = new StreamWriter(DefaultLoadFilePath);
+                    _streamWriter.Write(emptyJsonString);
+                    _streamWriter.Flush();
+                    _streamWriter.Close();
+                }
                 return File.ReadAllText(LoadFilePath);
+
             }
         }
 
@@ -91,11 +111,7 @@ namespace MoneyTracer.Model
         /// </summary>
         private static void GetOutputFilePath()
         {
-
-            DateTime _dateTime = DateTime.Now;
-            string time = _dateTime.ToString();
-            time = time.Replace('/', '_');
-            time = time.Replace(':', '.');
+            string time = mainViewController.GetCurrentFileTime();
 
             string fileName = $"{time} savingData.json";
             OutputDataPath = OutputDataFolder + fileName;
@@ -280,7 +296,7 @@ namespace MoneyTracer.Model
             Rootobject rootobject = new Rootobject();
             rootobject.saving = savings.ToArray();
             rootobject.weekBudget = weekbudgets.ToArray();
-            rootobject.balance = StoredData.storedBalance;
+            rootobject.balance = StoredData.storedBalanceData;
             rootobject.bufferLogs = bufferMoney.ToArray();
             rootobject.Spending = spendings.ToArray();
             rootobject.Wallet = walletMoney.ToArray();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MoneyTracer.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -252,6 +253,41 @@ namespace MoneyTracer.Controller
         {
             currentOne.TabIndex = 1;
             theOtherOne.TabIndex = 2;
+        }
+
+        public static string GetCurrentFileTime()
+        {
+            DateTime _dateTime = DateTime.Now;
+            string theTime = _dateTime.ToString();
+            theTime = theTime.Replace("/", string.Empty);
+            theTime = theTime.Replace(':', '.');
+
+            return theTime;
+        }
+
+        public static void SaveScreenShots(FlowLayoutPanel flowPanelScreenshot)
+        {
+            if (flowPanelScreenshot.Controls.Count < 1) return;
+
+            string theTime = GetCurrentFileTime();
+            int num = 1;
+
+            List<PictureBox> pictureBoxes = new List<PictureBox>();
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    pictureBoxes.Add(thePictureBox);
+                }
+            }
+
+            foreach (PictureBox thePictureBox in pictureBoxes)
+            {
+                Image theImage = thePictureBox.BackgroundImage;
+                string fileName = $"{JsonData.OutputDataFolder}{theTime} screenshot{num}.png";
+                theImage.Save(fileName);
+                num++;
+            }
         }
     }
 }
