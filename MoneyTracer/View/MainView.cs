@@ -103,6 +103,9 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            string currentDirectory = Directory.GetCurrentDirectory();
+            _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
+
             //offset the value
             DoBalanceUpdate();
 
@@ -145,7 +148,7 @@ namespace MoneyTracer
         {
             //Read all picture with the Name that got same time as the data file's time
             //Get all the .png path in the folder
-            string folderPath = JsonData.OutputDataFolder;
+            string folderPath = Path.GetDirectoryName(JsonData.LoadFilePath);
             string[] filePaths = Directory.GetFiles(folderPath, "*.png");
             if (filePaths == null) return new List<string>();
 
