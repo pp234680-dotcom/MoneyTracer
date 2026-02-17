@@ -8,6 +8,7 @@ using System.Xml.Linq;
 //todo : total saving is a bit weird when add or delete
 //todo : week value didn't update when add or delete
 //todo : check if the money is correct
+//todo : paste bank balance image
 //todo : design
 
 //not that important
@@ -859,6 +860,34 @@ namespace MoneyTracer
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddSaving_Click, savingNameInputBox);
         }
 
-        
+        private void bankMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(bankMoneyInputBox, bankNameInputBox);
+        }
+
+        private void bankNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(bankNameInputBox, bankMoneyInputBox);
+        }
+
+        private void savingMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(savingMoneyInputBox, savingNameInputBox);
+        }
+
+        private void savingNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(savingNameInputBox, savingMoneyInputBox);
+        }
+
+        private void spendingNameInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(spendingNameInputBox, spendingMoneyInputBox);
+        }
+
+        private void spendingMoneyInputBox_Enter(object sender, EventArgs e)
+        {
+            mainViewController.TextBoxTabIndexChange(spendingMoneyInputBox, spendingNameInputBox);
+        }
     }
 }

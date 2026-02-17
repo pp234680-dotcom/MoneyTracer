@@ -230,7 +230,8 @@ namespace MoneyTracer
             savingMoneyInputBox.Name = "savingMoneyInputBox";
             savingMoneyInputBox.PlaceholderText = "($$$)";
             savingMoneyInputBox.Size = new Size(81, 27);
-            savingMoneyInputBox.TabIndex = 12;
+            savingMoneyInputBox.TabIndex = 11;
+            savingMoneyInputBox.Enter += savingMoneyInputBox_Enter;
             savingMoneyInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // savingNameInputBox
@@ -240,6 +241,7 @@ namespace MoneyTracer
             savingNameInputBox.PlaceholderText = "(Saving Name)";
             savingNameInputBox.Size = new Size(139, 27);
             savingNameInputBox.TabIndex = 11;
+            savingNameInputBox.Enter += savingNameInputBox_Enter;
             savingNameInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSaving
@@ -416,7 +418,8 @@ namespace MoneyTracer
             spendingMoneyInputBox.Name = "spendingMoneyInputBox";
             spendingMoneyInputBox.PlaceholderText = "($$$)";
             spendingMoneyInputBox.Size = new Size(81, 27);
-            spendingMoneyInputBox.TabIndex = 12;
+            spendingMoneyInputBox.TabIndex = 11;
+            spendingMoneyInputBox.Enter += spendingMoneyInputBox_Enter;
             spendingMoneyInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // spendingNameInputBox
@@ -426,6 +429,7 @@ namespace MoneyTracer
             spendingNameInputBox.PlaceholderText = "(Saving Name)";
             spendingNameInputBox.Size = new Size(139, 27);
             spendingNameInputBox.TabIndex = 11;
+            spendingNameInputBox.Enter += spendingNameInputBox_Enter;
             spendingNameInputBox.KeyDown += spendingMoneyInputBox_KeyDown;
             // 
             // panelDeleteSpending
@@ -610,7 +614,8 @@ namespace MoneyTracer
             bankMoneyInputBox.Name = "bankMoneyInputBox";
             bankMoneyInputBox.PlaceholderText = "($$$)";
             bankMoneyInputBox.Size = new Size(81, 27);
-            bankMoneyInputBox.TabIndex = 12;
+            bankMoneyInputBox.TabIndex = 11;
+            bankMoneyInputBox.Enter += bankMoneyInputBox_Enter;
             // 
             // bankNameInputBox
             // 
@@ -619,6 +624,7 @@ namespace MoneyTracer
             bankNameInputBox.PlaceholderText = "(Saving Name)";
             bankNameInputBox.Size = new Size(139, 27);
             bankNameInputBox.TabIndex = 11;
+            bankNameInputBox.Enter += bankNameInputBox_Enter;
             // 
             // panelDeleteBank
             // 

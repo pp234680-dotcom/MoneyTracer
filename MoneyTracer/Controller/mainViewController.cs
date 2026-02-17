@@ -248,5 +248,10 @@ namespace MoneyTracer.Controller
             if (cboModeSelector.SelectedIndex == -1) cboModeSelector.SelectedIndex = 0;
         }
 
+        public static void TextBoxTabIndexChange(TextBox currentOne, TextBox theOtherOne)
+        {
+            currentOne.TabIndex = 1;
+            theOtherOne.TabIndex = 2;
+        }
     }
 }
