@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : screenshot page
+//todo : Show how much is missing
+//todo : Homepage showing current updating deposit buffer value
 //todo : design
 
 namespace MoneyTracer
@@ -595,6 +597,7 @@ namespace MoneyTracer
 
             //update total value
             savingTotal += balance;
+            savingTotal += Convert.ToInt32(bufferTotal);
             DoValueUpdate();
 
             //add save data to del list
