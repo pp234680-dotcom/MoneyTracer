@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : pasting screenshot even user's clipboard content is image path
-//todo : add creating new file feature
+//todo : add creating new saving data feature
 //todo : complete screenshot page
 //todo : Show how much is missing
 //todo : Homepage showing current updating deposit buffer value
@@ -1123,7 +1123,7 @@ namespace MoneyTracer
 
                 if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
             }
-            else MessageBox.Show("No picture in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else MessageBox.Show("No image in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnDelImage_Click(object sender, EventArgs e)
@@ -1145,6 +1145,9 @@ namespace MoneyTracer
                     }
                 }
             }
+
+            if (cboDelImageList.Items.Count > 0) cboDelImageList.SelectedIndex = 0;
+            else cboDelImageList.Text = string.Empty;
         }
 
         private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
