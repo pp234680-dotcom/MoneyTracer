@@ -12,7 +12,7 @@ using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-
+//todo : OutputDataPath seems useless
 
 
 namespace MoneyTracer.Model
@@ -70,11 +70,11 @@ namespace MoneyTracer.Model
     internal class JsonData
     {
         public static readonly string OutputDataFolder = @"Data\";
-        static string OutputDataPath = OutputDataFolder;
+        private static string OutputDataPath = OutputDataFolder;
         public static string LoadFilePath = @"Data\current_data.json";
         public static readonly string DefaultLoadFilePath = @"Data\current_data.json";
 
-        static readonly string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
+        public static readonly string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
 
         static string JsonString
         {
@@ -99,10 +99,7 @@ namespace MoneyTracer.Model
                     }
 
                     //Creating a new empty Json file
-                    StreamWriter _streamWriter = new StreamWriter(DefaultLoadFilePath);
-                    _streamWriter.Write(emptyJsonString);
-                    _streamWriter.Flush();
-                    _streamWriter.Close();
+                    mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
                 }
                 return File.ReadAllText(LoadFilePath);
 

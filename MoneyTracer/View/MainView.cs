@@ -6,11 +6,9 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : pasting screenshot even user's clipboard content is image path
-//todo : add creating new saving data feature
-//todo : complete screenshot page
 //todo : Show how much is missing
 //todo : Homepage showing current updating deposit buffer value
+//todo : closing program will set current file as default data
 //todo : design
 
 namespace MoneyTracer
@@ -102,6 +100,7 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            //set default open file location for user opening file
             string currentDirectory = Directory.GetCurrentDirectory();
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
 
@@ -649,9 +648,9 @@ namespace MoneyTracer
         private void DisplayCurrentSavingBuffer(string theName)
         {
             int theValue = 0;
-            foreach(var item in bufferDataDictionary)
+            foreach (var item in bufferDataDictionary)
             {
-                if(item.Key == theName)
+                if (item.Key == theName)
                 {
                     theValue = item.Value;
                     break;
@@ -1012,6 +1011,19 @@ namespace MoneyTracer
             btnDelASavingOrSpending(bankDataDictionary, cboDelBankList);
         }
 
+        private void LoadNewData(object sender, EventArgs e)
+        {
+            balance = JsonData.BalanceValue;
+            savingDataDictionary = JsonData.SavingMoneyData;
+            weekBudgetDataDictionary = JsonData.WeekBalanceData;
+            spendingDataDictionary = JsonData.SpendingData;
+            walletDataDictionary = JsonData.WalletData;
+            bufferDataDictionary = JsonData.BufferData;
+            bankDataDictionary = JsonData.BankData;
+
+            MainView_Load(sender, e);
+        }
+
         private void menuOpen_Click(object sender, EventArgs e)
         {
             try
@@ -1021,15 +1033,8 @@ namespace MoneyTracer
                     JsonData.LoadFilePath = _openFileDialog.FileName;
                 }
 
-                balance = JsonData.BalanceValue;
-                savingDataDictionary = JsonData.SavingMoneyData;
-                weekBudgetDataDictionary = JsonData.WeekBalanceData;
-                spendingDataDictionary = JsonData.SpendingData;
-                walletDataDictionary = JsonData.WalletData;
-                bufferDataDictionary = JsonData.BufferData;
-                bankDataDictionary = JsonData.BankData;
-
-                MainView_Load(sender, e);
+                LoadNewData(sender, e);
+                
             }
             catch (Exception ex)
             {
@@ -1168,6 +1173,20 @@ namespace MoneyTracer
             InitializingAllDataPage();
 
             MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void createANewFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if yes, new file
+            var result = MessageBox.Show("Are you sure you want to create a new data?\nUnsaved progress can not be recover"
+                , "Message"
+                , MessageBoxButtons.OKCancel
+                , MessageBoxIcon.Information);
+            if (result == DialogResult.Cancel) return;
+
+            JsonData.LoadFilePath = JsonData.DefaultLoadFilePath;
+            mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
+            LoadNewData(sender, e);
         }
     }
 }

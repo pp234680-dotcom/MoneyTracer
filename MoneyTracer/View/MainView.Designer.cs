@@ -100,6 +100,7 @@ namespace MoneyTracer
             flowPanelScreenshot = new FlowLayoutPanel();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
+            createANewFileToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
             cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
@@ -822,35 +823,42 @@ namespace MoneyTracer
             menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(505, 27);
+            menuStrip1.Size = new Size(505, 28);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
             // testToolStripMenuItem
             // 
-            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
+            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createANewFileToolStripMenuItem, menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(47, 23);
+            testToolStripMenuItem.Size = new Size(47, 24);
             testToolStripMenuItem.Text = "File";
+            // 
+            // createANewFileToolStripMenuItem
+            // 
+            createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
+            createANewFileToolStripMenuItem.Size = new Size(223, 26);
+            createANewFileToolStripMenuItem.Text = "Create a New File";
+            createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(165, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(165, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
             // cleanTheLogToolStripMenuItem
             // 
             cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
-            cleanTheLogToolStripMenuItem.Size = new Size(119, 23);
+            cleanTheLogToolStripMenuItem.Size = new Size(119, 24);
             cleanTheLogToolStripMenuItem.Text = "Clean the Log";
             cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
@@ -989,5 +997,6 @@ namespace MoneyTracer
         private ToolStripMenuItem cleanTheLogToolStripMenuItem;
         private Label currentBufferSaving;
         private Button btnAddImage;
+        private ToolStripMenuItem createANewFileToolStripMenuItem;
     }
 }
