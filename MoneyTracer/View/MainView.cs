@@ -6,7 +6,6 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : storedBufferData Should be repalced as bufferDataDictionary at UpdateBufferCashLog()
 //todo : pasting screenshot even user's clipboard content is image path
 //todo : add creating new file feature
 //todo : complete screenshot page
@@ -813,8 +812,7 @@ namespace MoneyTracer
             StoredData.storedBalanceData = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
-            //tempShit - wait to be add
-            //BufferData ????
+            StoredData.storedBufferData = mainViewController.GetOutputDataOfCertainTab(txtBufferName, txtBufferMoney);
 
             JsonData.SavingTheData();
 
