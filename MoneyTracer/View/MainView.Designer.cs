@@ -108,6 +108,7 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
+            currentBufferSaving = new Label();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
@@ -330,6 +331,7 @@ namespace MoneyTracer
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
             panel2.Controls.Add(txtSpendingHomepage);
+            panel2.Controls.Add(currentBufferSaving);
             panel2.Controls.Add(txtBufferHomePage);
             panel2.Controls.Add(txtBalance);
             panel2.Controls.Add(txtWalletHomePage);
@@ -852,7 +854,7 @@ namespace MoneyTracer
             menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(505, 28);
+            menuStrip1.Size = new Size(505, 27);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -860,7 +862,7 @@ namespace MoneyTracer
             // 
             testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(47, 24);
+            testToolStripMenuItem.Size = new Size(47, 23);
             testToolStripMenuItem.Text = "File";
             // 
             // menuOpen
@@ -880,7 +882,7 @@ namespace MoneyTracer
             // cleanTheLogToolStripMenuItem
             // 
             cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
-            cleanTheLogToolStripMenuItem.Size = new Size(119, 24);
+            cleanTheLogToolStripMenuItem.Size = new Size(119, 23);
             cleanTheLogToolStripMenuItem.Text = "Clean the Log";
             cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
@@ -892,6 +894,16 @@ namespace MoneyTracer
             // 
             timerCheckingMoney.Enabled = true;
             timerCheckingMoney.Tick += timerCheckingMoney_Tick;
+            // 
+            // currentBufferSaving
+            // 
+            currentBufferSaving.AutoSize = true;
+            currentBufferSaving.ForeColor = Color.White;
+            currentBufferSaving.Location = new Point(233, 56);
+            currentBufferSaving.Name = "currentBufferSaving";
+            currentBufferSaving.Size = new Size(98, 19);
+            currentBufferSaving.TabIndex = 10;
+            currentBufferSaving.Text = "Name : $123";
             // 
             // MainView
             // 
@@ -1025,5 +1037,6 @@ namespace MoneyTracer
         private Panel panel4;
         private FlowLayoutPanel flowPanelScreenshot;
         private ToolStripMenuItem cleanTheLogToolStripMenuItem;
+        private Label currentBufferSaving;
     }
 }

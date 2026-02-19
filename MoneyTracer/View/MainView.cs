@@ -6,7 +6,10 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : screenshot page
+//todo : storedBufferData Should be repalced as bufferDataDictionary at UpdateBufferCashLog()
+//todo : pasting screenshot even user's clipboard content is image path
+//todo : add creating new file feature
+//todo : complete screenshot page
 //todo : Show how much is missing
 //todo : Homepage showing current updating deposit buffer value
 //todo : design
@@ -646,6 +649,20 @@ namespace MoneyTracer
             }
         }
 
+        private void DisplayCurrentSavingBuffer(string theName)
+        {
+            int theValue = 0;
+            foreach(var item in bufferDataDictionary)
+            {
+                if(item.Key == theName)
+                {
+                    theValue = item.Value;
+                    break;
+                }
+            }
+            currentBufferSaving.Text = $"{theName} :\n{mainViewController.decimalSpreadtor(theValue.ToString())}";
+        }
+
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
         {
             //get sorted num by spliting the name
@@ -688,6 +705,8 @@ namespace MoneyTracer
 
             bufferDataDictionary = StoredData.storedBufferData;
             InitializeTheBufferPage();
+
+            DisplayCurrentSavingBuffer(name);
         }
 
         private void numericUpDown_TextChanged(object sender, EventArgs e)
@@ -797,6 +816,8 @@ namespace MoneyTracer
             StoredData.storedBalanceData = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
+            //tempShit - wait to be add
+            //BufferData ????
 
             JsonData.SavingTheData();
 
@@ -861,6 +882,22 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateBufferDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(bufferDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelBuffer);
+
+            int limit = bufferDataDictionary.Count;
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                bufferDataDictionary[theName] = values[i];
+            }
+        }
+
         private void UpdateBeforeReload()
         {
             //update SavingData & Balance Values just in case be replaced with origin data
@@ -868,6 +905,8 @@ namespace MoneyTracer
             UpdateWeekBalanceDictionary();
             UpdateWalletDictionary();
             UpdateBankDictionary();
+            //tempShit - Wait to be uncomment
+            //UpdateBufferDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
@@ -1123,10 +1162,11 @@ namespace MoneyTracer
 
             ClearAllBufferDisplayValue();
             bufferDataDictionary = new Dictionary<string, int>();
+            StoredData.storedBufferData = bufferDataDictionary;
+            //tempShit - wait for uncomment
+            //ClearScreenshotPage();
 
-            ClearScreenshotPage();
 
-            
             UpdateBeforeReload();
             InitializingAllDataPage();
 
