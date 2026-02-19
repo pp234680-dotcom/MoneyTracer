@@ -6,13 +6,9 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : paste bank balance image
-//todo : add a button to clean spending , buffer, screenshot
+//todo : Show how much is missing
+//todo : closing program will set current file as default data
 //todo : design
-
-//not that important
-//todo : Loading default file
-//todo : save files location
 
 namespace MoneyTracer
 {
@@ -103,10 +99,12 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            //set default open file location for user opening file
+            string currentDirectory = Directory.GetCurrentDirectory();
+            _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
+
             //offset the value
             DoBalanceUpdate();
-
-            StoredData.storedBufferData = JsonData.BufferData;
 
             //InitializingAllDataPage
             InitializingAllDataPage();
@@ -129,23 +127,26 @@ namespace MoneyTracer
             InitializeTheHomePage();
         }
 
-        private void CleanScreenshotPage()
+        private void ClearScreenshotPage()
         {
             //Clean the items first
             for (int i = flowPanelScreenshot.Controls.Count - 1; i >= 0; i--)
             {
                 if (flowPanelScreenshot.Controls[i] is PictureBox thePictureBox)
                 {
+                    cboDelImageList.Items.Remove(thePictureBox.Name);
                     flowPanelScreenshot.Controls.Remove(thePictureBox);
                 }
             }
+
+            cboDelImageList.Text = string.Empty;
         }
 
         private List<string> GetAllPicturePathWithSameTimeAsTheData()
         {
             //Read all picture with the Name that got same time as the data file's time
             //Get all the .png path in the folder
-            string folderPath = JsonData.OutputDataFolder;
+            string folderPath = Path.GetDirectoryName(JsonData.LoadFilePath);
             string[] filePaths = Directory.GetFiles(folderPath, "*.png");
             if (filePaths == null) return new List<string>();
 
@@ -200,7 +201,7 @@ namespace MoneyTracer
 
         private void InitializeScreenshotPage()
         {
-            CleanScreenshotPage();
+            ClearScreenshotPage();
 
             //Read all picture with the Name that got same time as the dataFile's time
             List<string> picturePaths = GetAllPicturePathWithSameTimeAsTheData();
@@ -594,6 +595,7 @@ namespace MoneyTracer
 
             //update total value
             savingTotal += balance;
+            savingTotal += Convert.ToInt32(bufferTotal);
             DoValueUpdate();
 
             //add save data to del list
@@ -642,6 +644,20 @@ namespace MoneyTracer
             }
         }
 
+        private void DisplayCurrentSavingBuffer(string theName)
+        {
+            int theValue = 0;
+            foreach (var item in bufferDataDictionary)
+            {
+                if (item.Key == theName)
+                {
+                    theValue = item.Value;
+                    break;
+                }
+            }
+            currentBufferSaving.Text = $"{theName} :\n{mainViewController.decimalSpreadtor(theValue.ToString())}";
+        }
+
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
         {
             //get sorted num by spliting the name
@@ -678,12 +694,13 @@ namespace MoneyTracer
 
             //check if the if the saving name is exist in stored data, if not, create indexOfName new key
             if (name == string.Empty) return;
-            if (StoredData.storedBufferData.ContainsKey(name) == false) StoredData.storedBufferData.Add(name, 0);
-            StoredData.storedBufferData[name] += Convert.ToInt32(bufferValue);
-            mainViewController.RemoveEmptyDataFromDictionary(ref StoredData.storedBufferData);
+            if (bufferDataDictionary.ContainsKey(name) == false) bufferDataDictionary.Add(name, 0);
+            bufferDataDictionary[name] += Convert.ToInt32(bufferValue);
+            mainViewController.RemoveEmptyDataFromDictionary(ref bufferDataDictionary);
 
-            bufferDataDictionary = StoredData.storedBufferData;
             InitializeTheBufferPage();
+
+            DisplayCurrentSavingBuffer(name);
         }
 
         private void numericUpDown_TextChanged(object sender, EventArgs e)
@@ -793,6 +810,7 @@ namespace MoneyTracer
             StoredData.storedBalanceData = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             StoredData.storedSpendingData = mainViewController.GetOutputDataOfCertainTab(txtBoxSpendingName, txtBoxSpendingMoney);
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
+            StoredData.storedBufferData = mainViewController.GetOutputDataOfCertainTab(txtBufferName, txtBufferMoney);
 
             JsonData.SavingTheData();
 
@@ -857,6 +875,22 @@ namespace MoneyTracer
             }
         }
 
+        private void UpdateBufferDictionary()
+        {
+            List<string> names = mainViewController.GetAllNameFromDictionary(bufferDataDictionary);
+            List<int> values = mainViewController.GetAllMoneyFromNummericUpDown(panelBuffer);
+
+            int limit = bufferDataDictionary.Count;
+
+            //update saving data
+            for (int i = limit; i < values.Count; i++)
+            {
+                int indexOfName = i - limit;
+                string theName = names[indexOfName];
+                bufferDataDictionary[theName] = values[i];
+            }
+        }
+
         private void UpdateBeforeReload()
         {
             //update SavingData & Balance Values just in case be replaced with origin data
@@ -864,6 +898,7 @@ namespace MoneyTracer
             UpdateWeekBalanceDictionary();
             UpdateWalletDictionary();
             UpdateBankDictionary();
+            UpdateBufferDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
@@ -951,6 +986,17 @@ namespace MoneyTracer
 
         private void btnDelSaving_Click(object sender, EventArgs e)
         {
+            if (cboDelSavingList.Items.Count == 0) return;
+
+            //check if user want to remove this deposit
+            UpdateSavingDictionary();
+            string theSavingName = cboDelSavingList.SelectedItem.ToString();
+            if (savingDataDictionary[theSavingName] > 0)
+            {
+                var a = MessageBox.Show("The saving still remaining money, are you sure you want to delete it?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (a == DialogResult.No) return;
+            }
+
             btnDelASavingOrSpending(savingDataDictionary, cboDelSavingList);
         }
 
@@ -964,6 +1010,19 @@ namespace MoneyTracer
             btnDelASavingOrSpending(bankDataDictionary, cboDelBankList);
         }
 
+        private void LoadNewData(object sender, EventArgs e)
+        {
+            balance = JsonData.BalanceValue;
+            savingDataDictionary = JsonData.SavingMoneyData;
+            weekBudgetDataDictionary = JsonData.WeekBalanceData;
+            spendingDataDictionary = JsonData.SpendingData;
+            walletDataDictionary = JsonData.WalletData;
+            bufferDataDictionary = JsonData.BufferData;
+            bankDataDictionary = JsonData.BankData;
+
+            MainView_Load(sender, e);
+        }
+
         private void menuOpen_Click(object sender, EventArgs e)
         {
             try
@@ -973,17 +1032,10 @@ namespace MoneyTracer
                     JsonData.LoadFilePath = _openFileDialog.FileName;
                 }
 
-                balance = JsonData.BalanceValue;
-                savingDataDictionary = JsonData.SavingMoneyData;
-                weekBudgetDataDictionary = JsonData.WeekBalanceData;
-                spendingDataDictionary = JsonData.SpendingData;
-                walletDataDictionary = JsonData.WalletData;
-                bufferDataDictionary = JsonData.BufferData;
-                bankDataDictionary = JsonData.BankData;
-
-                MainView_Load(sender, e);
+                LoadNewData(sender, e);
+                
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -1075,7 +1127,7 @@ namespace MoneyTracer
 
                 if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
             }
-            else MessageBox.Show("No picture in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            else MessageBox.Show("No image in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void btnDelImage_Click(object sender, EventArgs e)
@@ -1090,13 +1142,50 @@ namespace MoneyTracer
             {
                 if (item is PictureBox thePictureBox)
                 {
-                    if(thePictureBox.Name == theName)
+                    if (thePictureBox.Name == theName)
                     {
                         flowPanelScreenshot.Controls.Remove(thePictureBox);
                         cboDelImageList.Items.Remove(theName);
                     }
                 }
             }
+
+            if (cboDelImageList.Items.Count > 0) cboDelImageList.SelectedIndex = 0;
+            else cboDelImageList.Text = string.Empty;
+        }
+
+        private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            balance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+
+            ClearAllSpendingDisplayValue();
+            spendingDataDictionary = new Dictionary<string, int>();
+
+            ClearAllBufferDisplayValue();
+            bufferDataDictionary = new Dictionary<string, int>();
+
+            //tempShit - wait for uncomment
+            //ClearScreenshotPage();
+
+
+            UpdateBeforeReload();
+            InitializingAllDataPage();
+
+            MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void createANewFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //if yes, new file
+            var result = MessageBox.Show("Are you sure you want to create a new data?\nUnsaved progress can not be recover"
+                , "Message"
+                , MessageBoxButtons.OKCancel
+                , MessageBoxIcon.Information);
+            if (result == DialogResult.Cancel) return;
+
+            JsonData.LoadFilePath = JsonData.DefaultLoadFilePath;
+            mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
+            LoadNewData(sender, e);
         }
     }
 }

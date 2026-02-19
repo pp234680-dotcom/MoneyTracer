@@ -51,6 +51,7 @@ namespace MoneyTracer
             txtboxSavingMoney = new Label();
             txtboxSavingName = new Label();
             panel2 = new Panel();
+            currentBufferSaving = new Label();
             txtBufferHomePage = new Label();
             txtWalletHomePage = new Label();
             txtTotalSaving = new Label();
@@ -90,21 +91,19 @@ namespace MoneyTracer
             txtWalletMoney = new Label();
             txtWalletName = new Label();
             ScreenshotPage = new TabPage();
-            label3 = new Label();
-            cboModeSelectorShot = new ComboBox();
             flowLayoutPanel4 = new FlowLayoutPanel();
-            panel1 = new Panel();
-            btnAddImage = new Button();
-            imageNameInputBox = new TextBox();
             panel3 = new Panel();
+            btnAddImage = new Button();
             cboDelImageList = new ComboBox();
             btnDelImage = new Button();
             panel4 = new Panel();
             flowPanelScreenshot = new FlowLayoutPanel();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
+            createANewFileToolStripMenuItem = new ToolStripMenuItem();
             menuOpen = new ToolStripMenuItem();
             menuSave = new ToolStripMenuItem();
+            cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
             tabControl1.SuspendLayout();
@@ -128,7 +127,6 @@ namespace MoneyTracer
             panelWallet.SuspendLayout();
             ScreenshotPage.SuspendLayout();
             flowLayoutPanel4.SuspendLayout();
-            panel1.SuspendLayout();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
             menuStrip1.SuspendLayout();
@@ -329,6 +327,7 @@ namespace MoneyTracer
             // 
             panel2.BackColor = Color.FromArgb(255, 192, 192);
             panel2.Controls.Add(txtSpendingHomepage);
+            panel2.Controls.Add(currentBufferSaving);
             panel2.Controls.Add(txtBufferHomePage);
             panel2.Controls.Add(txtBalance);
             panel2.Controls.Add(txtWalletHomePage);
@@ -337,6 +336,16 @@ namespace MoneyTracer
             panel2.Name = "panel2";
             panel2.Size = new Size(431, 165);
             panel2.TabIndex = 8;
+            // 
+            // currentBufferSaving
+            // 
+            currentBufferSaving.AutoSize = true;
+            currentBufferSaving.ForeColor = Color.White;
+            currentBufferSaving.Location = new Point(247, 56);
+            currentBufferSaving.Name = "currentBufferSaving";
+            currentBufferSaving.Size = new Size(167, 38);
+            currentBufferSaving.TabIndex = 10;
+            currentBufferSaving.Text = "Current Saving Buffer :\r\n$0";
             // 
             // txtBufferHomePage
             // 
@@ -732,8 +741,6 @@ namespace MoneyTracer
             // ScreenshotPage
             // 
             ScreenshotPage.BackColor = Color.FloralWhite;
-            ScreenshotPage.Controls.Add(label3);
-            ScreenshotPage.Controls.Add(cboModeSelectorShot);
             ScreenshotPage.Controls.Add(flowLayoutPanel4);
             ScreenshotPage.Controls.Add(panel4);
             ScreenshotPage.Location = new Point(4, 28);
@@ -742,70 +749,35 @@ namespace MoneyTracer
             ScreenshotPage.TabIndex = 4;
             ScreenshotPage.Text = "Screenshot";
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(20, 17);
-            label3.Name = "label3";
-            label3.Size = new Size(57, 19);
-            label3.TabIndex = 29;
-            label3.Text = "Mode :";
-            // 
-            // cboModeSelectorShot
-            // 
-            cboModeSelectorShot.FormattingEnabled = true;
-            cboModeSelectorShot.Items.AddRange(new object[] { "Add", "Delete" });
-            cboModeSelectorShot.Location = new Point(23, 39);
-            cboModeSelectorShot.Name = "cboModeSelectorShot";
-            cboModeSelectorShot.Size = new Size(82, 27);
-            cboModeSelectorShot.TabIndex = 28;
-            // 
             // flowLayoutPanel4
             // 
-            flowLayoutPanel4.Controls.Add(panel1);
             flowLayoutPanel4.Controls.Add(panel3);
-            flowLayoutPanel4.Location = new Point(15, 78);
+            flowLayoutPanel4.Location = new Point(15, 11);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(450, 42);
             flowLayoutPanel4.TabIndex = 27;
             // 
-            // panel1
+            // panel3
             // 
-            panel1.Controls.Add(btnAddImage);
-            panel1.Controls.Add(imageNameInputBox);
-            panel1.Location = new Point(3, 3);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(204, 34);
-            panel1.TabIndex = 12;
+            panel3.Controls.Add(btnAddImage);
+            panel3.Controls.Add(cboDelImageList);
+            panel3.Controls.Add(btnDelImage);
+            panel3.Location = new Point(3, 3);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(433, 34);
+            panel3.TabIndex = 12;
             // 
             // btnAddImage
             // 
-            btnAddImage.BackgroundImage = (Image)resources.GetObject("btnAddImage.BackgroundImage");
             btnAddImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnAddImage.Location = new Point(156, 3);
+            btnAddImage.Location = new Point(262, 3);
             btnAddImage.Name = "btnAddImage";
-            btnAddImage.Size = new Size(27, 27);
+            btnAddImage.Size = new Size(162, 27);
             btnAddImage.TabIndex = 10;
             btnAddImage.TabStop = false;
+            btnAddImage.Text = "Add A Screenshot";
             btnAddImage.UseVisualStyleBackColor = true;
             btnAddImage.Click += btnAddImage_Click;
-            // 
-            // imageNameInputBox
-            // 
-            imageNameInputBox.Location = new Point(6, 3);
-            imageNameInputBox.Name = "imageNameInputBox";
-            imageNameInputBox.PlaceholderText = "(Image Name)";
-            imageNameInputBox.Size = new Size(139, 27);
-            imageNameInputBox.TabIndex = 11;
-            // 
-            // panel3
-            // 
-            panel3.Controls.Add(cboDelImageList);
-            panel3.Controls.Add(btnDelImage);
-            panel3.Location = new Point(213, 3);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(204, 34);
-            panel3.TabIndex = 12;
             // 
             // cboDelImageList
             // 
@@ -832,9 +804,9 @@ namespace MoneyTracer
             panel4.AutoScroll = true;
             panel4.BackColor = Color.LightYellow;
             panel4.Controls.Add(flowPanelScreenshot);
-            panel4.Location = new Point(23, 130);
+            panel4.Location = new Point(23, 59);
             panel4.Name = "panel4";
-            panel4.Size = new Size(419, 476);
+            panel4.Size = new Size(419, 547);
             panel4.TabIndex = 26;
             // 
             // flowPanelScreenshot
@@ -848,7 +820,7 @@ namespace MoneyTracer
             // menuStrip1
             // 
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(505, 27);
@@ -857,24 +829,38 @@ namespace MoneyTracer
             // 
             // testToolStripMenuItem
             // 
-            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { menuOpen, menuSave });
+            testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createANewFileToolStripMenuItem, menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
             testToolStripMenuItem.Size = new Size(47, 23);
             testToolStripMenuItem.Text = "File";
             // 
+            // createANewFileToolStripMenuItem
+            // 
+            createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
+            createANewFileToolStripMenuItem.Size = new Size(213, 26);
+            createANewFileToolStripMenuItem.Text = "Create a New File";
+            createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
+            // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(165, 26);
+            menuOpen.Size = new Size(213, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(165, 26);
+            menuSave.Size = new Size(213, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
+            // 
+            // cleanTheLogToolStripMenuItem
+            // 
+            cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
+            cleanTheLogToolStripMenuItem.Size = new Size(119, 23);
+            cleanTheLogToolStripMenuItem.Text = "Clean the Log";
+            cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
             // _openFileDialog
             // 
@@ -927,10 +913,7 @@ namespace MoneyTracer
             panelDeleteBank.ResumeLayout(false);
             panelWallet.ResumeLayout(false);
             ScreenshotPage.ResumeLayout(false);
-            ScreenshotPage.PerformLayout();
             flowLayoutPanel4.ResumeLayout(false);
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
             panel3.ResumeLayout(false);
             panel4.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
@@ -1005,16 +988,15 @@ namespace MoneyTracer
         private Label txtWalletHomePage;
         private System.Windows.Forms.Timer timerCheckingMoney;
         private TabPage ScreenshotPage;
-        private Label label3;
-        private ComboBox cboModeSelectorShot;
         private FlowLayoutPanel flowLayoutPanel4;
-        private Panel panel1;
-        private Button btnAddImage;
-        private TextBox imageNameInputBox;
         private Panel panel3;
         private ComboBox cboDelImageList;
         private Button btnDelImage;
         private Panel panel4;
         private FlowLayoutPanel flowPanelScreenshot;
+        private ToolStripMenuItem cleanTheLogToolStripMenuItem;
+        private Label currentBufferSaving;
+        private Button btnAddImage;
+        private ToolStripMenuItem createANewFileToolStripMenuItem;
     }
 }

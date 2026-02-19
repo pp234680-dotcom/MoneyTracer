@@ -284,10 +284,19 @@ namespace MoneyTracer.Controller
             foreach (PictureBox thePictureBox in pictureBoxes)
             {
                 Image theImage = thePictureBox.BackgroundImage;
-                string fileName = $"{JsonData.OutputDataFolder}{theTime} screenshot{num}.png";
-                theImage.Save(fileName);
+                string filePath = $"{JsonData.OutputDataFolder}{theTime} screenshot{num}.png";
+                theImage.Save(filePath);
                 num++;
             }
+        }
+
+        public static void CreatingNewEmptyJsonFileAtDefaultFolder()
+        {
+            //Creating a new empty Json file
+            StreamWriter _streamWriter = new StreamWriter(JsonData.DefaultLoadFilePath);
+            _streamWriter.Write(JsonData.emptyJsonString);
+            _streamWriter.Flush();
+            _streamWriter.Close();
         }
     }
 }
