@@ -109,8 +109,6 @@ namespace MoneyTracer
             //offset the value
             DoBalanceUpdate();
 
-            StoredData.storedBufferData = JsonData.BufferData;
-
             //InitializingAllDataPage
             InitializingAllDataPage();
 
@@ -699,11 +697,10 @@ namespace MoneyTracer
 
             //check if the if the saving name is exist in stored data, if not, create indexOfName new key
             if (name == string.Empty) return;
-            if (StoredData.storedBufferData.ContainsKey(name) == false) StoredData.storedBufferData.Add(name, 0);
-            StoredData.storedBufferData[name] += Convert.ToInt32(bufferValue);
-            mainViewController.RemoveEmptyDataFromDictionary(ref StoredData.storedBufferData);
+            if (bufferDataDictionary.ContainsKey(name) == false) bufferDataDictionary.Add(name, 0);
+            bufferDataDictionary[name] += Convert.ToInt32(bufferValue);
+            mainViewController.RemoveEmptyDataFromDictionary(ref bufferDataDictionary);
 
-            bufferDataDictionary = StoredData.storedBufferData;
             InitializeTheBufferPage();
 
             DisplayCurrentSavingBuffer(name);
@@ -905,8 +902,7 @@ namespace MoneyTracer
             UpdateWeekBalanceDictionary();
             UpdateWalletDictionary();
             UpdateBankDictionary();
-            //tempShit - Wait to be uncomment
-            //UpdateBufferDictionary();
+            UpdateBufferDictionary();
         }
 
         private void btnAddASavingOrSpending(TextBox theNameInputBox, TextBox theMoneyInputBox, Dictionary<string, int> theDataDictionary)
@@ -1162,7 +1158,7 @@ namespace MoneyTracer
 
             ClearAllBufferDisplayValue();
             bufferDataDictionary = new Dictionary<string, int>();
-            StoredData.storedBufferData = bufferDataDictionary;
+
             //tempShit - wait for uncomment
             //ClearScreenshotPage();
 
