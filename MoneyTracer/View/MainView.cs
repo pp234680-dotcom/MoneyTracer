@@ -6,6 +6,8 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : If there's no screenshot, don't save
+//todo : display the data date
 //todo : Show how much is missing
 //todo : closing program will set current file as default data
 //todo : design
