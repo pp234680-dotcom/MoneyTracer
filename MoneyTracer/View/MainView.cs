@@ -7,7 +7,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : Show how much is missing
-//todo : Homepage showing current updating deposit buffer value
 //todo : closing program will set current file as default data
 //todo : design
 
