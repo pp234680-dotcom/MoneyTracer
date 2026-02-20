@@ -6,6 +6,7 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : add Clear buffer page button
 //todo : Show how much is missing
 //todo : closing program will set current file as default data
 
