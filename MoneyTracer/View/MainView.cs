@@ -307,7 +307,7 @@ namespace MoneyTracer
 
         private void AddingNumUpDownOnHomepage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
-            numUpDownY += 44;
+            numUpDownY += 50;
 
             NumericUpDown numericUpDown = new NumericUpDown();
             numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
@@ -321,7 +321,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.FromArgb(255, 192, 192);
+            numericUpDown.BackColor = Color.FromArgb(255, 245, 245);
             thePanel.Controls.Add(numericUpDown);
         }
 
