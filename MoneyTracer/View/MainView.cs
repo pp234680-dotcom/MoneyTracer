@@ -658,7 +658,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"{theName} : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
+            currentBufferSaving.Text = $"\"{theName}\" Already Used : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
