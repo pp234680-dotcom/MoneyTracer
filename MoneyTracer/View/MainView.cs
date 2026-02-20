@@ -321,7 +321,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.FromArgb(255, 245, 245);
+            numericUpDown.BackColor = Color.FromArgb(255, 250, 250);
             thePanel.Controls.Add(numericUpDown);
         }
 

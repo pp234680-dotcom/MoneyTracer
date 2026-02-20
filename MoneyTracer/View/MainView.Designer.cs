@@ -145,7 +145,7 @@ namespace MoneyTracer
             // txtTotalStaus
             // 
             txtTotalStaus.AutoSize = true;
-            txtTotalStaus.Font = new Font("Noto Sans TC", 9.07563F);
+            txtTotalStaus.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtTotalStaus.ForeColor = Color.Black;
             txtTotalStaus.Location = new Point(3, 3);
             txtTotalStaus.Name = "txtTotalStaus";
@@ -156,18 +156,18 @@ namespace MoneyTracer
             // txtBalance
             // 
             txtBalance.AutoSize = true;
-            txtBalance.Font = new Font("Noto Sans TC Medium", 12.1008406F, FontStyle.Bold, GraphicsUnit.Point, 136);
+            txtBalance.Font = new Font("Noto Sans TC", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 136);
             txtBalance.ForeColor = Color.Black;
             txtBalance.Location = new Point(0, 11);
             txtBalance.Name = "txtBalance";
-            txtBalance.Size = new Size(177, 29);
+            txtBalance.Size = new Size(162, 29);
             txtBalance.TabIndex = 2;
             txtBalance.Text = "Balance : $1,234";
             // 
             // txtSpendingHomepage
             // 
             txtSpendingHomepage.AutoSize = true;
-            txtSpendingHomepage.Font = new Font("Noto Sans TC", 9.07563F);
+            txtSpendingHomepage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtSpendingHomepage.ForeColor = Color.Black;
             txtSpendingHomepage.Location = new Point(3, 8);
             txtSpendingHomepage.Name = "txtSpendingHomepage";
@@ -222,7 +222,7 @@ namespace MoneyTracer
             // txtTotalSaving
             // 
             txtTotalSaving.AutoSize = true;
-            txtTotalSaving.Font = new Font("Noto Sans TC", 9.07563F);
+            txtTotalSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtTotalSaving.ForeColor = Color.Black;
             txtTotalSaving.Location = new Point(4, 19);
             txtTotalSaving.Name = "txtTotalSaving";
@@ -233,7 +233,7 @@ namespace MoneyTracer
             // txtWalletHomePage
             // 
             txtWalletHomePage.AutoSize = true;
-            txtWalletHomePage.Font = new Font("Noto Sans TC", 9.07563F);
+            txtWalletHomePage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtWalletHomePage.ForeColor = Color.Black;
             txtWalletHomePage.Location = new Point(4, 69);
             txtWalletHomePage.Name = "txtWalletHomePage";
@@ -263,7 +263,7 @@ namespace MoneyTracer
             // 
             // txtboxSavingMoney
             // 
-            txtboxSavingMoney.Font = new Font("Noto Sans TC", 10.2857141F);
+            txtboxSavingMoney.Font = new Font("Noto Sans TC DemiLight", 10.2857141F);
             txtboxSavingMoney.ForeColor = Color.Black;
             txtboxSavingMoney.Location = new Point(252, 10);
             txtboxSavingMoney.Name = "txtboxSavingMoney";
@@ -275,7 +275,7 @@ namespace MoneyTracer
             // 
             // txtboxSavingName
             // 
-            txtboxSavingName.Font = new Font("Noto Sans TC", 10.2857141F);
+            txtboxSavingName.Font = new Font("Noto Sans TC DemiLight", 10.2857141F);
             txtboxSavingName.ForeColor = Color.Black;
             txtboxSavingName.Location = new Point(8, 10);
             txtboxSavingName.Name = "txtboxSavingName";
@@ -429,22 +429,22 @@ namespace MoneyTracer
             // currentBufferSaving
             // 
             currentBufferSaving.AutoSize = true;
-            currentBufferSaving.Font = new Font("Noto Sans TC", 9.07563F);
+            currentBufferSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             currentBufferSaving.ForeColor = Color.Black;
             currentBufferSaving.Location = new Point(5, 40);
             currentBufferSaving.Name = "currentBufferSaving";
-            currentBufferSaving.Size = new Size(185, 21);
+            currentBufferSaving.Size = new Size(184, 21);
             currentBufferSaving.TabIndex = 10;
             currentBufferSaving.Text = "Current Saving Buffer : $0";
             // 
             // txtBufferHomePage
             // 
             txtBufferHomePage.AutoSize = true;
-            txtBufferHomePage.Font = new Font("Noto Sans TC", 9.07563F);
+            txtBufferHomePage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtBufferHomePage.ForeColor = Color.Black;
             txtBufferHomePage.Location = new Point(5, 9);
             txtBufferHomePage.Name = "txtBufferHomePage";
-            txtBufferHomePage.Size = new Size(177, 21);
+            txtBufferHomePage.Size = new Size(176, 21);
             txtBufferHomePage.TabIndex = 10;
             txtBufferHomePage.Text = "Buffer Cash Usage : $123";
             // 
@@ -587,7 +587,7 @@ namespace MoneyTracer
             panelSpending.BackColor = Color.LightYellow;
             panelSpending.Controls.Add(txtBoxSpendingMoney);
             panelSpending.Controls.Add(txtBoxSpendingName);
-            panelSpending.Location = new Point(17, -130);
+            panelSpending.Location = new Point(17, 132);
             panelSpending.Name = "panelSpending";
             panelSpending.Size = new Size(419, 536);
             panelSpending.TabIndex = 10;
@@ -638,7 +638,7 @@ namespace MoneyTracer
             panelBuffer.BackColor = Color.LightYellow;
             panelBuffer.Controls.Add(txtBufferMoney);
             panelBuffer.Controls.Add(txtBufferName);
-            panelBuffer.Location = new Point(17, -201);
+            panelBuffer.Location = new Point(17, 49);
             panelBuffer.Name = "panelBuffer";
             panelBuffer.Size = new Size(419, 607);
             panelBuffer.TabIndex = 23;
@@ -792,7 +792,7 @@ namespace MoneyTracer
             panelWallet.BackColor = Color.LightYellow;
             panelWallet.Controls.Add(txtWalletMoney);
             panelWallet.Controls.Add(txtWalletName);
-            panelWallet.Location = new Point(17, -130);
+            panelWallet.Location = new Point(17, 126);
             panelWallet.Name = "panelWallet";
             panelWallet.Size = new Size(419, 536);
             panelWallet.TabIndex = 18;
@@ -882,7 +882,7 @@ namespace MoneyTracer
             panel4.AutoScroll = true;
             panel4.BackColor = Color.LightYellow;
             panel4.Controls.Add(flowPanelScreenshot);
-            panel4.Location = new Point(23, -197);
+            panel4.Location = new Point(23, 65);
             panel4.Name = "panel4";
             panel4.Size = new Size(419, 605);
             panel4.TabIndex = 26;
