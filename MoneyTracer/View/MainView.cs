@@ -92,6 +92,7 @@ namespace MoneyTracer
         private readonly string titleTotalSpending = "Total Spending : $";
         private readonly string titleTotalWallet = "Wallet : $";
         private readonly string titleTotalStatus = "Total Status : ";
+        private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
 
 
         public MainView()
@@ -301,13 +302,13 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
         private void AddingNumUpDownOnHomepage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
-            numUpDownY += 44;
+            numUpDownY += 50;
 
             NumericUpDown numericUpDown = new NumericUpDown();
             numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
@@ -321,7 +322,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
@@ -657,7 +658,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"{theName} :\n{mainViewController.decimalSpreadtor(theValue.ToString())}";
+            currentBufferSaving.Text = $"\"{theName}\" Already Used : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)

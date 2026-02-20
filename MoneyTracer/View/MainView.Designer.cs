@@ -37,8 +37,14 @@ namespace MoneyTracer
             txtSpendingHomepage = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
-            label1 = new Label();
-            cboModeSelectorHomepage = new ComboBox();
+            panel10 = new Panel();
+            txtTotalSaving = new Label();
+            txtWalletHomePage = new Label();
+            panel11 = new Panel();
+            panelSaving = new Panel();
+            txtboxSavingMoney = new Label();
+            txtboxSavingName = new Label();
+            panel8 = new Panel();
             flowLayoutPanel1 = new FlowLayoutPanel();
             panelAddSaving = new Panel();
             btnAddSaving = new Button();
@@ -47,18 +53,22 @@ namespace MoneyTracer
             panelDeleteSaving = new Panel();
             cboDelSavingList = new ComboBox();
             btnDelSaving = new Button();
-            panelSaving = new Panel();
-            txtboxSavingMoney = new Label();
-            txtboxSavingName = new Label();
-            panel2 = new Panel();
+            label1 = new Label();
+            cboModeSelectorHomepage = new ComboBox();
+            panel5 = new Panel();
+            panel6 = new Panel();
             currentBufferSaving = new Label();
             txtBufferHomePage = new Label();
-            txtWalletHomePage = new Label();
-            txtTotalSaving = new Label();
+            panel1 = new Panel();
             spendingPage = new TabPage();
+            panel12 = new Panel();
             txtSpendingTotal = new Label();
-            label6 = new Label();
+            panelSpending = new Panel();
+            txtBoxSpendingMoney = new Label();
+            txtBoxSpendingName = new Label();
+            panel2 = new Panel();
             cboModeSelectorSpending = new ComboBox();
+            label6 = new Label();
             flowLayoutPanel2 = new FlowLayoutPanel();
             panelAddSpending = new Panel();
             btnAddSpending = new Button();
@@ -67,15 +77,16 @@ namespace MoneyTracer
             panelDeleteSpending = new Panel();
             cboDelSpendingList = new ComboBox();
             btnDelSpendingList = new Button();
-            panelSpending = new Panel();
-            txtBoxSpendingMoney = new Label();
-            txtBoxSpendingName = new Label();
             bufferPage = new TabPage();
+            panel13 = new Panel();
             txtBufferTotal = new Label();
             panelBuffer = new Panel();
             txtBufferMoney = new Label();
             txtBufferName = new Label();
             walletPage = new TabPage();
+            panel9 = new Panel();
+            txtWalletTotal = new Label();
+            panel7 = new Panel();
             label2 = new Label();
             cboModeSelectorBank = new ComboBox();
             flowLayoutPanel3 = new FlowLayoutPanel();
@@ -86,7 +97,6 @@ namespace MoneyTracer
             panelDeleteBank = new Panel();
             cboDelBankList = new ComboBox();
             btnDelBank = new Button();
-            txtWalletTotal = new Label();
             panelWallet = new Panel();
             txtWalletMoney = new Label();
             txtWalletName = new Label();
@@ -108,19 +118,29 @@ namespace MoneyTracer
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
+            panel10.SuspendLayout();
+            panel11.SuspendLayout();
+            panelSaving.SuspendLayout();
+            panel8.SuspendLayout();
             flowLayoutPanel1.SuspendLayout();
             panelAddSaving.SuspendLayout();
             panelDeleteSaving.SuspendLayout();
-            panelSaving.SuspendLayout();
-            panel2.SuspendLayout();
+            panel5.SuspendLayout();
+            panel6.SuspendLayout();
+            panel1.SuspendLayout();
             spendingPage.SuspendLayout();
+            panel12.SuspendLayout();
+            panelSpending.SuspendLayout();
+            panel2.SuspendLayout();
             flowLayoutPanel2.SuspendLayout();
             panelAddSpending.SuspendLayout();
             panelDeleteSpending.SuspendLayout();
-            panelSpending.SuspendLayout();
             bufferPage.SuspendLayout();
+            panel13.SuspendLayout();
             panelBuffer.SuspendLayout();
             walletPage.SuspendLayout();
+            panel9.SuspendLayout();
+            panel7.SuspendLayout();
             flowLayoutPanel3.SuspendLayout();
             panelAddBank.SuspendLayout();
             panelDeleteBank.SuspendLayout();
@@ -135,30 +155,33 @@ namespace MoneyTracer
             // txtTotalStaus
             // 
             txtTotalStaus.AutoSize = true;
-            txtTotalStaus.Location = new Point(18, 19);
+            txtTotalStaus.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            txtTotalStaus.ForeColor = Color.Black;
+            txtTotalStaus.Location = new Point(3, 3);
             txtTotalStaus.Name = "txtTotalStaus";
-            txtTotalStaus.Size = new Size(152, 19);
+            txtTotalStaus.Size = new Size(156, 21);
             txtTotalStaus.TabIndex = 7;
             txtTotalStaus.Text = "Total Status : Correct";
             // 
             // txtBalance
             // 
             txtBalance.AutoSize = true;
-            txtBalance.Font = new Font("Microsoft JhengHei UI", 15.7310925F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            txtBalance.ForeColor = Color.White;
-            txtBalance.Location = new Point(16, 12);
+            txtBalance.Font = new Font("Noto Sans TC", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            txtBalance.ForeColor = Color.Black;
+            txtBalance.Location = new Point(0, 11);
             txtBalance.Name = "txtBalance";
-            txtBalance.Size = new Size(216, 33);
+            txtBalance.Size = new Size(162, 29);
             txtBalance.TabIndex = 2;
             txtBalance.Text = "Balance : $1,234";
             // 
             // txtSpendingHomepage
             // 
             txtSpendingHomepage.AutoSize = true;
-            txtSpendingHomepage.ForeColor = Color.White;
-            txtSpendingHomepage.Location = new Point(16, 56);
+            txtSpendingHomepage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            txtSpendingHomepage.ForeColor = Color.Black;
+            txtSpendingHomepage.Location = new Point(3, 8);
             txtSpendingHomepage.Name = "txtSpendingHomepage";
-            txtSpendingHomepage.Size = new Size(106, 19);
+            txtSpendingHomepage.Size = new Size(101, 21);
             txtSpendingHomepage.TabIndex = 1;
             txtSpendingHomepage.Text = "Spending : $0";
             // 
@@ -169,56 +192,126 @@ namespace MoneyTracer
             tabControl1.Controls.Add(bufferPage);
             tabControl1.Controls.Add(walletPage);
             tabControl1.Controls.Add(ScreenshotPage);
-            tabControl1.Location = new Point(12, 40);
+            tabControl1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            tabControl1.ItemSize = new Size(102, 26);
+            tabControl1.Location = new Point(7, 32);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(473, 658);
+            tabControl1.Size = new Size(473, 741);
             tabControl1.TabIndex = 8;
             tabControl1.TabStop = false;
             // 
             // homepagePage
             // 
-            homepagePage.BackColor = Color.FloralWhite;
-            homepagePage.Controls.Add(label1);
-            homepagePage.Controls.Add(cboModeSelectorHomepage);
-            homepagePage.Controls.Add(flowLayoutPanel1);
-            homepagePage.Controls.Add(txtTotalStaus);
+            homepagePage.BackColor = Color.FromArgb(255, 245, 245);
+            homepagePage.BackgroundImage = (Image)resources.GetObject("homepagePage.BackgroundImage");
+            homepagePage.Controls.Add(panel10);
+            homepagePage.Controls.Add(panel11);
             homepagePage.Controls.Add(panelSaving);
-            homepagePage.Controls.Add(panel2);
-            homepagePage.Location = new Point(4, 28);
+            homepagePage.Controls.Add(panel8);
+            homepagePage.Controls.Add(panel5);
+            homepagePage.Controls.Add(panel6);
+            homepagePage.Controls.Add(panel1);
+            homepagePage.Location = new Point(4, 30);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(465, 626);
+            homepagePage.Size = new Size(465, 707);
             homepagePage.TabIndex = 1;
             homepagePage.Text = "Homepage";
             // 
-            // label1
+            // panel10
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(25, 238);
-            label1.Name = "label1";
-            label1.Size = new Size(57, 19);
-            label1.TabIndex = 13;
-            label1.Text = "Mode :";
+            panel10.BackColor = Color.White;
+            panel10.Controls.Add(txtTotalSaving);
+            panel10.Controls.Add(txtWalletHomePage);
+            panel10.Location = new Point(253, 55);
+            panel10.Name = "panel10";
+            panel10.Size = new Size(190, 107);
+            panel10.TabIndex = 14;
             // 
-            // cboModeSelectorHomepage
+            // txtTotalSaving
             // 
-            cboModeSelectorHomepage.FormattingEnabled = true;
-            cboModeSelectorHomepage.Items.AddRange(new object[] { "Add", "Delete" });
-            cboModeSelectorHomepage.Location = new Point(28, 260);
-            cboModeSelectorHomepage.Name = "cboModeSelectorHomepage";
-            cboModeSelectorHomepage.Size = new Size(82, 27);
-            cboModeSelectorHomepage.TabIndex = 12;
-            cboModeSelectorHomepage.SelectedIndexChanged += cboModeSelectorHomepage_SelectedIndexChanged;
+            txtTotalSaving.AutoSize = true;
+            txtTotalSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            txtTotalSaving.ForeColor = Color.Black;
+            txtTotalSaving.Location = new Point(4, 19);
+            txtTotalSaving.Name = "txtTotalSaving";
+            txtTotalSaving.Size = new Size(136, 21);
+            txtTotalSaving.TabIndex = 2;
+            txtTotalSaving.Text = "Total Saving : $300";
+            // 
+            // txtWalletHomePage
+            // 
+            txtWalletHomePage.AutoSize = true;
+            txtWalletHomePage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            txtWalletHomePage.ForeColor = Color.Black;
+            txtWalletHomePage.Location = new Point(4, 69);
+            txtWalletHomePage.Name = "txtWalletHomePage";
+            txtWalletHomePage.Size = new Size(95, 21);
+            txtWalletHomePage.TabIndex = 2;
+            txtWalletHomePage.Text = "Wallet : $123";
+            // 
+            // panel11
+            // 
+            panel11.BackColor = Color.White;
+            panel11.Controls.Add(txtSpendingHomepage);
+            panel11.Location = new Point(15, 124);
+            panel11.Name = "panel11";
+            panel11.Size = new Size(220, 39);
+            panel11.TabIndex = 14;
+            // 
+            // panelSaving
+            // 
+            panelSaving.AutoScroll = true;
+            panelSaving.BackColor = Color.White;
+            panelSaving.Controls.Add(txtboxSavingMoney);
+            panelSaving.Controls.Add(txtboxSavingName);
+            panelSaving.Location = new Point(15, 336);
+            panelSaving.Name = "panelSaving";
+            panelSaving.Size = new Size(431, 351);
+            panelSaving.TabIndex = 9;
+            // 
+            // txtboxSavingMoney
+            // 
+            txtboxSavingMoney.Font = new Font("Noto Sans TC DemiLight", 10.2857141F);
+            txtboxSavingMoney.ForeColor = Color.Black;
+            txtboxSavingMoney.Location = new Point(252, 10);
+            txtboxSavingMoney.Name = "txtboxSavingMoney";
+            txtboxSavingMoney.Size = new Size(135, 29);
+            txtboxSavingMoney.TabIndex = 9;
+            txtboxSavingMoney.Text = "Money(inactive)";
+            txtboxSavingMoney.TextAlign = ContentAlignment.TopRight;
+            txtboxSavingMoney.Visible = false;
+            // 
+            // txtboxSavingName
+            // 
+            txtboxSavingName.Font = new Font("Noto Sans TC DemiLight", 10.2857141F);
+            txtboxSavingName.ForeColor = Color.Black;
+            txtboxSavingName.Location = new Point(8, 10);
+            txtboxSavingName.Name = "txtboxSavingName";
+            txtboxSavingName.Size = new Size(238, 29);
+            txtboxSavingName.TabIndex = 9;
+            txtboxSavingName.Text = "Name";
+            // 
+            // panel8
+            // 
+            panel8.BackColor = Color.FromArgb(244, 214, 214);
+            panel8.Controls.Add(flowLayoutPanel1);
+            panel8.Controls.Add(label1);
+            panel8.Controls.Add(cboModeSelectorHomepage);
+            panel8.Location = new Point(15, 267);
+            panel8.Name = "panel8";
+            panel8.Size = new Size(431, 71);
+            panel8.TabIndex = 14;
             // 
             // flowLayoutPanel1
             // 
             flowLayoutPanel1.Controls.Add(panelAddSaving);
             flowLayoutPanel1.Controls.Add(panelDeleteSaving);
             flowLayoutPanel1.FlowDirection = FlowDirection.BottomUp;
-            flowLayoutPanel1.Location = new Point(140, 212);
+            flowLayoutPanel1.Location = new Point(124, -24);
             flowLayoutPanel1.Name = "flowLayoutPanel1";
-            flowLayoutPanel1.Size = new Size(304, 81);
+            flowLayoutPanel1.Size = new Size(304, 90);
             flowLayoutPanel1.TabIndex = 10;
             // 
             // panelAddSaving
@@ -226,9 +319,9 @@ namespace MoneyTracer
             panelAddSaving.Controls.Add(btnAddSaving);
             panelAddSaving.Controls.Add(savingMoneyInputBox);
             panelAddSaving.Controls.Add(savingNameInputBox);
-            panelAddSaving.Location = new Point(3, 44);
+            panelAddSaving.Location = new Point(3, 49);
             panelAddSaving.Name = "panelAddSaving";
-            panelAddSaving.Size = new Size(289, 34);
+            panelAddSaving.Size = new Size(289, 38);
             panelAddSaving.TabIndex = 12;
             // 
             // btnAddSaving
@@ -237,7 +330,7 @@ namespace MoneyTracer
             btnAddSaving.BackgroundImageLayout = ImageLayout.Zoom;
             btnAddSaving.Location = new Point(245, 3);
             btnAddSaving.Name = "btnAddSaving";
-            btnAddSaving.Size = new Size(27, 27);
+            btnAddSaving.Size = new Size(27, 30);
             btnAddSaving.TabIndex = 10;
             btnAddSaving.TabStop = false;
             btnAddSaving.UseVisualStyleBackColor = true;
@@ -245,20 +338,26 @@ namespace MoneyTracer
             // 
             // savingMoneyInputBox
             // 
+            savingMoneyInputBox.BackColor = Color.White;
+            savingMoneyInputBox.Font = new Font("Noto Sans TC", 9.07563F);
+            savingMoneyInputBox.ForeColor = Color.Black;
             savingMoneyInputBox.Location = new Point(156, 3);
             savingMoneyInputBox.Name = "savingMoneyInputBox";
             savingMoneyInputBox.PlaceholderText = "($$$)";
-            savingMoneyInputBox.Size = new Size(81, 27);
+            savingMoneyInputBox.Size = new Size(81, 29);
             savingMoneyInputBox.TabIndex = 11;
             savingMoneyInputBox.Enter += savingMoneyInputBox_Enter;
             savingMoneyInputBox.KeyDown += savingMoneyInputBox_KeyDown;
             // 
             // savingNameInputBox
             // 
+            savingNameInputBox.BackColor = Color.White;
+            savingNameInputBox.Font = new Font("Noto Sans TC", 9.07563F);
+            savingNameInputBox.ForeColor = Color.Black;
             savingNameInputBox.Location = new Point(6, 3);
             savingNameInputBox.Name = "savingNameInputBox";
             savingNameInputBox.PlaceholderText = "(Saving Name)";
-            savingNameInputBox.Size = new Size(139, 27);
+            savingNameInputBox.Size = new Size(139, 29);
             savingNameInputBox.TabIndex = 11;
             savingNameInputBox.Enter += savingNameInputBox_Enter;
             savingNameInputBox.KeyDown += savingMoneyInputBox_KeyDown;
@@ -267,17 +366,20 @@ namespace MoneyTracer
             // 
             panelDeleteSaving.Controls.Add(cboDelSavingList);
             panelDeleteSaving.Controls.Add(btnDelSaving);
-            panelDeleteSaving.Location = new Point(3, 4);
+            panelDeleteSaving.Location = new Point(3, 5);
             panelDeleteSaving.Name = "panelDeleteSaving";
-            panelDeleteSaving.Size = new Size(289, 34);
+            panelDeleteSaving.Size = new Size(289, 38);
             panelDeleteSaving.TabIndex = 12;
             // 
             // cboDelSavingList
             // 
+            cboDelSavingList.BackColor = Color.White;
+            cboDelSavingList.Font = new Font("Noto Sans TC", 9.07563F);
+            cboDelSavingList.ForeColor = Color.Black;
             cboDelSavingList.FormattingEnabled = true;
             cboDelSavingList.Location = new Point(6, 3);
             cboDelSavingList.Name = "cboDelSavingList";
-            cboDelSavingList.Size = new Size(139, 27);
+            cboDelSavingList.Size = new Size(139, 29);
             cboDelSavingList.TabIndex = 12;
             // 
             // btnDelSaving
@@ -286,150 +388,186 @@ namespace MoneyTracer
             btnDelSaving.BackgroundImageLayout = ImageLayout.Zoom;
             btnDelSaving.Location = new Point(156, 3);
             btnDelSaving.Name = "btnDelSaving";
-            btnDelSaving.Size = new Size(27, 27);
+            btnDelSaving.Size = new Size(27, 30);
             btnDelSaving.TabIndex = 10;
             btnDelSaving.UseVisualStyleBackColor = true;
             btnDelSaving.Click += btnDelSaving_Click;
             // 
-            // panelSaving
+            // label1
             // 
-            panelSaving.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            panelSaving.AutoScroll = true;
-            panelSaving.BackColor = Color.LightYellow;
-            panelSaving.Controls.Add(txtboxSavingMoney);
-            panelSaving.Controls.Add(txtboxSavingName);
-            panelSaving.Location = new Point(15, 299);
-            panelSaving.Name = "panelSaving";
-            panelSaving.Size = new Size(431, 316);
-            panelSaving.TabIndex = 9;
+            label1.AutoSize = true;
+            label1.Font = new Font("Noto Sans TC", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(9, 4);
+            label1.Name = "label1";
+            label1.Size = new Size(55, 21);
+            label1.TabIndex = 13;
+            label1.Text = "Mode :";
             // 
-            // txtboxSavingMoney
+            // cboModeSelectorHomepage
             // 
-            txtboxSavingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtboxSavingMoney.Location = new Point(247, 19);
-            txtboxSavingMoney.Name = "txtboxSavingMoney";
-            txtboxSavingMoney.Size = new Size(135, 26);
-            txtboxSavingMoney.TabIndex = 9;
-            txtboxSavingMoney.Text = "Money(inactive)";
-            txtboxSavingMoney.TextAlign = ContentAlignment.TopRight;
-            txtboxSavingMoney.Visible = false;
+            cboModeSelectorHomepage.BackColor = Color.White;
+            cboModeSelectorHomepage.Font = new Font("Noto Sans TC", 9.07563F);
+            cboModeSelectorHomepage.ForeColor = Color.Black;
+            cboModeSelectorHomepage.FormattingEnabled = true;
+            cboModeSelectorHomepage.Items.AddRange(new object[] { "Add", "Delete" });
+            cboModeSelectorHomepage.Location = new Point(12, 29);
+            cboModeSelectorHomepage.Name = "cboModeSelectorHomepage";
+            cboModeSelectorHomepage.Size = new Size(82, 29);
+            cboModeSelectorHomepage.TabIndex = 12;
+            cboModeSelectorHomepage.SelectedIndexChanged += cboModeSelectorHomepage_SelectedIndexChanged;
             // 
-            // txtboxSavingName
+            // panel5
             // 
-            txtboxSavingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtboxSavingName.Location = new Point(3, 19);
-            txtboxSavingName.Name = "txtboxSavingName";
-            txtboxSavingName.Size = new Size(238, 26);
-            txtboxSavingName.TabIndex = 9;
-            txtboxSavingName.Text = "Name";
+            panel5.BackColor = Color.White;
+            panel5.Controls.Add(txtTotalStaus);
+            panel5.Location = new Point(15, 10);
+            panel5.Name = "panel5";
+            panel5.Size = new Size(428, 29);
+            panel5.TabIndex = 14;
             // 
-            // panel2
+            // panel6
             // 
-            panel2.BackColor = Color.FromArgb(255, 192, 192);
-            panel2.Controls.Add(txtSpendingHomepage);
-            panel2.Controls.Add(currentBufferSaving);
-            panel2.Controls.Add(txtBufferHomePage);
-            panel2.Controls.Add(txtBalance);
-            panel2.Controls.Add(txtWalletHomePage);
-            panel2.Controls.Add(txtTotalSaving);
-            panel2.Location = new Point(15, 45);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(431, 165);
-            panel2.TabIndex = 8;
+            panel6.BackColor = Color.White;
+            panel6.Controls.Add(currentBufferSaving);
+            panel6.Controls.Add(txtBufferHomePage);
+            panel6.Location = new Point(15, 179);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(428, 72);
+            panel6.TabIndex = 14;
             // 
             // currentBufferSaving
             // 
             currentBufferSaving.AutoSize = true;
-            currentBufferSaving.ForeColor = Color.White;
-            currentBufferSaving.Location = new Point(247, 56);
+            currentBufferSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            currentBufferSaving.ForeColor = Color.Black;
+            currentBufferSaving.Location = new Point(5, 40);
             currentBufferSaving.Name = "currentBufferSaving";
-            currentBufferSaving.Size = new Size(167, 38);
+            currentBufferSaving.Size = new Size(184, 21);
             currentBufferSaving.TabIndex = 10;
-            currentBufferSaving.Text = "Current Saving Buffer :\r\n$0";
+            currentBufferSaving.Text = "Current Saving Buffer : $0";
             // 
             // txtBufferHomePage
             // 
             txtBufferHomePage.AutoSize = true;
-            txtBufferHomePage.ForeColor = Color.White;
-            txtBufferHomePage.Location = new Point(16, 88);
+            txtBufferHomePage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
+            txtBufferHomePage.ForeColor = Color.Black;
+            txtBufferHomePage.Location = new Point(5, 9);
             txtBufferHomePage.Name = "txtBufferHomePage";
-            txtBufferHomePage.Size = new Size(184, 19);
+            txtBufferHomePage.Size = new Size(176, 21);
             txtBufferHomePage.TabIndex = 10;
             txtBufferHomePage.Text = "Buffer Cash Usage : $123";
             // 
-            // txtWalletHomePage
+            // panel1
             // 
-            txtWalletHomePage.AutoSize = true;
-            txtWalletHomePage.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            txtWalletHomePage.ForeColor = Color.White;
-            txtWalletHomePage.Location = new Point(16, 140);
-            txtWalletHomePage.Name = "txtWalletHomePage";
-            txtWalletHomePage.Size = new Size(104, 19);
-            txtWalletHomePage.TabIndex = 2;
-            txtWalletHomePage.Text = "Wallet : $123";
-            // 
-            // txtTotalSaving
-            // 
-            txtTotalSaving.AutoSize = true;
-            txtTotalSaving.Font = new Font("Microsoft JhengHei UI", 9.07563F, FontStyle.Bold, GraphicsUnit.Point, 136);
-            txtTotalSaving.ForeColor = Color.White;
-            txtTotalSaving.Location = new Point(16, 114);
-            txtTotalSaving.Name = "txtTotalSaving";
-            txtTotalSaving.Size = new Size(133, 19);
-            txtTotalSaving.TabIndex = 2;
-            txtTotalSaving.Text = "Bank Total : $300";
+            panel1.BackColor = Color.White;
+            panel1.Controls.Add(txtBalance);
+            panel1.Location = new Point(15, 55);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(220, 52);
+            panel1.TabIndex = 14;
             // 
             // spendingPage
             // 
-            spendingPage.BackColor = Color.FloralWhite;
-            spendingPage.Controls.Add(txtSpendingTotal);
-            spendingPage.Controls.Add(label6);
-            spendingPage.Controls.Add(cboModeSelectorSpending);
-            spendingPage.Controls.Add(flowLayoutPanel2);
+            spendingPage.BackColor = Color.FromArgb(255, 245, 245);
+            spendingPage.BackgroundImage = (Image)resources.GetObject("spendingPage.BackgroundImage");
+            spendingPage.Controls.Add(panel12);
             spendingPage.Controls.Add(panelSpending);
-            spendingPage.Location = new Point(4, 28);
+            spendingPage.Controls.Add(panel2);
+            spendingPage.Location = new Point(4, 30);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(465, 626);
+            spendingPage.Size = new Size(465, 707);
             spendingPage.TabIndex = 0;
             spendingPage.Text = "Spending";
+            // 
+            // panel12
+            // 
+            panel12.BackColor = Color.White;
+            panel12.Controls.Add(txtSpendingTotal);
+            panel12.Location = new Point(17, 15);
+            panel12.Name = "panel12";
+            panel12.Size = new Size(416, 29);
+            panel12.TabIndex = 16;
             // 
             // txtSpendingTotal
             // 
             txtSpendingTotal.AutoSize = true;
-            txtSpendingTotal.Location = new Point(17, 19);
+            txtSpendingTotal.Location = new Point(4, 3);
             txtSpendingTotal.Name = "txtSpendingTotal";
-            txtSpendingTotal.Size = new Size(162, 19);
+            txtSpendingTotal.Size = new Size(152, 20);
             txtSpendingTotal.TabIndex = 17;
             txtSpendingTotal.Text = "Total Spending : $123";
             // 
-            // label6
+            // panelSpending
             // 
-            label6.AutoSize = true;
-            label6.Location = new Point(17, 53);
-            label6.Name = "label6";
-            label6.Size = new Size(57, 19);
-            label6.TabIndex = 16;
-            label6.Text = "Mode :";
+            panelSpending.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
+            panelSpending.AutoScroll = true;
+            panelSpending.BackColor = Color.White;
+            panelSpending.Controls.Add(txtBoxSpendingMoney);
+            panelSpending.Controls.Add(txtBoxSpendingName);
+            panelSpending.Location = new Point(17, 132);
+            panelSpending.Name = "panelSpending";
+            panelSpending.Size = new Size(419, 536);
+            panelSpending.TabIndex = 10;
+            // 
+            // txtBoxSpendingMoney
+            // 
+            txtBoxSpendingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBoxSpendingMoney.Location = new Point(248, 12);
+            txtBoxSpendingMoney.Name = "txtBoxSpendingMoney";
+            txtBoxSpendingMoney.Size = new Size(135, 29);
+            txtBoxSpendingMoney.TabIndex = 9;
+            txtBoxSpendingMoney.Text = "Money(inactive)";
+            txtBoxSpendingMoney.TextAlign = ContentAlignment.TopRight;
+            // 
+            // txtBoxSpendingName
+            // 
+            txtBoxSpendingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
+            txtBoxSpendingName.Location = new Point(10, 12);
+            txtBoxSpendingName.Name = "txtBoxSpendingName";
+            txtBoxSpendingName.Size = new Size(162, 29);
+            txtBoxSpendingName.TabIndex = 9;
+            txtBoxSpendingName.Text = "Name";
+            // 
+            // panel2
+            // 
+            panel2.BackColor = Color.FromArgb(244, 214, 214);
+            panel2.Controls.Add(cboModeSelectorSpending);
+            panel2.Controls.Add(label6);
+            panel2.Controls.Add(flowLayoutPanel2);
+            panel2.Location = new Point(17, 67);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(419, 71);
+            panel2.TabIndex = 15;
             // 
             // cboModeSelectorSpending
             // 
             cboModeSelectorSpending.FormattingEnabled = true;
             cboModeSelectorSpending.Items.AddRange(new object[] { "Add", "Delete" });
-            cboModeSelectorSpending.Location = new Point(20, 75);
+            cboModeSelectorSpending.Location = new Point(6, 31);
             cboModeSelectorSpending.Name = "cboModeSelectorSpending";
-            cboModeSelectorSpending.Size = new Size(82, 27);
+            cboModeSelectorSpending.Size = new Size(82, 28);
             cboModeSelectorSpending.TabIndex = 15;
             cboModeSelectorSpending.SelectedIndexChanged += cboModeSelectorSpending_SelectedIndexChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(3, 7);
+            label6.Name = "label6";
+            label6.Size = new Size(55, 20);
+            label6.TabIndex = 16;
+            label6.Text = "Mode :";
             // 
             // flowLayoutPanel2
             // 
             flowLayoutPanel2.Controls.Add(panelAddSpending);
             flowLayoutPanel2.Controls.Add(panelDeleteSpending);
             flowLayoutPanel2.FlowDirection = FlowDirection.BottomUp;
-            flowLayoutPanel2.Location = new Point(132, 27);
+            flowLayoutPanel2.Location = new Point(118, -22);
             flowLayoutPanel2.Name = "flowLayoutPanel2";
-            flowLayoutPanel2.Size = new Size(304, 81);
+            flowLayoutPanel2.Size = new Size(304, 90);
             flowLayoutPanel2.TabIndex = 14;
             // 
             // panelAddSpending
@@ -437,9 +575,9 @@ namespace MoneyTracer
             panelAddSpending.Controls.Add(btnAddSpending);
             panelAddSpending.Controls.Add(spendingMoneyInputBox);
             panelAddSpending.Controls.Add(spendingNameInputBox);
-            panelAddSpending.Location = new Point(3, 44);
+            panelAddSpending.Location = new Point(3, 49);
             panelAddSpending.Name = "panelAddSpending";
-            panelAddSpending.Size = new Size(289, 34);
+            panelAddSpending.Size = new Size(289, 38);
             panelAddSpending.TabIndex = 12;
             // 
             // btnAddSpending
@@ -448,7 +586,7 @@ namespace MoneyTracer
             btnAddSpending.BackgroundImageLayout = ImageLayout.Zoom;
             btnAddSpending.Location = new Point(245, 3);
             btnAddSpending.Name = "btnAddSpending";
-            btnAddSpending.Size = new Size(27, 27);
+            btnAddSpending.Size = new Size(27, 30);
             btnAddSpending.TabIndex = 10;
             btnAddSpending.TabStop = false;
             btnAddSpending.UseVisualStyleBackColor = true;
@@ -478,9 +616,9 @@ namespace MoneyTracer
             // 
             panelDeleteSpending.Controls.Add(cboDelSpendingList);
             panelDeleteSpending.Controls.Add(btnDelSpendingList);
-            panelDeleteSpending.Location = new Point(3, 4);
+            panelDeleteSpending.Location = new Point(3, 5);
             panelDeleteSpending.Name = "panelDeleteSpending";
-            panelDeleteSpending.Size = new Size(289, 34);
+            panelDeleteSpending.Size = new Size(289, 38);
             panelDeleteSpending.TabIndex = 12;
             // 
             // cboDelSpendingList
@@ -488,7 +626,7 @@ namespace MoneyTracer
             cboDelSpendingList.FormattingEnabled = true;
             cboDelSpendingList.Location = new Point(6, 3);
             cboDelSpendingList.Name = "cboDelSpendingList";
-            cboDelSpendingList.Size = new Size(139, 27);
+            cboDelSpendingList.Size = new Size(139, 28);
             cboDelSpendingList.TabIndex = 12;
             // 
             // btnDelSpendingList
@@ -497,59 +635,38 @@ namespace MoneyTracer
             btnDelSpendingList.BackgroundImageLayout = ImageLayout.Zoom;
             btnDelSpendingList.Location = new Point(156, 3);
             btnDelSpendingList.Name = "btnDelSpendingList";
-            btnDelSpendingList.Size = new Size(27, 27);
+            btnDelSpendingList.Size = new Size(27, 30);
             btnDelSpendingList.TabIndex = 10;
             btnDelSpendingList.UseVisualStyleBackColor = true;
             btnDelSpendingList.Click += butDelSpendingList_Click;
             // 
-            // panelSpending
-            // 
-            panelSpending.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
-            panelSpending.AutoScroll = true;
-            panelSpending.BackColor = Color.LightYellow;
-            panelSpending.Controls.Add(txtBoxSpendingMoney);
-            panelSpending.Controls.Add(txtBoxSpendingName);
-            panelSpending.Location = new Point(17, 119);
-            panelSpending.Name = "panelSpending";
-            panelSpending.Size = new Size(419, 485);
-            panelSpending.TabIndex = 10;
-            // 
-            // txtBoxSpendingMoney
-            // 
-            txtBoxSpendingMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxSpendingMoney.Location = new Point(248, 19);
-            txtBoxSpendingMoney.Name = "txtBoxSpendingMoney";
-            txtBoxSpendingMoney.Size = new Size(135, 26);
-            txtBoxSpendingMoney.TabIndex = 9;
-            txtBoxSpendingMoney.Text = "Money(inactive)";
-            txtBoxSpendingMoney.TextAlign = ContentAlignment.TopRight;
-            // 
-            // txtBoxSpendingName
-            // 
-            txtBoxSpendingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBoxSpendingName.Location = new Point(3, 19);
-            txtBoxSpendingName.Name = "txtBoxSpendingName";
-            txtBoxSpendingName.Size = new Size(162, 26);
-            txtBoxSpendingName.TabIndex = 9;
-            txtBoxSpendingName.Text = "Name";
-            // 
             // bufferPage
             // 
-            bufferPage.BackColor = Color.FloralWhite;
-            bufferPage.Controls.Add(txtBufferTotal);
+            bufferPage.BackColor = Color.FromArgb(255, 245, 245);
+            bufferPage.BackgroundImage = (Image)resources.GetObject("bufferPage.BackgroundImage");
+            bufferPage.Controls.Add(panel13);
             bufferPage.Controls.Add(panelBuffer);
-            bufferPage.Location = new Point(4, 28);
+            bufferPage.Location = new Point(4, 30);
             bufferPage.Name = "bufferPage";
-            bufferPage.Size = new Size(465, 626);
+            bufferPage.Size = new Size(465, 707);
             bufferPage.TabIndex = 3;
             bufferPage.Text = "Buffer Cash";
+            // 
+            // panel13
+            // 
+            panel13.BackColor = Color.White;
+            panel13.Controls.Add(txtBufferTotal);
+            panel13.Location = new Point(17, 18);
+            panel13.Name = "panel13";
+            panel13.Size = new Size(416, 29);
+            panel13.TabIndex = 17;
             // 
             // txtBufferTotal
             // 
             txtBufferTotal.AutoSize = true;
-            txtBufferTotal.Location = new Point(17, 19);
+            txtBufferTotal.Location = new Point(3, 4);
             txtBufferTotal.Name = "txtBufferTotal";
-            txtBufferTotal.Size = new Size(136, 19);
+            txtBufferTotal.Size = new Size(129, 20);
             txtBufferTotal.TabIndex = 24;
             txtBufferTotal.Text = "Total Buffer : $123";
             // 
@@ -557,20 +674,20 @@ namespace MoneyTracer
             // 
             panelBuffer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panelBuffer.AutoScroll = true;
-            panelBuffer.BackColor = Color.LightYellow;
+            panelBuffer.BackColor = Color.White;
             panelBuffer.Controls.Add(txtBufferMoney);
             panelBuffer.Controls.Add(txtBufferName);
-            panelBuffer.Location = new Point(17, 55);
+            panelBuffer.Location = new Point(17, 66);
             panelBuffer.Name = "panelBuffer";
-            panelBuffer.Size = new Size(419, 549);
+            panelBuffer.Size = new Size(419, 590);
             panelBuffer.TabIndex = 23;
             // 
             // txtBufferMoney
             // 
             txtBufferMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBufferMoney.Location = new Point(248, 19);
+            txtBufferMoney.Location = new Point(248, 21);
             txtBufferMoney.Name = "txtBufferMoney";
-            txtBufferMoney.Size = new Size(135, 26);
+            txtBufferMoney.Size = new Size(135, 29);
             txtBufferMoney.TabIndex = 9;
             txtBufferMoney.Text = "Money(inactive)";
             txtBufferMoney.TextAlign = ContentAlignment.TopRight;
@@ -578,33 +695,61 @@ namespace MoneyTracer
             // txtBufferName
             // 
             txtBufferName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtBufferName.Location = new Point(3, 19);
+            txtBufferName.Location = new Point(10, 21);
             txtBufferName.Name = "txtBufferName";
-            txtBufferName.Size = new Size(162, 26);
+            txtBufferName.Size = new Size(162, 29);
             txtBufferName.TabIndex = 9;
             txtBufferName.Text = "Name";
             // 
             // walletPage
             // 
-            walletPage.BackColor = Color.FloralWhite;
-            walletPage.Controls.Add(label2);
-            walletPage.Controls.Add(cboModeSelectorBank);
-            walletPage.Controls.Add(flowLayoutPanel3);
-            walletPage.Controls.Add(txtWalletTotal);
+            walletPage.BackColor = Color.FromArgb(255, 245, 245);
+            walletPage.BackgroundImage = (Image)resources.GetObject("walletPage.BackgroundImage");
+            walletPage.Controls.Add(panel9);
+            walletPage.Controls.Add(panel7);
             walletPage.Controls.Add(panelWallet);
-            walletPage.Location = new Point(4, 28);
+            walletPage.Location = new Point(4, 30);
             walletPage.Name = "walletPage";
             walletPage.Padding = new Padding(3);
-            walletPage.Size = new Size(465, 626);
+            walletPage.Size = new Size(465, 707);
             walletPage.TabIndex = 2;
             walletPage.Text = "Wallet";
+            // 
+            // panel9
+            // 
+            panel9.BackColor = Color.White;
+            panel9.Controls.Add(txtWalletTotal);
+            panel9.Location = new Point(17, 15);
+            panel9.Name = "panel9";
+            panel9.Size = new Size(416, 29);
+            panel9.TabIndex = 23;
+            // 
+            // txtWalletTotal
+            // 
+            txtWalletTotal.AutoSize = true;
+            txtWalletTotal.Location = new Point(4, 4);
+            txtWalletTotal.Name = "txtWalletTotal";
+            txtWalletTotal.Size = new Size(94, 20);
+            txtWalletTotal.TabIndex = 22;
+            txtWalletTotal.Text = "Wallet : $123";
+            // 
+            // panel7
+            // 
+            panel7.BackColor = Color.FromArgb(244, 214, 214);
+            panel7.Controls.Add(label2);
+            panel7.Controls.Add(cboModeSelectorBank);
+            panel7.Controls.Add(flowLayoutPanel3);
+            panel7.Location = new Point(17, 66);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(419, 71);
+            panel7.TabIndex = 15;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(17, 53);
+            label2.Location = new Point(3, 8);
             label2.Name = "label2";
-            label2.Size = new Size(57, 19);
+            label2.Size = new Size(55, 20);
             label2.TabIndex = 25;
             label2.Text = "Mode :";
             // 
@@ -612,9 +757,9 @@ namespace MoneyTracer
             // 
             cboModeSelectorBank.FormattingEnabled = true;
             cboModeSelectorBank.Items.AddRange(new object[] { "Add", "Delete" });
-            cboModeSelectorBank.Location = new Point(20, 75);
+            cboModeSelectorBank.Location = new Point(6, 32);
             cboModeSelectorBank.Name = "cboModeSelectorBank";
-            cboModeSelectorBank.Size = new Size(82, 27);
+            cboModeSelectorBank.Size = new Size(82, 28);
             cboModeSelectorBank.TabIndex = 24;
             cboModeSelectorBank.SelectedIndexChanged += cboModeSelectorBank_SelectedIndexChanged;
             // 
@@ -623,9 +768,9 @@ namespace MoneyTracer
             flowLayoutPanel3.Controls.Add(panelAddBank);
             flowLayoutPanel3.Controls.Add(panelDeleteBank);
             flowLayoutPanel3.FlowDirection = FlowDirection.BottomUp;
-            flowLayoutPanel3.Location = new Point(132, 27);
+            flowLayoutPanel3.Location = new Point(118, -21);
             flowLayoutPanel3.Name = "flowLayoutPanel3";
-            flowLayoutPanel3.Size = new Size(304, 81);
+            flowLayoutPanel3.Size = new Size(304, 90);
             flowLayoutPanel3.TabIndex = 23;
             // 
             // panelAddBank
@@ -633,9 +778,9 @@ namespace MoneyTracer
             panelAddBank.Controls.Add(btnAddBank);
             panelAddBank.Controls.Add(bankMoneyInputBox);
             panelAddBank.Controls.Add(bankNameInputBox);
-            panelAddBank.Location = new Point(3, 44);
+            panelAddBank.Location = new Point(3, 49);
             panelAddBank.Name = "panelAddBank";
-            panelAddBank.Size = new Size(289, 34);
+            panelAddBank.Size = new Size(289, 38);
             panelAddBank.TabIndex = 12;
             // 
             // btnAddBank
@@ -644,7 +789,7 @@ namespace MoneyTracer
             btnAddBank.BackgroundImageLayout = ImageLayout.Zoom;
             btnAddBank.Location = new Point(245, 3);
             btnAddBank.Name = "btnAddBank";
-            btnAddBank.Size = new Size(27, 27);
+            btnAddBank.Size = new Size(27, 30);
             btnAddBank.TabIndex = 10;
             btnAddBank.TabStop = false;
             btnAddBank.UseVisualStyleBackColor = true;
@@ -674,9 +819,9 @@ namespace MoneyTracer
             // 
             panelDeleteBank.Controls.Add(cboDelBankList);
             panelDeleteBank.Controls.Add(btnDelBank);
-            panelDeleteBank.Location = new Point(3, 4);
+            panelDeleteBank.Location = new Point(3, 5);
             panelDeleteBank.Name = "panelDeleteBank";
-            panelDeleteBank.Size = new Size(289, 34);
+            panelDeleteBank.Size = new Size(289, 38);
             panelDeleteBank.TabIndex = 12;
             // 
             // cboDelBankList
@@ -684,7 +829,7 @@ namespace MoneyTracer
             cboDelBankList.FormattingEnabled = true;
             cboDelBankList.Location = new Point(6, 3);
             cboDelBankList.Name = "cboDelBankList";
-            cboDelBankList.Size = new Size(139, 27);
+            cboDelBankList.Size = new Size(139, 28);
             cboDelBankList.TabIndex = 12;
             // 
             // btnDelBank
@@ -693,38 +838,29 @@ namespace MoneyTracer
             btnDelBank.BackgroundImageLayout = ImageLayout.Zoom;
             btnDelBank.Location = new Point(156, 3);
             btnDelBank.Name = "btnDelBank";
-            btnDelBank.Size = new Size(27, 27);
+            btnDelBank.Size = new Size(27, 30);
             btnDelBank.TabIndex = 10;
             btnDelBank.UseVisualStyleBackColor = true;
             btnDelBank.Click += btnDelBank_Click;
-            // 
-            // txtWalletTotal
-            // 
-            txtWalletTotal.AutoSize = true;
-            txtWalletTotal.Location = new Point(17, 19);
-            txtWalletTotal.Name = "txtWalletTotal";
-            txtWalletTotal.Size = new Size(100, 19);
-            txtWalletTotal.TabIndex = 22;
-            txtWalletTotal.Text = "Wallet : $123";
             // 
             // panelWallet
             // 
             panelWallet.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panelWallet.AutoScroll = true;
-            panelWallet.BackColor = Color.LightYellow;
+            panelWallet.BackColor = Color.White;
             panelWallet.Controls.Add(txtWalletMoney);
             panelWallet.Controls.Add(txtWalletName);
-            panelWallet.Location = new Point(17, 119);
+            panelWallet.Location = new Point(17, 132);
             panelWallet.Name = "panelWallet";
-            panelWallet.Size = new Size(419, 485);
+            panelWallet.Size = new Size(419, 536);
             panelWallet.TabIndex = 18;
             // 
             // txtWalletMoney
             // 
             txtWalletMoney.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtWalletMoney.Location = new Point(248, 19);
+            txtWalletMoney.Location = new Point(248, 21);
             txtWalletMoney.Name = "txtWalletMoney";
-            txtWalletMoney.Size = new Size(135, 26);
+            txtWalletMoney.Size = new Size(135, 29);
             txtWalletMoney.TabIndex = 9;
             txtWalletMoney.Text = "Money(inactive)";
             txtWalletMoney.TextAlign = ContentAlignment.TopRight;
@@ -732,47 +868,50 @@ namespace MoneyTracer
             // txtWalletName
             // 
             txtWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
-            txtWalletName.Location = new Point(3, 19);
+            txtWalletName.Location = new Point(11, 21);
             txtWalletName.Name = "txtWalletName";
-            txtWalletName.Size = new Size(162, 26);
+            txtWalletName.Size = new Size(162, 29);
             txtWalletName.TabIndex = 9;
             txtWalletName.Text = "Name";
             // 
             // ScreenshotPage
             // 
-            ScreenshotPage.BackColor = Color.FloralWhite;
+            ScreenshotPage.BackColor = Color.FromArgb(255, 245, 245);
+            ScreenshotPage.BackgroundImage = (Image)resources.GetObject("ScreenshotPage.BackgroundImage");
             ScreenshotPage.Controls.Add(flowLayoutPanel4);
             ScreenshotPage.Controls.Add(panel4);
-            ScreenshotPage.Location = new Point(4, 28);
+            ScreenshotPage.Location = new Point(4, 30);
             ScreenshotPage.Name = "ScreenshotPage";
-            ScreenshotPage.Size = new Size(465, 626);
+            ScreenshotPage.Size = new Size(465, 707);
             ScreenshotPage.TabIndex = 4;
             ScreenshotPage.Text = "Screenshot";
             // 
             // flowLayoutPanel4
             // 
+            flowLayoutPanel4.BackColor = Color.FromArgb(244, 214, 214);
             flowLayoutPanel4.Controls.Add(panel3);
-            flowLayoutPanel4.Location = new Point(15, 11);
+            flowLayoutPanel4.Location = new Point(23, 25);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
-            flowLayoutPanel4.Size = new Size(450, 42);
+            flowLayoutPanel4.Size = new Size(419, 46);
             flowLayoutPanel4.TabIndex = 27;
             // 
             // panel3
             // 
+            panel3.BackColor = Color.Transparent;
             panel3.Controls.Add(btnAddImage);
             panel3.Controls.Add(cboDelImageList);
             panel3.Controls.Add(btnDelImage);
             panel3.Location = new Point(3, 3);
             panel3.Name = "panel3";
-            panel3.Size = new Size(433, 34);
+            panel3.Size = new Size(405, 38);
             panel3.TabIndex = 12;
             // 
             // btnAddImage
             // 
             btnAddImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnAddImage.Location = new Point(262, 3);
+            btnAddImage.Location = new Point(240, 4);
             btnAddImage.Name = "btnAddImage";
-            btnAddImage.Size = new Size(162, 27);
+            btnAddImage.Size = new Size(162, 30);
             btnAddImage.TabIndex = 10;
             btnAddImage.TabStop = false;
             btnAddImage.Text = "Add A Screenshot";
@@ -782,18 +921,18 @@ namespace MoneyTracer
             // cboDelImageList
             // 
             cboDelImageList.FormattingEnabled = true;
-            cboDelImageList.Location = new Point(6, 3);
+            cboDelImageList.Location = new Point(6, 5);
             cboDelImageList.Name = "cboDelImageList";
-            cboDelImageList.Size = new Size(139, 27);
+            cboDelImageList.Size = new Size(139, 28);
             cboDelImageList.TabIndex = 12;
             // 
             // btnDelImage
             // 
             btnDelImage.BackgroundImage = (Image)resources.GetObject("btnDelImage.BackgroundImage");
             btnDelImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDelImage.Location = new Point(156, 3);
+            btnDelImage.Location = new Point(156, 4);
             btnDelImage.Name = "btnDelImage";
-            btnDelImage.Size = new Size(27, 27);
+            btnDelImage.Size = new Size(27, 30);
             btnDelImage.TabIndex = 10;
             btnDelImage.UseVisualStyleBackColor = true;
             btnDelImage.Click += btnDelImage_Click;
@@ -802,28 +941,29 @@ namespace MoneyTracer
             // 
             panel4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panel4.AutoScroll = true;
-            panel4.BackColor = Color.LightYellow;
+            panel4.BackColor = Color.White;
             panel4.Controls.Add(flowPanelScreenshot);
-            panel4.Location = new Point(23, 59);
+            panel4.Location = new Point(23, 65);
             panel4.Name = "panel4";
-            panel4.Size = new Size(419, 547);
+            panel4.Size = new Size(419, 605);
             panel4.TabIndex = 26;
             // 
             // flowPanelScreenshot
             // 
             flowPanelScreenshot.AutoScroll = true;
-            flowPanelScreenshot.Location = new Point(11, 11);
+            flowPanelScreenshot.Location = new Point(11, 12);
             flowPanelScreenshot.Name = "flowPanelScreenshot";
-            flowPanelScreenshot.Size = new Size(397, 458);
+            flowPanelScreenshot.Size = new Size(397, 506);
             flowPanelScreenshot.TabIndex = 0;
             // 
             // menuStrip1
             // 
+            menuStrip1.BackColor = Color.Snow;
             menuStrip1.ImageScalingSize = new Size(20, 20);
             menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(505, 27);
+            menuStrip1.Size = new Size(487, 27);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -873,12 +1013,13 @@ namespace MoneyTracer
             // 
             // MainView
             // 
-            AutoScaleDimensions = new SizeF(9F, 19F);
+            AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.White;
-            ClientSize = new Size(505, 710);
+            BackColor = Color.FromArgb(255, 245, 245);
+            ClientSize = new Size(487, 774);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
+            Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
@@ -887,26 +1028,42 @@ namespace MoneyTracer
             Load += MainView_Load;
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
-            homepagePage.PerformLayout();
+            panel10.ResumeLayout(false);
+            panel10.PerformLayout();
+            panel11.ResumeLayout(false);
+            panel11.PerformLayout();
+            panelSaving.ResumeLayout(false);
+            panel8.ResumeLayout(false);
+            panel8.PerformLayout();
             flowLayoutPanel1.ResumeLayout(false);
             panelAddSaving.ResumeLayout(false);
             panelAddSaving.PerformLayout();
             panelDeleteSaving.ResumeLayout(false);
-            panelSaving.ResumeLayout(false);
+            panel5.ResumeLayout(false);
+            panel5.PerformLayout();
+            panel6.ResumeLayout(false);
+            panel6.PerformLayout();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
+            spendingPage.ResumeLayout(false);
+            panel12.ResumeLayout(false);
+            panel12.PerformLayout();
+            panelSpending.ResumeLayout(false);
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            spendingPage.ResumeLayout(false);
-            spendingPage.PerformLayout();
             flowLayoutPanel2.ResumeLayout(false);
             panelAddSpending.ResumeLayout(false);
             panelAddSpending.PerformLayout();
             panelDeleteSpending.ResumeLayout(false);
-            panelSpending.ResumeLayout(false);
             bufferPage.ResumeLayout(false);
-            bufferPage.PerformLayout();
+            panel13.ResumeLayout(false);
+            panel13.PerformLayout();
             panelBuffer.ResumeLayout(false);
             walletPage.ResumeLayout(false);
-            walletPage.PerformLayout();
+            panel9.ResumeLayout(false);
+            panel9.PerformLayout();
+            panel7.ResumeLayout(false);
+            panel7.PerformLayout();
             flowLayoutPanel3.ResumeLayout(false);
             panelAddBank.ResumeLayout(false);
             panelAddBank.PerformLayout();
@@ -929,7 +1086,6 @@ namespace MoneyTracer
         private TabControl tabControl1;
         private TabPage homepagePage;
         private TabPage spendingPage;
-        private Panel panel2;
         private Label txtTotalSaving;
         private Label txtboxSavingMoney;
         private Label txtboxSavingName;
@@ -998,5 +1154,16 @@ namespace MoneyTracer
         private Label currentBufferSaving;
         private Button btnAddImage;
         private ToolStripMenuItem createANewFileToolStripMenuItem;
+        private Panel panel1;
+        private Panel panel8;
+        private Panel panel5;
+        private Panel panel11;
+        private Panel panel6;
+        private Panel panel10;
+        private Panel panel12;
+        private Panel panel2;
+        private Panel panel7;
+        private Panel panel13;
+        private Panel panel9;
     }
 }

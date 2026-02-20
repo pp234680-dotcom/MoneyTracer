@@ -54,7 +54,7 @@ namespace MoneyTracer.Controller
         {
             int w = theSize.Width;
             int h = theSize.Height;
-            h += 43;
+            h += 50;
             theSize = new Size(w, h);
             return theSize;
         }
