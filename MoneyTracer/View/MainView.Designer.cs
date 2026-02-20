@@ -184,7 +184,7 @@ namespace MoneyTracer
             tabControl1.Controls.Add(ScreenshotPage);
             tabControl1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabControl1.ItemSize = new Size(102, 26);
-            tabControl1.Location = new Point(12, 44);
+            tabControl1.Location = new Point(7, 32);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(473, 741);
@@ -955,7 +955,7 @@ namespace MoneyTracer
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 245, 245);
-            ClientSize = new Size(487, 785);
+            ClientSize = new Size(487, 774);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
             Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
