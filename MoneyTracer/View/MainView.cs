@@ -92,6 +92,7 @@ namespace MoneyTracer
         private readonly string titleTotalSpending = "Total Spending : $";
         private readonly string titleTotalWallet = "Wallet : $";
         private readonly string titleTotalStatus = "Total Status : ";
+        private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
 
 
         public MainView()
@@ -301,7 +302,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
@@ -321,7 +322,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.FromArgb(255, 250, 250);
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
