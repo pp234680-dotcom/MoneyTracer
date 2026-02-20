@@ -8,6 +8,7 @@ using System.Xml.Linq;
 
 //todo : Show how much is missing
 //todo : closing program will set current file as default data
+
 //todo : design
 
 namespace MoneyTracer
@@ -84,12 +85,17 @@ namespace MoneyTracer
         /// </summary>
         private decimal nowVal = 0;
 
+        private readonly static string titleApplication = "MoneyTracer";
+        private readonly static string titleVersion = "beta 0.6.1";
+        private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "Balance : $";
         private readonly string titleBuffer = "Buffer Cash Usage : $";
         private readonly string titleTotalSaving = "Total Saving : $";
         private readonly string titleTotalSpending = "Total Spending : $";
         private readonly string titleTotalWallet = "Wallet : $";
         private readonly string titleTotalStatus = "Total Status : ";
+        private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
+        
 
 
         public MainView()
@@ -106,10 +112,14 @@ namespace MoneyTracer
             //offset the value
             DoBalanceUpdate();
 
-            //InitializingAllDataPage
+            //Initializing AllData Page
             InitializingAllDataPage();
 
+            //Initializing Screenshot Page
             InitializeScreenshotPage();
+
+            //set window title
+            SetMainViewWindowTitle();
         }
 
         private void InitializingAllDataPage()
@@ -125,6 +135,18 @@ namespace MoneyTracer
 
             //Setup the homepage
             InitializeTheHomePage();
+        }
+
+        private void SetMainViewWindowTitle()
+        {
+            string theTitleResult = titleMainViewWindowName;
+            if (JsonData.LoadFilePath.Contains(JsonData.OutputFileTailNameAndFileExtension) == true)
+            {
+                string theDataTime = mainViewController.GetTheOpenedDataTime();
+                theDataTime = theDataTime.Split(" ")[0];
+                theTitleResult = $"{theTitleResult} - {theDataTime}";
+            }
+            Text = theTitleResult;
         }
 
         private void ClearScreenshotPage()
@@ -147,17 +169,15 @@ namespace MoneyTracer
             //Read all picture with the Name that got same time as the data file's time
             //Get all the .png path in the folder
             string folderPath = Path.GetDirectoryName(JsonData.LoadFilePath);
-            string[] filePaths = Directory.GetFiles(folderPath, "*.png");
-            if (filePaths == null) return new List<string>();
+            string[] imagesFilePath = Directory.GetFiles(folderPath, "*.png");
+            if (imagesFilePath == null) return new List<string>();
 
             //Get the time of the data
-            string dataPath = JsonData.LoadFilePath;
-            dataPath = dataPath.Replace(folderPath, string.Empty);
-            string dataTime = dataPath.Split("savingData")[0];
+            string dataTime = mainViewController.GetTheOpenedDataTime();
 
             //Only keep the file with the same time as ReadData's time
             List<string> picturePaths = new List<string>();
-            foreach (var thePath in filePaths)
+            foreach (var thePath in imagesFilePath)
             {
                 if (thePath.Contains(dataTime)) picturePaths.Add(thePath);
             }
@@ -299,13 +319,13 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
         private void AddingNumUpDownOnHomepage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
         {
-            numUpDownY += 44;
+            numUpDownY += 50;
 
             NumericUpDown numericUpDown = new NumericUpDown();
             numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
@@ -319,7 +339,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
 
@@ -655,7 +675,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"{theName} :\n{mainViewController.decimalSpreadtor(theValue.ToString())}";
+            currentBufferSaving.Text = $"\"{theName}\" Already Used : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
@@ -790,8 +810,31 @@ namespace MoneyTracer
             }
         }
 
+        private bool IsScreenshotsExist()
+        {
+            bool result = false;
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if(item is Image theImage)
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         private void menuSave_Click(object sender, EventArgs e)
         {
+            bool isScreenshotsExist = IsScreenshotsExist();
+            if(isScreenshotsExist == false)
+            {
+                var userResponse = MessageBox.Show("Screenshots haven¡¦t been added\nDo you want to save data without screenshots?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (userResponse == DialogResult.No) return;
+            }
+
+
             try
             {
                 SaveDataSaving();

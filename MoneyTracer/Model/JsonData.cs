@@ -7,6 +7,7 @@ using System.Configuration;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Sockets;
+using System.Reflection.Emit;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Nodes;
@@ -71,8 +72,10 @@ namespace MoneyTracer.Model
     {
         public static readonly string OutputDataFolder = @"Data\";
         private static string OutputDataPath = OutputDataFolder;
+        public static readonly string OutputFileTailNameAndFileExtension = "savingData.json";
         public static string LoadFilePath = @"Data\current_data.json";
         public static readonly string DefaultLoadFilePath = @"Data\current_data.json";
+        
 
         public static readonly string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
 
@@ -119,9 +122,9 @@ namespace MoneyTracer.Model
         /// </summary>
         private static void GetOutputFilePath()
         {
-            string time = mainViewController.GetCurrentFileTime();
+            string time = mainViewController.GetCurrentFileSavingTime();
 
-            string fileName = $"{time} savingData.json";
+            string fileName = $"{time} {OutputFileTailNameAndFileExtension}";
             OutputDataPath = OutputDataFolder + fileName;
         }
 

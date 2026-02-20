@@ -54,7 +54,7 @@ namespace MoneyTracer.Controller
         {
             int w = theSize.Width;
             int h = theSize.Height;
-            h += 43;
+            h += 50;
             theSize = new Size(w, h);
             return theSize;
         }
@@ -255,7 +255,7 @@ namespace MoneyTracer.Controller
             theOtherOne.TabIndex = 2;
         }
 
-        public static string GetCurrentFileTime()
+        public static string GetCurrentFileSavingTime()
         {
             DateTime _dateTime = DateTime.Now;
             string theTime = _dateTime.ToString();
@@ -269,7 +269,7 @@ namespace MoneyTracer.Controller
         {
             if (flowPanelScreenshot.Controls.Count < 1) return;
 
-            string theTime = GetCurrentFileTime();
+            string theTime = GetCurrentFileSavingTime();
             int num = 1;
 
             List<PictureBox> pictureBoxes = new List<PictureBox>();
@@ -297,6 +297,21 @@ namespace MoneyTracer.Controller
             _streamWriter.Write(JsonData.emptyJsonString);
             _streamWriter.Flush();
             _streamWriter.Close();
+        }
+
+        public static string GetTheOpenedDataTime()
+        {
+            //Get the opened file path
+            string dataPath = JsonData.LoadFilePath;
+
+            //claer the folder path, only keep the file name
+            dataPath = Path.GetFileName(dataPath);
+
+            //split the name by "savingData", and get the first splited string 
+            //tempShit - wait to be modified, "savingdata" might can be replaced as JsonData.OutputFileExtension
+            string dataTime = dataPath.Split("savingData")[0];
+
+            return dataTime;
         }
     }
 }
