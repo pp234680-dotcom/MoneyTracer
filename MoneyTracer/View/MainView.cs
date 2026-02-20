@@ -793,8 +793,31 @@ namespace MoneyTracer
             }
         }
 
+        private bool IsScreenshotsExist()
+        {
+            bool result = false;
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if(item is Image theImage)
+                {
+                    result = true;
+                    break;
+                }
+            }
+
+            return result;
+        }
+
         private void menuSave_Click(object sender, EventArgs e)
         {
+            bool isScreenshotsExist = IsScreenshotsExist();
+            if(isScreenshotsExist == false)
+            {
+                var userResponse = MessageBox.Show("Screenshots haven¡¦t been added\nDo you want to save data without screenshots?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (userResponse == DialogResult.No) return;
+            }
+
+
             try
             {
                 SaveDataSaving();
