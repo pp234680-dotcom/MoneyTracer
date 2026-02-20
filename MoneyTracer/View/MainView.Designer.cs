@@ -295,7 +295,7 @@ namespace MoneyTracer
             // 
             // panel8
             // 
-            panel8.BackColor = Color.FromArgb(244, 234, 234);
+            panel8.BackColor = Color.FromArgb(244, 214, 214);
             panel8.Controls.Add(flowLayoutPanel1);
             panel8.Controls.Add(label1);
             panel8.Controls.Add(cboModeSelectorHomepage);
@@ -532,7 +532,7 @@ namespace MoneyTracer
             // 
             // panel2
             // 
-            panel2.BackColor = Color.FromArgb(244, 234, 234);
+            panel2.BackColor = Color.FromArgb(244, 214, 214);
             panel2.Controls.Add(cboModeSelectorSpending);
             panel2.Controls.Add(label6);
             panel2.Controls.Add(flowLayoutPanel2);
@@ -735,7 +735,7 @@ namespace MoneyTracer
             // 
             // panel7
             // 
-            panel7.BackColor = Color.FromArgb(244, 234, 234);
+            panel7.BackColor = Color.FromArgb(244, 214, 214);
             panel7.Controls.Add(label2);
             panel7.Controls.Add(cboModeSelectorBank);
             panel7.Controls.Add(flowLayoutPanel3);
@@ -888,7 +888,7 @@ namespace MoneyTracer
             // 
             // flowLayoutPanel4
             // 
-            flowLayoutPanel4.BackColor = Color.FromArgb(244, 234, 234);
+            flowLayoutPanel4.BackColor = Color.FromArgb(244, 214, 214);
             flowLayoutPanel4.Controls.Add(panel3);
             flowLayoutPanel4.Location = new Point(23, 25);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
@@ -897,7 +897,7 @@ namespace MoneyTracer
             // 
             // panel3
             // 
-            panel3.BackColor = Color.FromArgb(244, 234, 234);
+            panel3.BackColor = Color.Transparent;
             panel3.Controls.Add(btnAddImage);
             panel3.Controls.Add(cboDelImageList);
             panel3.Controls.Add(btnDelImage);
