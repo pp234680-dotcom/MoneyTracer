@@ -6,9 +6,13 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : when focus on numericUpDown, cancel the thounsandSperator make user easily to input
+//todo : after save a file, reload the title date
+//todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
 //todo : Show how much is missing
 //todo : closing program will set current file as default data
+
 
 //todo : design
 
@@ -816,7 +820,7 @@ namespace MoneyTracer
             bool result = false;
             foreach (var item in flowPanelScreenshot.Controls)
             {
-                if(item is Image theImage)
+                if(item is PictureBox theImage)
                 {
                     result = true;
                     break;
@@ -1211,6 +1215,7 @@ namespace MoneyTracer
             //tempShit - wait for uncomment
             //ClearScreenshotPage();
 
+            Text = titleMainViewWindowName;
 
             UpdateBeforeReload();
             InitializingAllDataPage();
