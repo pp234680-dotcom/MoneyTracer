@@ -103,6 +103,7 @@ namespace MoneyTracer
             ScreenshotPage = new TabPage();
             flowLayoutPanel4 = new FlowLayoutPanel();
             panel3 = new Panel();
+            label3 = new Label();
             btnAddImage = new Button();
             cboDelImageList = new ComboBox();
             btnDelImage = new Button();
@@ -898,6 +899,7 @@ namespace MoneyTracer
             // panel3
             // 
             panel3.BackColor = Color.Transparent;
+            panel3.Controls.Add(label3);
             panel3.Controls.Add(btnAddImage);
             panel3.Controls.Add(cboDelImageList);
             panel3.Controls.Add(btnDelImage);
@@ -906,10 +908,21 @@ namespace MoneyTracer
             panel3.Size = new Size(405, 38);
             panel3.TabIndex = 12;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 13.915966F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.DarkGray;
+            label3.Location = new Point(188, 3);
+            label3.Name = "label3";
+            label3.Size = new Size(20, 31);
+            label3.TabIndex = 13;
+            label3.Text = "|";
+            // 
             // btnAddImage
             // 
             btnAddImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnAddImage.Location = new Point(240, 4);
+            btnAddImage.Location = new Point(6, 6);
             btnAddImage.Name = "btnAddImage";
             btnAddImage.Size = new Size(162, 30);
             btnAddImage.TabIndex = 10;
@@ -921,7 +934,7 @@ namespace MoneyTracer
             // cboDelImageList
             // 
             cboDelImageList.FormattingEnabled = true;
-            cboDelImageList.Location = new Point(6, 5);
+            cboDelImageList.Location = new Point(228, 7);
             cboDelImageList.Name = "cboDelImageList";
             cboDelImageList.Size = new Size(139, 28);
             cboDelImageList.TabIndex = 12;
@@ -930,7 +943,7 @@ namespace MoneyTracer
             // 
             btnDelImage.BackgroundImage = (Image)resources.GetObject("btnDelImage.BackgroundImage");
             btnDelImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDelImage.Location = new Point(156, 4);
+            btnDelImage.Location = new Point(375, 6);
             btnDelImage.Name = "btnDelImage";
             btnDelImage.Size = new Size(27, 30);
             btnDelImage.TabIndex = 10;
@@ -977,21 +990,21 @@ namespace MoneyTracer
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(223, 26);
+            createANewFileToolStripMenuItem.Size = new Size(213, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(223, 26);
+            menuOpen.Size = new Size(213, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(223, 26);
+            menuSave.Size = new Size(213, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -1072,6 +1085,7 @@ namespace MoneyTracer
             ScreenshotPage.ResumeLayout(false);
             flowLayoutPanel4.ResumeLayout(false);
             panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panel4.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -1165,5 +1179,6 @@ namespace MoneyTracer
         private Panel panel7;
         private Panel panel13;
         private Panel panel9;
+        private Label label3;
     }
 }
