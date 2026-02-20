@@ -977,21 +977,21 @@ namespace MoneyTracer
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(213, 26);
+            createANewFileToolStripMenuItem.Size = new Size(223, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(213, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(213, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -1024,7 +1024,7 @@ namespace MoneyTracer
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainView";
-            Text = "Money Tracer beta";
+            Text = "Money Tracer";
             Load += MainView_Load;
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);
