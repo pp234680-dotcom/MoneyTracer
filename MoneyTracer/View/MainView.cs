@@ -321,7 +321,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.BackColor = Color.Beige;
+            numericUpDown.BackColor = Color.FromArgb(255, 192, 192);
             thePanel.Controls.Add(numericUpDown);
         }
 
@@ -657,7 +657,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"{theName} :\n{mainViewController.decimalSpreadtor(theValue.ToString())}";
+            currentBufferSaving.Text = $"{theName} : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
