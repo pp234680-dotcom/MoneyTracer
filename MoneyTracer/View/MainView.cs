@@ -2,12 +2,13 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System;
+using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : when focus on numericUpDown, cancel the thounsandSperator make user easily to input
-//todo : after save a file, reload the title date
+//todo : after save theNumUpDown file, reload the title date
 //todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
 //todo : Show how much is missing
@@ -324,6 +325,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
+            numericUpDown.LostFocus += numericUpDown_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
@@ -344,6 +346,7 @@ namespace MoneyTracer
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
             numericUpDown.MouseWheel += numericUpDown_focus;
+            numericUpDown.LostFocus += numericUpDown_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
@@ -662,12 +665,27 @@ namespace MoneyTracer
 
         private void numericUpDown_focus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown a)
+            if (sender is NumericUpDown theNumUpDown)
             {
                 //Get current value 
-                nowVal = Convert.ToDecimal(a.Text);
+                theNumUpDown.TextChanged -= numericUpDown_TextChanged;
+                theNumUpDown.ThousandsSeparator = false;
+                theNumUpDown.TextChanged += numericUpDown_TextChanged;
+                nowVal = Convert.ToDecimal(theNumUpDown.Text);
+                
             }
         }
+
+        private void numericUpDown_OutOfFocus(object sender, EventArgs e)
+        {
+            if(sender is NumericUpDown theNumUpDown)
+            {
+                theNumUpDown.TextChanged -= numericUpDown_TextChanged;
+                theNumUpDown.ThousandsSeparator = true;
+                theNumUpDown.TextChanged += numericUpDown_TextChanged;
+            }
+        }
+        
 
         private void DisplayCurrentSavingBuffer(string theName)
         {
@@ -953,7 +971,7 @@ namespace MoneyTracer
         {
             //Check if box is empty
             if (theNameInputBox.Text == string.Empty) return;
-            if (theMoneyInputBox.Text == string.Empty) return;
+            if (theMoneyInputBox.Text == string.Empty) theMoneyInputBox.Text = "0";
 
             int inputNum = 0;
             string inputName = theNameInputBox.Text;
@@ -965,6 +983,8 @@ namespace MoneyTracer
             }
             catch
             {
+                theMoneyInputBox.Text = string.Empty;
+                MessageBox.Show("Please Input Numbers", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
