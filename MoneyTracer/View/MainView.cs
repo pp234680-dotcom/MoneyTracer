@@ -3,12 +3,12 @@ using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System;
 using System.DirectoryServices.ActiveDirectory;
+using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : when focus on numericUpDown, cancel the thounsandSperator make user easily to input
-//todo : after save theNumUpDown file, reload the title date
+//todo : after save a file, reload the title date
 //todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
 //todo : Show how much is missing
@@ -126,6 +126,9 @@ namespace MoneyTracer
 
             //set window title
             SetMainViewWindowTitle();
+
+            //set panel into round corner
+            SetPanelRoundCorner();
         }
 
         private void InitializingAllDataPage()
@@ -141,6 +144,83 @@ namespace MoneyTracer
 
             //Setup the homepage
             InitializeTheHomePage();
+        }
+
+        private List<Panel> GetPanelTagCalledDisplayer()
+        {
+            List<Panel> panels = new List<Panel>();
+            foreach (var item in tabControl1.Controls)
+            {
+                if (item is TabPage theTab)
+                {
+                    foreach (var item2 in theTab.Controls)
+                    {
+                        if (item2 is Panel thePanel)
+                        {
+                            if (thePanel.Tag == "displayer") panels.Add(thePanel);
+                        }
+                    }
+                }
+            }
+            return panels;
+        }
+
+        private List<Panel> GetPanelTagCalledSelector()
+        {
+            List<Panel> panels = new List<Panel>();
+            foreach (var item in tabControl1.Controls)
+            {
+                if (item is TabPage theTab)
+                {
+                    foreach (var item2 in theTab.Controls)
+                    {
+                        if (item2 is Panel thePanel)
+                        {
+                            if (thePanel.Tag == "selector") panels.Add(thePanel);
+                        }
+                    }
+                }
+            }
+
+            return panels;
+        }
+
+        private void SetPanelRoundCorner()
+        {
+            int radius = 10;
+
+            //round displayer panels corner
+            List<Panel> panels1 = GetPanelTagCalledDisplayer();
+            foreach(var thePanel in panels1)
+            {
+                GraphicsPath theShape = new GraphicsPath();
+                theShape.AddArc(0, 0, radius, radius, 180, 90);
+                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
+                theShape.AddArc((thePanel.Width - radius), (thePanel.Height) - radius, radius, radius, 0, 90);
+                theShape.AddArc(0, (thePanel.Height)- radius, radius, radius, 90, 90);
+
+                //conect startPoint and endPoint
+                theShape.CloseFigure();
+
+                thePanel.Region = new Region(theShape);
+            }
+
+            //round selector panels corner
+            List<Panel> panels2 = GetPanelTagCalledSelector();
+
+            foreach (var thePanel in panels2)
+            {
+                GraphicsPath theShape = new GraphicsPath();
+                theShape.AddArc(0, 0, radius, radius, 180, 90);
+                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
+                theShape.AddLine(thePanel.Width, (0 + radius), thePanel.Width, (thePanel.Height));
+                theShape.AddLine(thePanel.Width, thePanel.Height, 0, thePanel.Height);
+
+                //conect startPoint and endPoint
+                theShape.CloseFigure();
+
+                thePanel.Region = new Region(theShape);
+            }
         }
 
         private void SetMainViewWindowTitle()

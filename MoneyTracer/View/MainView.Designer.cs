@@ -201,6 +201,7 @@ namespace MoneyTracer
             tabControl1.Size = new Size(473, 741);
             tabControl1.TabIndex = 8;
             tabControl1.TabStop = false;
+            tabControl1.Tag = "selector";
             // 
             // homepagePage
             // 
@@ -229,6 +230,7 @@ namespace MoneyTracer
             panel10.Name = "panel10";
             panel10.Size = new Size(190, 107);
             panel10.TabIndex = 14;
+            panel10.Tag = "displayer";
             // 
             // txtTotalSaving
             // 
@@ -260,6 +262,7 @@ namespace MoneyTracer
             panel11.Name = "panel11";
             panel11.Size = new Size(220, 39);
             panel11.TabIndex = 14;
+            panel11.Tag = "displayer";
             // 
             // panelSaving
             // 
@@ -304,6 +307,7 @@ namespace MoneyTracer
             panel8.Name = "panel8";
             panel8.Size = new Size(431, 71);
             panel8.TabIndex = 14;
+            panel8.Tag = "selector";
             // 
             // flowLayoutPanel1
             // 
@@ -426,6 +430,7 @@ namespace MoneyTracer
             panel5.Name = "panel5";
             panel5.Size = new Size(428, 29);
             panel5.TabIndex = 14;
+            panel5.Tag = "displayer";
             // 
             // panel6
             // 
@@ -436,6 +441,7 @@ namespace MoneyTracer
             panel6.Name = "panel6";
             panel6.Size = new Size(428, 72);
             panel6.TabIndex = 14;
+            panel6.Tag = "displayer";
             // 
             // currentBufferSaving
             // 
@@ -467,6 +473,7 @@ namespace MoneyTracer
             panel1.Name = "panel1";
             panel1.Size = new Size(220, 52);
             panel1.TabIndex = 14;
+            panel1.Tag = "displayer";
             // 
             // spendingPage
             // 
@@ -490,6 +497,7 @@ namespace MoneyTracer
             panel12.Name = "panel12";
             panel12.Size = new Size(416, 29);
             panel12.TabIndex = 16;
+            panel12.Tag = "displayer";
             // 
             // txtSpendingTotal
             // 
@@ -541,6 +549,7 @@ namespace MoneyTracer
             panel2.Name = "panel2";
             panel2.Size = new Size(419, 71);
             panel2.TabIndex = 15;
+            panel2.Tag = "selector";
             // 
             // cboModeSelectorSpending
             // 
@@ -661,6 +670,7 @@ namespace MoneyTracer
             panel13.Name = "panel13";
             panel13.Size = new Size(416, 29);
             panel13.TabIndex = 17;
+            panel13.Tag = "displayer";
             // 
             // txtBufferTotal
             // 
@@ -724,6 +734,7 @@ namespace MoneyTracer
             panel9.Name = "panel9";
             panel9.Size = new Size(416, 29);
             panel9.TabIndex = 23;
+            panel9.Tag = "displayer";
             // 
             // txtWalletTotal
             // 
@@ -744,6 +755,7 @@ namespace MoneyTracer
             panel7.Name = "panel7";
             panel7.Size = new Size(419, 71);
             panel7.TabIndex = 15;
+            panel7.Tag = "selector";
             // 
             // label2
             // 
@@ -895,6 +907,7 @@ namespace MoneyTracer
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(419, 46);
             flowLayoutPanel4.TabIndex = 27;
+            flowLayoutPanel4.Tag = "selector";
             // 
             // panel3
             // 
