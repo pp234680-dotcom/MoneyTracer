@@ -141,7 +141,7 @@ namespace MoneyTracer.Controller
                 if (theChar == '\n')
                 {
                     if (tempResult == string.Empty) continue;
-                    spendingMoneyList.Add(Convert.ToInt32(tempResult) * -1);
+                    spendingMoneyList.Add(Convert.ToInt32(tempResult));
                     tempResult = string.Empty;
                 }
                 else

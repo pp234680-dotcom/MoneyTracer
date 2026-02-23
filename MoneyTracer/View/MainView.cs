@@ -8,6 +8,8 @@ using System.Drawing.Printing;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : output buffer log is kinda weird, got a oppsite value when load the file
+//todo : current buffer title doesn't reload when open file
 //todo : after save a file, reload the title date
 //todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
@@ -116,7 +118,7 @@ namespace MoneyTracer
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
 
             //offset the value
-            DoBalanceUpdate();
+            DoBalanceOffset();
 
             //Initializing AllData Page
             InitializingAllDataPage();
@@ -403,9 +405,9 @@ namespace MoneyTracer
             numericUpDown.TextAlign = HorizontalAlignment.Right;
             numericUpDown.ThousandsSeparator = true;
             numericUpDown.TextChanged += numericUpDownWallet_TextChanged;
-            numericUpDown.GotFocus += numericUpDown_focus;
-            numericUpDown.MouseWheel += numericUpDown_focus;
-            numericUpDown.LostFocus += numericUpDown_OutOfFocus;
+            numericUpDown.GotFocus += numericUpDownWallet_focus;
+            numericUpDown.MouseWheel += numericUpDownWallet_focus;
+            numericUpDown.LostFocus += numericUpDownWallet_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
         }
@@ -640,7 +642,8 @@ namespace MoneyTracer
 
                 //money comma add
                 int theMoney = item.Value;
-                theMoney *= -1;
+                //tempShit - think about if the -1 is needed
+                theMoney *= -1; //to make savingPage get negative value
                 string moneyVal = theMoney.ToString();
                 moneyVal = mainViewController.decimalSpreadtor(moneyVal);
 
@@ -743,16 +746,31 @@ namespace MoneyTracer
             AddSpendingDataToDeletingComboBoxItem();
         }
 
+        private void ThousandSpretorSwitch(NumericUpDown theNumUpDown, EventHandler TextChangedEvent, bool isTurnOn)
+        {
+            theNumUpDown.TextChanged -= TextChangedEvent;
+            theNumUpDown.ThousandsSeparator = isTurnOn;
+            theNumUpDown.TextChanged += TextChangedEvent;
+        }
+
         private void numericUpDown_focus(object sender, EventArgs e)
         {
             if (sender is NumericUpDown theNumUpDown)
             {
                 //Get current value 
-                theNumUpDown.TextChanged -= numericUpDown_TextChanged;
-                theNumUpDown.ThousandsSeparator = false;
-                theNumUpDown.TextChanged += numericUpDown_TextChanged;
+                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
                 
+            }
+        }
+
+        private void numericUpDownWallet_focus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown theNumUpDown)
+            {
+                //Get current value 
+                ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, false);
+                nowVal = Convert.ToDecimal(theNumUpDown.Text);
             }
         }
 
@@ -760,12 +778,18 @@ namespace MoneyTracer
         {
             if(sender is NumericUpDown theNumUpDown)
             {
-                theNumUpDown.TextChanged -= numericUpDown_TextChanged;
-                theNumUpDown.ThousandsSeparator = true;
-                theNumUpDown.TextChanged += numericUpDown_TextChanged;
+                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, true);
             }
         }
-        
+
+        private void numericUpDownWallet_OutOfFocus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown theNumUpDown)
+            {
+                ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, true);
+            }
+        }
+
 
         private void DisplayCurrentSavingBuffer(string theName)
         {
@@ -898,8 +922,18 @@ namespace MoneyTracer
             txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
         }
 
-        private void DoBalanceUpdate()
+        private void DoBalanceOffset()
         {
+            //tempShit - wait to be modify
+            //Loading is kind of weird, so i add this to get correct negative value
+            List<string> spendingNames = new List<string>();
+            spendingNames = spendingDataDictionary.Keys.ToList();
+            for (int i = spendingDataDictionary.Count - 1; i >= 0; i--)
+            {
+                string currentName = spendingNames[i];
+                spendingDataDictionary[currentName] *= -1;
+            }
+
             //Output Data Will save the data after minus spending
             //So when get back the data should add the spending back, to prevent Balance get reduced repeatly
             foreach (var item in spendingDataDictionary)
@@ -1179,9 +1213,12 @@ namespace MoneyTracer
                 {
                     JsonData.LoadFilePath = _openFileDialog.FileName;
                 }
+                else
+                {
+                    return;
+                }
 
                 LoadNewData(sender, e);
-                
             }
             catch (Exception ex)
             {
