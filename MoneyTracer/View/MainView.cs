@@ -9,7 +9,8 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
-//todo : current buffer title doesn't reload when open file
+//todo : screenshot list should get sorted number, maybe using for to collect picture box first?
+//todo : current using buffer title doesn't reload when open file
 //todo : after save a file, reload the title date
 //todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
