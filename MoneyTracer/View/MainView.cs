@@ -199,7 +199,7 @@ namespace MoneyTracer
 
         private void SetPanelRoundCorner()
         {
-            int radius = 10;
+            int radius = 20;
 
             //round displayer panels corner
             List<Panel> panels1 = GetPanelTagCalledDisplayer();
@@ -305,7 +305,7 @@ namespace MoneyTracer
                 string newPictureName = $"ScreenShot {num}";
                 PictureBox newPictureBox = new PictureBox();
                 newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
                 newPictureBox.BackgroundImage = Image.FromFile(thePath);
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
@@ -1326,7 +1326,7 @@ namespace MoneyTracer
                 string newPictureName = $"ScreenShot {num}";
                 PictureBox newPictureBox = new PictureBox();
                 newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
                 newPictureBox.BackgroundImage = Clipboard.GetImage();
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;

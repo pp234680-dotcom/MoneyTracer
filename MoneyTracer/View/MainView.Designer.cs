@@ -751,7 +751,7 @@ namespace MoneyTracer
             // bufferPage
             // 
             bufferPage.BackColor = Color.FromArgb(255, 245, 245);
-            bufferPage.BackgroundImage = Properties.Resources.shader3;
+            bufferPage.BackgroundImage = (Image)resources.GetObject("bufferPage.BackgroundImage");
             bufferPage.Controls.Add(panel13);
             bufferPage.Controls.Add(panelBuffer);
             bufferPage.Location = new Point(4, 30);
