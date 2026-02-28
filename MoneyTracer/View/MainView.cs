@@ -97,12 +97,12 @@ namespace MoneyTracer
         private readonly static string titleApplication = "MoneyTracer";
         private readonly static string titleVersion = "beta 0.6.1";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
-        private readonly string titleBalance = "Balance : $";
-        private readonly string titleBuffer = "Buffer Cash Usage : $";
-        private readonly string titleTotalSaving = "Total Saving : $";
+        private readonly string titleBalance = "$";
+        private readonly string titleBuffer = "$";
+        private readonly string titleTotalSaving = "$";
         private readonly string titleTotalSpending = "Total Spending : $";
-        private readonly string titleTotalWallet = "Wallet : $";
-        private readonly string titleTotalStatus = "Total Status : ";
+        private readonly string titleTotalWallet = "$";
+        private readonly string titleTotalStatus = "Status : ";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
 
@@ -806,7 +806,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"\"{theName}\" Already Used : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
+            currentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)

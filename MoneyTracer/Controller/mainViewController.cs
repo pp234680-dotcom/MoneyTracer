@@ -24,7 +24,7 @@ namespace MoneyTracer.Controller
             {
                 if (val.Length > 6)
                 {
-                    MessageBox.Show("shit");
+                    //MessageBox.Show("shit");
                     val = val.Insert(val.Length - 6, ",");
                     val = val.Insert(val.Length - 3, ",");
                 }
