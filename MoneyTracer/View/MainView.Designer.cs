@@ -37,6 +37,7 @@ namespace MoneyTracer
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             panel10 = new Panel();
+            picBoxCorrect = new PictureBox();
             txtSavingDifferent = new Label();
             panel14 = new Panel();
             PanelDetailTotalSaving = new FlowLayoutPanel();
@@ -130,6 +131,7 @@ namespace MoneyTracer
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel10.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picBoxCorrect).BeginInit();
             PanelDetailTotalSaving.SuspendLayout();
             panelSaving.SuspendLayout();
             panel8.SuspendLayout();
@@ -168,7 +170,7 @@ namespace MoneyTracer
             txtTotalStaus.AutoSize = true;
             txtTotalStaus.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtTotalStaus.ForeColor = Color.Gray;
-            txtTotalStaus.Location = new Point(161, 78);
+            txtTotalStaus.Location = new Point(177, 78);
             txtTotalStaus.Name = "txtTotalStaus";
             txtTotalStaus.Size = new Size(118, 21);
             txtTotalStaus.TabIndex = 7;
@@ -221,6 +223,7 @@ namespace MoneyTracer
             // panel10
             // 
             panel10.BackColor = Color.White;
+            panel10.Controls.Add(picBoxCorrect);
             panel10.Controls.Add(txtSavingDifferent);
             panel10.Controls.Add(txtTotalStaus);
             panel10.Controls.Add(panel14);
@@ -234,6 +237,16 @@ namespace MoneyTracer
             panel10.Size = new Size(325, 107);
             panel10.TabIndex = 14;
             panel10.Tag = "displayer";
+            // 
+            // picBoxCorrect
+            // 
+            picBoxCorrect.BackgroundImage = (Image)resources.GetObject("picBoxCorrect.BackgroundImage");
+            picBoxCorrect.BackgroundImageLayout = ImageLayout.Zoom;
+            picBoxCorrect.Location = new Point(159, 81);
+            picBoxCorrect.Name = "picBoxCorrect";
+            picBoxCorrect.Size = new Size(18, 18);
+            picBoxCorrect.TabIndex = 17;
+            picBoxCorrect.TabStop = false;
             // 
             // txtSavingDifferent
             // 
@@ -1169,6 +1182,7 @@ namespace MoneyTracer
             homepagePage.ResumeLayout(false);
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picBoxCorrect).EndInit();
             PanelDetailTotalSaving.ResumeLayout(false);
             PanelDetailTotalSaving.PerformLayout();
             panelSaving.ResumeLayout(false);
@@ -1314,5 +1328,6 @@ namespace MoneyTracer
         private Label label13;
         private Panel panel5;
         private Panel panel11;
+        private PictureBox picBoxCorrect;
     }
 }

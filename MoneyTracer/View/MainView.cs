@@ -104,9 +104,9 @@ namespace MoneyTracer
         private readonly string titleTotalSpending = "$";
         private readonly string titleSavingDifferent = "$";
         private readonly string titleTotalWallet = "$";
-        private readonly string titleTotalStatus = "Status : ";
-        private readonly string txtCorrect = "No difference";
-        private readonly string txtIncorrect = "Asset not matched";
+        private readonly string titleTotalStatus = "";
+        private readonly string txtCorrect = "No Difference";
+        private readonly string txtIncorrect = "Difference Detected";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
 
@@ -929,9 +929,8 @@ namespace MoneyTracer
 
             txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
 
-            List<int> tempWalletList = mainViewController.GetAllMoneyFromLabel(txtWalletMoney);
-            int tempWallet = 0;
-            foreach (int item in tempWalletList) tempWallet += item;
+
+            int tempWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
             int savingDifferent = tempWallet - (int)tempForSaving;
             txtSavingDifferent.Text = titleSavingDifferent + mainViewController.decimalSpreadtor(savingDifferent.ToString());
 
@@ -1291,8 +1290,18 @@ namespace MoneyTracer
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
 
-            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + txtIncorrect;
-            else txtTotalStaus.Text = titleTotalStatus + txtCorrect;
+            if (theBalance != theWallet)
+            {
+                txtTotalStaus.Text = titleTotalStatus + txtIncorrect;
+                string imagePath = @"image/incorrect.png";
+                picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
+            }
+            else
+            {
+                txtTotalStaus.Text = titleTotalStatus + txtCorrect;
+                string imagePath = @"image/correct.png";
+                picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
+            }
         }
 
         private void btnAddImage_Click(object sender, EventArgs e)
