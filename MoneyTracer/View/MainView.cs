@@ -1217,6 +1217,9 @@ namespace MoneyTracer
             bankDataDictionary = JsonData.BankData;
 
             MainView_Load(sender, e);
+
+            DialogResult userResponse = MessageBox.Show("Do you want to clean the log first?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (userResponse == DialogResult.Yes) cleanTheLogToolStripMenuItem_Click(sender, e);
         }
 
         private void menuOpen_Click(object sender, EventArgs e)
