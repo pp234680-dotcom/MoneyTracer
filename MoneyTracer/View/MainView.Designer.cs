@@ -38,6 +38,7 @@ namespace MoneyTracer
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             panel10 = new Panel();
+            PanelDetailTotalSaving = new FlowLayoutPanel();
             txtTotalSaving = new Label();
             txtWalletHomePage = new Label();
             panel11 = new Panel();
@@ -103,6 +104,7 @@ namespace MoneyTracer
             ScreenshotPage = new TabPage();
             flowLayoutPanel4 = new FlowLayoutPanel();
             panel3 = new Panel();
+            label3 = new Label();
             btnAddImage = new Button();
             cboDelImageList = new ComboBox();
             btnDelImage = new Button();
@@ -119,6 +121,7 @@ namespace MoneyTracer
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel10.SuspendLayout();
+            PanelDetailTotalSaving.SuspendLayout();
             panel11.SuspendLayout();
             panelSaving.SuspendLayout();
             panel8.SuspendLayout();
@@ -200,6 +203,7 @@ namespace MoneyTracer
             tabControl1.Size = new Size(473, 741);
             tabControl1.TabIndex = 8;
             tabControl1.TabStop = false;
+            tabControl1.Tag = "selector";
             // 
             // homepagePage
             // 
@@ -222,23 +226,35 @@ namespace MoneyTracer
             // panel10
             // 
             panel10.BackColor = Color.White;
-            panel10.Controls.Add(txtTotalSaving);
+            panel10.Controls.Add(PanelDetailTotalSaving);
             panel10.Controls.Add(txtWalletHomePage);
             panel10.Location = new Point(253, 55);
             panel10.Name = "panel10";
             panel10.Size = new Size(190, 107);
             panel10.TabIndex = 14;
+            panel10.Tag = "displayer";
+            // 
+            // PanelDetailTotalSaving
+            // 
+            PanelDetailTotalSaving.Controls.Add(txtTotalSaving);
+            PanelDetailTotalSaving.Location = new Point(4, 18);
+            PanelDetailTotalSaving.Name = "PanelDetailTotalSaving";
+            PanelDetailTotalSaving.Size = new Size(174, 22);
+            PanelDetailTotalSaving.TabIndex = 3;
             // 
             // txtTotalSaving
             // 
             txtTotalSaving.AutoSize = true;
             txtTotalSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtTotalSaving.ForeColor = Color.Black;
-            txtTotalSaving.Location = new Point(4, 19);
+            txtTotalSaving.Location = new Point(3, 0);
             txtTotalSaving.Name = "txtTotalSaving";
             txtTotalSaving.Size = new Size(136, 21);
             txtTotalSaving.TabIndex = 2;
             txtTotalSaving.Text = "Total Saving : $300";
+            txtTotalSaving.Click += txtTotalSaving_Click;
+            txtTotalSaving.MouseEnter += txtTotalSaving_MouseEnter;
+            txtTotalSaving.MouseLeave += txtTotalSaving_MouseLeave;
             // 
             // txtWalletHomePage
             // 
@@ -259,6 +275,7 @@ namespace MoneyTracer
             panel11.Name = "panel11";
             panel11.Size = new Size(220, 39);
             panel11.TabIndex = 14;
+            panel11.Tag = "displayer";
             // 
             // panelSaving
             // 
@@ -303,6 +320,7 @@ namespace MoneyTracer
             panel8.Name = "panel8";
             panel8.Size = new Size(431, 71);
             panel8.TabIndex = 14;
+            panel8.Tag = "selector";
             // 
             // flowLayoutPanel1
             // 
@@ -425,6 +443,7 @@ namespace MoneyTracer
             panel5.Name = "panel5";
             panel5.Size = new Size(428, 29);
             panel5.TabIndex = 14;
+            panel5.Tag = "displayer";
             // 
             // panel6
             // 
@@ -435,6 +454,7 @@ namespace MoneyTracer
             panel6.Name = "panel6";
             panel6.Size = new Size(428, 72);
             panel6.TabIndex = 14;
+            panel6.Tag = "displayer";
             // 
             // currentBufferSaving
             // 
@@ -466,6 +486,7 @@ namespace MoneyTracer
             panel1.Name = "panel1";
             panel1.Size = new Size(220, 52);
             panel1.TabIndex = 14;
+            panel1.Tag = "displayer";
             // 
             // spendingPage
             // 
@@ -489,6 +510,7 @@ namespace MoneyTracer
             panel12.Name = "panel12";
             panel12.Size = new Size(416, 29);
             panel12.TabIndex = 16;
+            panel12.Tag = "displayer";
             // 
             // txtSpendingTotal
             // 
@@ -540,6 +562,7 @@ namespace MoneyTracer
             panel2.Name = "panel2";
             panel2.Size = new Size(419, 71);
             panel2.TabIndex = 15;
+            panel2.Tag = "selector";
             // 
             // cboModeSelectorSpending
             // 
@@ -660,6 +683,7 @@ namespace MoneyTracer
             panel13.Name = "panel13";
             panel13.Size = new Size(416, 29);
             panel13.TabIndex = 17;
+            panel13.Tag = "displayer";
             // 
             // txtBufferTotal
             // 
@@ -723,6 +747,7 @@ namespace MoneyTracer
             panel9.Name = "panel9";
             panel9.Size = new Size(416, 29);
             panel9.TabIndex = 23;
+            panel9.Tag = "displayer";
             // 
             // txtWalletTotal
             // 
@@ -743,6 +768,7 @@ namespace MoneyTracer
             panel7.Name = "panel7";
             panel7.Size = new Size(419, 71);
             panel7.TabIndex = 15;
+            panel7.Tag = "selector";
             // 
             // label2
             // 
@@ -894,10 +920,12 @@ namespace MoneyTracer
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(419, 46);
             flowLayoutPanel4.TabIndex = 27;
+            flowLayoutPanel4.Tag = "selector";
             // 
             // panel3
             // 
             panel3.BackColor = Color.Transparent;
+            panel3.Controls.Add(label3);
             panel3.Controls.Add(btnAddImage);
             panel3.Controls.Add(cboDelImageList);
             panel3.Controls.Add(btnDelImage);
@@ -906,10 +934,21 @@ namespace MoneyTracer
             panel3.Size = new Size(405, 38);
             panel3.TabIndex = 12;
             // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 13.915966F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label3.ForeColor = Color.DarkGray;
+            label3.Location = new Point(188, 3);
+            label3.Name = "label3";
+            label3.Size = new Size(20, 31);
+            label3.TabIndex = 13;
+            label3.Text = "|";
+            // 
             // btnAddImage
             // 
             btnAddImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnAddImage.Location = new Point(240, 4);
+            btnAddImage.Location = new Point(6, 6);
             btnAddImage.Name = "btnAddImage";
             btnAddImage.Size = new Size(162, 30);
             btnAddImage.TabIndex = 10;
@@ -921,7 +960,7 @@ namespace MoneyTracer
             // cboDelImageList
             // 
             cboDelImageList.FormattingEnabled = true;
-            cboDelImageList.Location = new Point(6, 5);
+            cboDelImageList.Location = new Point(228, 7);
             cboDelImageList.Name = "cboDelImageList";
             cboDelImageList.Size = new Size(139, 28);
             cboDelImageList.TabIndex = 12;
@@ -930,7 +969,7 @@ namespace MoneyTracer
             // 
             btnDelImage.BackgroundImage = (Image)resources.GetObject("btnDelImage.BackgroundImage");
             btnDelImage.BackgroundImageLayout = ImageLayout.Zoom;
-            btnDelImage.Location = new Point(156, 4);
+            btnDelImage.Location = new Point(375, 6);
             btnDelImage.Name = "btnDelImage";
             btnDelImage.Size = new Size(27, 30);
             btnDelImage.TabIndex = 10;
@@ -977,21 +1016,21 @@ namespace MoneyTracer
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(223, 26);
+            createANewFileToolStripMenuItem.Size = new Size(213, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(223, 26);
+            menuOpen.Size = new Size(213, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(223, 26);
+            menuSave.Size = new Size(213, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -1000,6 +1039,7 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
             cleanTheLogToolStripMenuItem.Size = new Size(119, 23);
             cleanTheLogToolStripMenuItem.Text = "Clean the Log";
+            cleanTheLogToolStripMenuItem.ToolTipText = "1234";
             cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
             // _openFileDialog
@@ -1030,6 +1070,8 @@ namespace MoneyTracer
             homepagePage.ResumeLayout(false);
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
+            PanelDetailTotalSaving.ResumeLayout(false);
+            PanelDetailTotalSaving.PerformLayout();
             panel11.ResumeLayout(false);
             panel11.PerformLayout();
             panelSaving.ResumeLayout(false);
@@ -1072,6 +1114,7 @@ namespace MoneyTracer
             ScreenshotPage.ResumeLayout(false);
             flowLayoutPanel4.ResumeLayout(false);
             panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panel4.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -1165,5 +1208,7 @@ namespace MoneyTracer
         private Panel panel7;
         private Panel panel13;
         private Panel panel9;
+        private Label label3;
+        private FlowLayoutPanel PanelDetailTotalSaving;
     }
 }

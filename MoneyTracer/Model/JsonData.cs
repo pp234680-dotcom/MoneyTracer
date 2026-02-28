@@ -70,8 +70,8 @@ namespace MoneyTracer.Model
 
     internal class JsonData
     {
-        public static readonly string OutputDataFolder = @"Data\";
-        private static string OutputDataPath = OutputDataFolder;
+        public static readonly string OutputFolderPath = @"Data\";
+        public static string OutputDataPath = OutputFolderPath;
         public static readonly string OutputFileTailNameAndFileExtension = "savingData.json";
         public static string LoadFilePath = @"Data\current_data.json";
         public static readonly string DefaultLoadFilePath = @"Data\current_data.json";
@@ -125,7 +125,7 @@ namespace MoneyTracer.Model
             string time = mainViewController.GetCurrentFileSavingTime();
 
             string fileName = $"{time} {OutputFileTailNameAndFileExtension}";
-            OutputDataPath = OutputDataFolder + fileName;
+            OutputDataPath = OutputFolderPath + fileName;
         }
 
         public static Dictionary<string, int> SavingMoneyData

@@ -141,7 +141,7 @@ namespace MoneyTracer.Controller
                 if (theChar == '\n')
                 {
                     if (tempResult == string.Empty) continue;
-                    spendingMoneyList.Add(Convert.ToInt32(tempResult) * -1);
+                    spendingMoneyList.Add(Convert.ToInt32(tempResult));
                     tempResult = string.Empty;
                 }
                 else
@@ -284,7 +284,8 @@ namespace MoneyTracer.Controller
             foreach (PictureBox thePictureBox in pictureBoxes)
             {
                 Image theImage = thePictureBox.BackgroundImage;
-                string filePath = $"{JsonData.OutputDataFolder}{theTime} screenshot{num}.png";
+                string fileName = $"screenshot{num}.png";
+                string filePath = $"{JsonData.OutputDataPath.Replace(JsonData.OutputFileTailNameAndFileExtension,fileName)}";
                 theImage.Save(filePath);
                 num++;
             }
