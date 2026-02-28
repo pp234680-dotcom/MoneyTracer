@@ -5,6 +5,7 @@ using System;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -97,12 +98,15 @@ namespace MoneyTracer
         private readonly static string titleApplication = "MoneyTracer";
         private readonly static string titleVersion = "beta 0.6.1";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
-        private readonly string titleBalance = "Balance : $";
-        private readonly string titleBuffer = "Buffer Cash Usage : $";
-        private readonly string titleTotalSaving = "Total Saving : $";
-        private readonly string titleTotalSpending = "Total Spending : $";
-        private readonly string titleTotalWallet = "Wallet : $";
-        private readonly string titleTotalStatus = "Total Status : ";
+        private readonly string titleBalance = "$";
+        private readonly string titleBuffer = "$";
+        private readonly string titleTotalSaving = "$";
+        private readonly string titleTotalSpending = "$";
+        private readonly string titleSavingDifferent = "$";
+        private readonly string titleTotalWallet = "$";
+        private readonly string titleTotalStatus = "";
+        private readonly string txtCorrect = "No Difference";
+        private readonly string txtIncorrect = "Difference Detected";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
 
@@ -118,6 +122,8 @@ namespace MoneyTracer
             //set default open file location for user opening file
             string currentDirectory = Directory.GetCurrentDirectory();
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
+
+            txtCurrentBufferSaving.Text = "None";
 
             //offset the value
             DoBalanceOffset();
@@ -713,6 +719,8 @@ namespace MoneyTracer
             savingTotal += Convert.ToInt32(bufferTotal);
             DoValueUpdate();
 
+
+
             //add save data to del list
             AddSavingDataToDeletingComboBoxItem();
         }
@@ -744,7 +752,6 @@ namespace MoneyTracer
 
             //update total value
             txtSpendingTotal.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
-            txtSpendingHomepage.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
             AddSpendingDataToDeletingComboBoxItem();
@@ -806,7 +813,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"\"{theName}\" Already Used : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
+            txtCurrentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
@@ -904,10 +911,7 @@ namespace MoneyTracer
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
             txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
-        }
 
-        private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
-        {
             DoValueUpdate();
         }
 
@@ -924,6 +928,12 @@ namespace MoneyTracer
             txtTotalSaving.Text = titleTotalSaving + mainViewController.decimalSpreadtor(tempForSaving.ToString());
 
             txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
+
+
+            int tempWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
+            int savingDifferent = tempWallet - (int)tempForSaving;
+            txtSavingDifferent.Text = titleSavingDifferent + mainViewController.decimalSpreadtor(savingDifferent.ToString());
+
         }
 
         private void DoBalanceOffset()
@@ -1280,8 +1290,18 @@ namespace MoneyTracer
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
 
-            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + " Incorrect";
-            else txtTotalStaus.Text = titleTotalStatus + " Correct";
+            if (theBalance != theWallet)
+            {
+                txtTotalStaus.Text = titleTotalStatus + txtIncorrect;
+                string imagePath = @"image/incorrect.png";
+                picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
+            }
+            else
+            {
+                txtTotalStaus.Text = titleTotalStatus + txtCorrect;
+                string imagePath = @"image/correct.png";
+                picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
+            }
         }
 
         private void btnAddImage_Click(object sender, EventArgs e)
@@ -1409,10 +1429,8 @@ namespace MoneyTracer
             int tempBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             int tempTotal = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             string message = $"Balance : {tempBalance} + Total Deposit : {tempTotal - tempBalance} = Total Asset : {tempTotal}";
-            
-            MessageBox.Show(message, "Message",MessageBoxButtons.OK,MessageBoxIcon.None);
-        }
 
-        
+            MessageBox.Show(message, "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
     }
 }
