@@ -100,7 +100,7 @@ namespace MoneyTracer
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
         private readonly string titleTotalSaving = "$";
-        private readonly string titleTotalSpending = "Total Spending : $";
+        private readonly string titleTotalSpending = "$";
         private readonly string titleSavingDifferent = "$";
         private readonly string titleTotalWallet = "$";
         private readonly string titleTotalStatus = "Status : ";
@@ -1415,10 +1415,8 @@ namespace MoneyTracer
             int tempBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
             int tempTotal = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             string message = $"Balance : {tempBalance} + Total Deposit : {tempTotal - tempBalance} = Total Asset : {tempTotal}";
-            
-            MessageBox.Show(message, "Message",MessageBoxButtons.OK,MessageBoxIcon.None);
-        }
 
-        
+            MessageBox.Show(message, "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
     }
 }
