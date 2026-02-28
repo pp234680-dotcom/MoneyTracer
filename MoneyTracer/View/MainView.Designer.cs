@@ -38,6 +38,7 @@ namespace MoneyTracer
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             panel10 = new Panel();
+            PanelDetailTotalSaving = new FlowLayoutPanel();
             txtTotalSaving = new Label();
             txtWalletHomePage = new Label();
             panel11 = new Panel();
@@ -120,6 +121,7 @@ namespace MoneyTracer
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel10.SuspendLayout();
+            PanelDetailTotalSaving.SuspendLayout();
             panel11.SuspendLayout();
             panelSaving.SuspendLayout();
             panel8.SuspendLayout();
@@ -224,7 +226,7 @@ namespace MoneyTracer
             // panel10
             // 
             panel10.BackColor = Color.White;
-            panel10.Controls.Add(txtTotalSaving);
+            panel10.Controls.Add(PanelDetailTotalSaving);
             panel10.Controls.Add(txtWalletHomePage);
             panel10.Location = new Point(253, 55);
             panel10.Name = "panel10";
@@ -232,16 +234,27 @@ namespace MoneyTracer
             panel10.TabIndex = 14;
             panel10.Tag = "displayer";
             // 
+            // PanelDetailTotalSaving
+            // 
+            PanelDetailTotalSaving.Controls.Add(txtTotalSaving);
+            PanelDetailTotalSaving.Location = new Point(4, 18);
+            PanelDetailTotalSaving.Name = "PanelDetailTotalSaving";
+            PanelDetailTotalSaving.Size = new Size(174, 22);
+            PanelDetailTotalSaving.TabIndex = 3;
+            // 
             // txtTotalSaving
             // 
             txtTotalSaving.AutoSize = true;
             txtTotalSaving.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
             txtTotalSaving.ForeColor = Color.Black;
-            txtTotalSaving.Location = new Point(4, 19);
+            txtTotalSaving.Location = new Point(3, 0);
             txtTotalSaving.Name = "txtTotalSaving";
             txtTotalSaving.Size = new Size(136, 21);
             txtTotalSaving.TabIndex = 2;
             txtTotalSaving.Text = "Total Saving : $300";
+            txtTotalSaving.Click += txtTotalSaving_Click;
+            txtTotalSaving.MouseEnter += txtTotalSaving_MouseEnter;
+            txtTotalSaving.MouseLeave += txtTotalSaving_MouseLeave;
             // 
             // txtWalletHomePage
             // 
@@ -1026,6 +1039,7 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem.Name = "cleanTheLogToolStripMenuItem";
             cleanTheLogToolStripMenuItem.Size = new Size(119, 23);
             cleanTheLogToolStripMenuItem.Text = "Clean the Log";
+            cleanTheLogToolStripMenuItem.ToolTipText = "1234";
             cleanTheLogToolStripMenuItem.Click += cleanTheLogToolStripMenuItem_Click;
             // 
             // _openFileDialog
@@ -1056,6 +1070,8 @@ namespace MoneyTracer
             homepagePage.ResumeLayout(false);
             panel10.ResumeLayout(false);
             panel10.PerformLayout();
+            PanelDetailTotalSaving.ResumeLayout(false);
+            PanelDetailTotalSaving.PerformLayout();
             panel11.ResumeLayout(false);
             panel11.PerformLayout();
             panelSaving.ResumeLayout(false);
@@ -1193,5 +1209,6 @@ namespace MoneyTracer
         private Panel panel13;
         private Panel panel9;
         private Label label3;
+        private FlowLayoutPanel PanelDetailTotalSaving;
     }
 }

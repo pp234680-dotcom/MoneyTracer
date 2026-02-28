@@ -104,7 +104,8 @@ namespace MoneyTracer
         private readonly string titleTotalWallet = "Wallet : $";
         private readonly string titleTotalStatus = "Total Status : ";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
-        
+        private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
+
 
 
         public MainView()
@@ -147,6 +148,8 @@ namespace MoneyTracer
 
             //Setup the homepage
             InitializeTheHomePage();
+
+            InitialIzePanelDetailOfSaving();
         }
 
         private List<Panel> GetPanelTagCalledDisplayer()
@@ -194,13 +197,13 @@ namespace MoneyTracer
 
             //round displayer panels corner
             List<Panel> panels1 = GetPanelTagCalledDisplayer();
-            foreach(var thePanel in panels1)
+            foreach (var thePanel in panels1)
             {
                 GraphicsPath theShape = new GraphicsPath();
                 theShape.AddArc(0, 0, radius, radius, 180, 90);
                 theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
                 theShape.AddArc((thePanel.Width - radius), (thePanel.Height) - radius, radius, radius, 0, 90);
-                theShape.AddArc(0, (thePanel.Height)- radius, radius, radius, 90, 90);
+                theShape.AddArc(0, (thePanel.Height) - radius, radius, radius, 90, 90);
 
                 //conect startPoint and endPoint
                 theShape.CloseFigure();
@@ -761,7 +764,7 @@ namespace MoneyTracer
                 //Get current value 
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
-                
+
             }
         }
 
@@ -777,7 +780,7 @@ namespace MoneyTracer
 
         private void numericUpDown_OutOfFocus(object sender, EventArgs e)
         {
-            if(sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDown theNumUpDown)
             {
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, true);
             }
@@ -953,7 +956,7 @@ namespace MoneyTracer
             bool result = false;
             foreach (var item in flowPanelScreenshot.Controls)
             {
-                if(item is PictureBox theImage)
+                if (item is PictureBox theImage)
                 {
                     result = true;
                     break;
@@ -966,7 +969,7 @@ namespace MoneyTracer
         private void menuSave_Click(object sender, EventArgs e)
         {
             bool isScreenshotsExist = IsScreenshotsExist();
-            if(isScreenshotsExist == false)
+            if (isScreenshotsExist == false)
             {
                 var userResponse = MessageBox.Show("Screenshots haven¡¦t been added\nDo you want to save data without screenshots?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (userResponse == DialogResult.No) return;
@@ -1374,5 +1377,42 @@ namespace MoneyTracer
             mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
             LoadNewData(sender, e);
         }
+
+        private void InitialIzePanelDetailOfSaving()
+        {
+            //Expand the detail panel, just in case the panel too short and get a wrong value of label size
+            int x = txtTotalSaving.Size.Width + 100;
+            int y = PanelDetailTotalSaving.Size.Height;
+            Size tempSize = new Size(x, y);
+
+            //Get Size of label and set it to detail panel
+            PanelDetailTotalSaving.Size = tempSize;
+            x = txtTotalSaving.Size.Width + 8;
+            tempSize = new Size(x, y);
+            PanelDetailTotalSaving.Size = tempSize;
+        }
+
+        private void txtTotalSaving_MouseEnter(object sender, EventArgs e)
+        {
+            PanelDetailTotalSaving.BackColor = hoverColor;
+            Cursor = Cursors.Hand;
+        }
+
+        private void txtTotalSaving_MouseLeave(object sender, EventArgs e)
+        {
+            PanelDetailTotalSaving.BackColor = Color.Transparent;
+            Cursor = Cursors.Default;
+        }
+
+        private void txtTotalSaving_Click(object sender, EventArgs e)
+        {
+            int tempBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
+            int tempTotal = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
+            string message = $"Balance : {tempBalance} + Total Deposit : {tempTotal - tempBalance} = Total Asset : {tempTotal}";
+            
+            MessageBox.Show(message, "Message",MessageBoxButtons.OK,MessageBoxIcon.None);
+        }
+
+        
     }
 }
