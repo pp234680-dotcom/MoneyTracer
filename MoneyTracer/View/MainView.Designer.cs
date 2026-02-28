@@ -62,7 +62,7 @@ namespace MoneyTracer
             panel1 = new Panel();
             label4 = new Label();
             panel6 = new Panel();
-            currentBufferSaving = new Label();
+            txtCurrentBufferSaving = new Label();
             label9 = new Label();
             txtBufferHomePage = new Label();
             label10 = new Label();
@@ -239,7 +239,7 @@ namespace MoneyTracer
             // 
             txtSavingDifferent.AutoSize = true;
             txtSavingDifferent.Font = new Font("Segoe UI", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtSavingDifferent.Location = new Point(159, 26);
+            txtSavingDifferent.Location = new Point(159, 27);
             txtSavingDifferent.Name = "txtSavingDifferent";
             txtSavingDifferent.Size = new Size(34, 28);
             txtSavingDifferent.TabIndex = 15;
@@ -256,7 +256,7 @@ namespace MoneyTracer
             // PanelDetailTotalSaving
             // 
             PanelDetailTotalSaving.Controls.Add(txtTotalSaving);
-            PanelDetailTotalSaving.Location = new Point(8, 25);
+            PanelDetailTotalSaving.Location = new Point(8, 26);
             PanelDetailTotalSaving.Name = "PanelDetailTotalSaving";
             PanelDetailTotalSaving.Size = new Size(135, 30);
             PanelDetailTotalSaving.TabIndex = 3;
@@ -311,9 +311,9 @@ namespace MoneyTracer
             label7.AutoSize = true;
             label7.Location = new Point(159, 8);
             label7.Name = "label7";
-            label7.Size = new Size(113, 20);
+            label7.Size = new Size(123, 20);
             label7.TabIndex = 15;
-            label7.Text = "Assets Different";
+            label7.Text = "Assets Difference";
             // 
             // panelSaving
             // 
@@ -452,11 +452,11 @@ namespace MoneyTracer
             // label1
             // 
             label1.AutoSize = true;
-            label1.Font = new Font("Noto Sans TC", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
-            label1.ForeColor = Color.Black;
+            label1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            label1.ForeColor = Color.RosyBrown;
             label1.Location = new Point(9, 4);
             label1.Name = "label1";
-            label1.Size = new Size(55, 21);
+            label1.Size = new Size(55, 20);
             label1.TabIndex = 13;
             label1.Text = "Mode :";
             // 
@@ -490,14 +490,14 @@ namespace MoneyTracer
             label4.Font = new Font("Segoe UI", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 0);
             label4.Location = new Point(12, 12);
             label4.Name = "label4";
-            label4.Size = new Size(190, 28);
+            label4.Size = new Size(146, 28);
             label4.TabIndex = 3;
-            label4.Text = "Balance of The Week";
+            label4.Text = "Weekly Balance";
             // 
             // panel6
             // 
             panel6.BackColor = Color.White;
-            panel6.Controls.Add(currentBufferSaving);
+            panel6.Controls.Add(txtCurrentBufferSaving);
             panel6.Controls.Add(label9);
             panel6.Controls.Add(txtBufferHomePage);
             panel6.Controls.Add(label10);
@@ -507,16 +507,16 @@ namespace MoneyTracer
             panel6.TabIndex = 14;
             panel6.Tag = "displayer";
             // 
-            // currentBufferSaving
+            // txtCurrentBufferSaving
             // 
-            currentBufferSaving.AutoSize = true;
-            currentBufferSaving.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            currentBufferSaving.ForeColor = Color.Gray;
-            currentBufferSaving.Location = new Point(8, 81);
-            currentBufferSaving.Name = "currentBufferSaving";
-            currentBufferSaving.Size = new Size(162, 20);
-            currentBufferSaving.TabIndex = 10;
-            currentBufferSaving.Text = "The Reserve Fund : N/A";
+            txtCurrentBufferSaving.AutoSize = true;
+            txtCurrentBufferSaving.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCurrentBufferSaving.ForeColor = Color.Gray;
+            txtCurrentBufferSaving.Location = new Point(8, 81);
+            txtCurrentBufferSaving.Name = "txtCurrentBufferSaving";
+            txtCurrentBufferSaving.Size = new Size(45, 20);
+            txtCurrentBufferSaving.TabIndex = 10;
+            txtCurrentBufferSaving.Text = "None";
             // 
             // label9
             // 
@@ -532,7 +532,7 @@ namespace MoneyTracer
             txtBufferHomePage.AutoSize = true;
             txtBufferHomePage.Font = new Font("Segoe UI", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 0);
             txtBufferHomePage.ForeColor = Color.Black;
-            txtBufferHomePage.Location = new Point(8, 25);
+            txtBufferHomePage.Location = new Point(8, 29);
             txtBufferHomePage.Name = "txtBufferHomePage";
             txtBufferHomePage.Size = new Size(56, 28);
             txtBufferHomePage.TabIndex = 10;
@@ -1287,7 +1287,7 @@ namespace MoneyTracer
         private Panel panel4;
         private FlowLayoutPanel flowPanelScreenshot;
         private ToolStripMenuItem cleanTheLogToolStripMenuItem;
-        private Label currentBufferSaving;
+        private Label txtCurrentBufferSaving;
         private Button btnAddImage;
         private ToolStripMenuItem createANewFileToolStripMenuItem;
         private Panel panel1;

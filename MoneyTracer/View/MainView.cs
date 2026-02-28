@@ -5,6 +5,7 @@ using System;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
+using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
@@ -104,6 +105,8 @@ namespace MoneyTracer
         private readonly string titleSavingDifferent = "$";
         private readonly string titleTotalWallet = "$";
         private readonly string titleTotalStatus = "Status : ";
+        private readonly string txtCorrect = "No difference";
+        private readonly string txtIncorrect = "Asset not matched";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
 
@@ -119,6 +122,8 @@ namespace MoneyTracer
             //set default open file location for user opening file
             string currentDirectory = Directory.GetCurrentDirectory();
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
+
+            txtCurrentBufferSaving.Text = "None";
 
             //offset the value
             DoBalanceOffset();
@@ -808,7 +813,7 @@ namespace MoneyTracer
                     break;
                 }
             }
-            currentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
+            txtCurrentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
         private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
@@ -1286,8 +1291,8 @@ namespace MoneyTracer
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
 
-            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + " Incorrect";
-            else txtTotalStaus.Text = titleTotalStatus + " Correct";
+            if (theBalance != theWallet) txtTotalStaus.Text = titleTotalStatus + txtIncorrect;
+            else txtTotalStaus.Text = titleTotalStatus + txtCorrect;
         }
 
         private void btnAddImage_Click(object sender, EventArgs e)
