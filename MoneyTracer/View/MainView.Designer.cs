@@ -34,10 +34,10 @@ namespace MoneyTracer
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             txtTotalStaus = new Label();
             txtBalance = new Label();
-            txtSpendingHomepage = new Label();
             tabControl1 = new TabControl();
             homepagePage = new TabPage();
             panel10 = new Panel();
+            txtSavingDifferent = new Label();
             panel14 = new Panel();
             PanelDetailTotalSaving = new FlowLayoutPanel();
             txtTotalSaving = new Label();
@@ -115,8 +115,6 @@ namespace MoneyTracer
             btnDelImage = new Button();
             panel4 = new Panel();
             flowPanelScreenshot = new FlowLayoutPanel();
-            panel11 = new Panel();
-            panel5 = new Panel();
             menuStrip1 = new MenuStrip();
             testToolStripMenuItem = new ToolStripMenuItem();
             createANewFileToolStripMenuItem = new ToolStripMenuItem();
@@ -125,7 +123,6 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
-            label11 = new Label();
             fileSystemWatcher1 = new FileSystemWatcher();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
@@ -159,7 +156,6 @@ namespace MoneyTracer
             flowLayoutPanel4.SuspendLayout();
             panel3.SuspendLayout();
             panel4.SuspendLayout();
-            panel11.SuspendLayout();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             SuspendLayout();
@@ -185,17 +181,6 @@ namespace MoneyTracer
             txtBalance.Size = new Size(191, 36);
             txtBalance.TabIndex = 2;
             txtBalance.Text = "Balance$1,234";
-            // 
-            // txtSpendingHomepage
-            // 
-            txtSpendingHomepage.AutoSize = true;
-            txtSpendingHomepage.Font = new Font("Noto Sans TC DemiLight", 9.07563F);
-            txtSpendingHomepage.ForeColor = Color.Black;
-            txtSpendingHomepage.Location = new Point(5, 11);
-            txtSpendingHomepage.Name = "txtSpendingHomepage";
-            txtSpendingHomepage.Size = new Size(101, 21);
-            txtSpendingHomepage.TabIndex = 1;
-            txtSpendingHomepage.Text = "Spending : $0";
             // 
             // tabControl1
             // 
@@ -233,6 +218,7 @@ namespace MoneyTracer
             // panel10
             // 
             panel10.BackColor = Color.White;
+            panel10.Controls.Add(txtSavingDifferent);
             panel10.Controls.Add(txtTotalStaus);
             panel10.Controls.Add(panel14);
             panel10.Controls.Add(PanelDetailTotalSaving);
@@ -245,6 +231,16 @@ namespace MoneyTracer
             panel10.Size = new Size(325, 107);
             panel10.TabIndex = 14;
             panel10.Tag = "displayer";
+            // 
+            // txtSavingDifferent
+            // 
+            txtSavingDifferent.AutoSize = true;
+            txtSavingDifferent.Font = new Font("Segoe UI", 12.1008406F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtSavingDifferent.Location = new Point(159, 26);
+            txtSavingDifferent.Name = "txtSavingDifferent";
+            txtSavingDifferent.Size = new Size(34, 28);
+            txtSavingDifferent.TabIndex = 15;
+            txtSavingDifferent.Text = "$0";
             // 
             // panel14
             // 
@@ -261,6 +257,7 @@ namespace MoneyTracer
             PanelDetailTotalSaving.Name = "PanelDetailTotalSaving";
             PanelDetailTotalSaving.Size = new Size(135, 30);
             PanelDetailTotalSaving.TabIndex = 3;
+            PanelDetailTotalSaving.Tag = "";
             // 
             // txtTotalSaving
             // 
@@ -330,7 +327,7 @@ namespace MoneyTracer
             // 
             txtboxSavingMoney.Font = new Font("Noto Sans TC DemiLight", 10.2857141F);
             txtboxSavingMoney.ForeColor = Color.Black;
-            txtboxSavingMoney.Location = new Point(364, 10);
+            txtboxSavingMoney.Location = new Point(345, 10);
             txtboxSavingMoney.Name = "txtboxSavingMoney";
             txtboxSavingMoney.Size = new Size(135, 29);
             txtboxSavingMoney.TabIndex = 9;
@@ -1055,25 +1052,6 @@ namespace MoneyTracer
             flowPanelScreenshot.Size = new Size(397, 506);
             flowPanelScreenshot.TabIndex = 0;
             // 
-            // panel11
-            // 
-            panel11.BackColor = Color.White;
-            panel11.Controls.Add(txtSpendingHomepage);
-            panel11.Location = new Point(674, 231);
-            panel11.Name = "panel11";
-            panel11.Size = new Size(220, 39);
-            panel11.TabIndex = 14;
-            panel11.Tag = "displayer";
-            // 
-            // panel5
-            // 
-            panel5.BackColor = Color.White;
-            panel5.Location = new Point(674, 104);
-            panel5.Name = "panel5";
-            panel5.Size = new Size(428, 29);
-            panel5.TabIndex = 14;
-            panel5.Tag = "displayer";
-            // 
             // menuStrip1
             // 
             menuStrip1.BackColor = Color.Snow;
@@ -1130,15 +1108,6 @@ namespace MoneyTracer
             timerCheckingMoney.Enabled = true;
             timerCheckingMoney.Tick += timerCheckingMoney_Tick;
             // 
-            // label11
-            // 
-            label11.AutoSize = true;
-            label11.Location = new Point(993, 398);
-            label11.Name = "label11";
-            label11.Size = new Size(51, 21);
-            label11.TabIndex = 15;
-            label11.Text = "label5";
-            // 
             // fileSystemWatcher1
             // 
             fileSystemWatcher1.EnableRaisingEvents = true;
@@ -1150,11 +1119,8 @@ namespace MoneyTracer
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 245, 245);
             ClientSize = new Size(1242, 774);
-            Controls.Add(label11);
             Controls.Add(tabControl1);
-            Controls.Add(panel11);
             Controls.Add(menuStrip1);
-            Controls.Add(panel5);
             Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip1;
@@ -1208,8 +1174,6 @@ namespace MoneyTracer
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             panel4.ResumeLayout(false);
-            panel11.ResumeLayout(false);
-            panel11.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
@@ -1220,7 +1184,6 @@ namespace MoneyTracer
         #endregion
 
         private Label txtTotalStaus;
-        private Label txtSpendingHomepage;
         private TabControl tabControl1;
         private TabPage homepagePage;
         private TabPage spendingPage;
@@ -1294,8 +1257,6 @@ namespace MoneyTracer
         private ToolStripMenuItem createANewFileToolStripMenuItem;
         private Panel panel1;
         private Panel panel8;
-        private Panel panel5;
-        private Panel panel11;
         private Panel panel6;
         private Panel panel10;
         private Panel panel12;
@@ -1311,7 +1272,7 @@ namespace MoneyTracer
         private Label label8;
         private Label label9;
         private Label label10;
-        private Label label11;
+        private Label txtSavingDifferent;
         private FileSystemWatcher fileSystemWatcher1;
         private Panel panel14;
     }

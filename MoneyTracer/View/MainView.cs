@@ -101,6 +101,7 @@ namespace MoneyTracer
         private readonly string titleBuffer = "$";
         private readonly string titleTotalSaving = "$";
         private readonly string titleTotalSpending = "Total Spending : $";
+        private readonly string titleSavingDifferent = "$";
         private readonly string titleTotalWallet = "$";
         private readonly string titleTotalStatus = "Status : ";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
@@ -713,6 +714,8 @@ namespace MoneyTracer
             savingTotal += Convert.ToInt32(bufferTotal);
             DoValueUpdate();
 
+
+
             //add save data to del list
             AddSavingDataToDeletingComboBoxItem();
         }
@@ -744,7 +747,6 @@ namespace MoneyTracer
 
             //update total value
             txtSpendingTotal.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
-            txtSpendingHomepage.Text = titleTotalSpending + mainViewController.decimalSpreadtor(spendingTotal.ToString());
 
             //add spending data to del list
             AddSpendingDataToDeletingComboBoxItem();
@@ -904,10 +906,7 @@ namespace MoneyTracer
             walletTotal += nowVal - previousVal;
             txtWalletTotal.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
             txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
-        }
 
-        private void spendingNumUpDown_ValueChanged(object sender, EventArgs e)
-        {
             DoValueUpdate();
         }
 
@@ -924,6 +923,13 @@ namespace MoneyTracer
             txtTotalSaving.Text = titleTotalSaving + mainViewController.decimalSpreadtor(tempForSaving.ToString());
 
             txtBufferHomePage.Text = titleBuffer + mainViewController.decimalSpreadtor(bufferTotal.ToString());
+
+            List<int> tempWalletList = mainViewController.GetAllMoneyFromLabel(txtWalletMoney);
+            int tempWallet = 0;
+            foreach (int item in tempWalletList) tempWallet += item;
+            int savingDifferent = tempWallet - (int)tempForSaving;
+            txtSavingDifferent.Text = titleSavingDifferent + mainViewController.decimalSpreadtor(savingDifferent.ToString());
+
         }
 
         private void DoBalanceOffset()
