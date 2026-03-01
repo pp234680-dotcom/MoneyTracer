@@ -119,6 +119,9 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+
             //set default open file location for user opening file
             string currentDirectory = Directory.GetCurrentDirectory();
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
@@ -177,7 +180,7 @@ namespace MoneyTracer
             return panels;
         }
 
-        
+
 
 
 
@@ -1435,6 +1438,79 @@ namespace MoneyTracer
             string message = $"Balance : {tempBalance} + Total Deposit : {tempTotal - tempBalance} = Total Asset : {tempTotal}";
 
             MessageBox.Show(message, "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            panelBarHomepage.BackColor = Color.Transparent;
+            panelBarSpending.BackColor = Color.Transparent;
+            panelBarBufferCash.BackColor = Color.Transparent;
+            panelBarWallet.BackColor = Color.Transparent;
+            panelBarScreenshot.BackColor = Color.Transparent;
+
+            int index = tabControl1.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    panelBarHomepage.BackColor = Color.White;
+                    break;
+                case 1:
+                    panelBarSpending.BackColor = Color.White;
+                    break;
+                case 2:
+                    panelBarBufferCash.BackColor = Color.White;
+                    break;
+                case 3:
+                    panelBarWallet.BackColor = Color.White;
+                    break;
+                case 4:
+                    panelBarScreenshot.BackColor = Color.White;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 0;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 1;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 2;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 3;
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 4;
+        }
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is PictureBox thePictureBox)
+            {
+                thePictureBox.BackColor = hoverColor;
+            }
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is PictureBox thePictureBox)
+            {
+                thePictureBox.BackColor = Color.Transparent;
+            }
         }
     }
 }

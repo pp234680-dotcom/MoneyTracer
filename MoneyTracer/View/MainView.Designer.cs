@@ -135,6 +135,11 @@ namespace MoneyTracer
             pictureBox3 = new PictureBox();
             pictureBox4 = new PictureBox();
             pictureBox5 = new PictureBox();
+            panelBarHomepage = new Panel();
+            panelBarSpending = new Panel();
+            panelBarBufferCash = new Panel();
+            panelBarWallet = new Panel();
+            panelBarScreenshot = new Panel();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel10.SuspendLayout();
@@ -208,14 +213,15 @@ namespace MoneyTracer
             tabControl1.Controls.Add(walletPage);
             tabControl1.Controls.Add(ScreenshotPage);
             tabControl1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tabControl1.ItemSize = new Size(102, 26);
+            tabControl1.ItemSize = new Size(0, 1);
             tabControl1.Location = new Point(0, 32);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new Size(561, 741);
+            tabControl1.Size = new Size(561, 719);
             tabControl1.TabIndex = 8;
             tabControl1.TabStop = false;
             tabControl1.Tag = "selector";
+            tabControl1.Selecting += tabControl1_Selecting;
             // 
             // homepagePage
             // 
@@ -226,10 +232,10 @@ namespace MoneyTracer
             homepagePage.Controls.Add(panel8);
             homepagePage.Controls.Add(panel1);
             homepagePage.Controls.Add(panel6);
-            homepagePage.Location = new Point(4, 30);
+            homepagePage.Location = new Point(4, 5);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(553, 707);
+            homepagePage.Size = new Size(553, 710);
             homepagePage.TabIndex = 1;
             homepagePage.Text = "Homepage";
             // 
@@ -594,10 +600,10 @@ namespace MoneyTracer
             spendingPage.Controls.Add(panel12);
             spendingPage.Controls.Add(panelSpending);
             spendingPage.Controls.Add(panel2);
-            spendingPage.Location = new Point(4, 30);
+            spendingPage.Location = new Point(4, 5);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(553, 707);
+            spendingPage.Size = new Size(553, 710);
             spendingPage.TabIndex = 0;
             spendingPage.Text = "Spending";
             // 
@@ -780,9 +786,9 @@ namespace MoneyTracer
             bufferPage.BackgroundImage = (Image)resources.GetObject("bufferPage.BackgroundImage");
             bufferPage.Controls.Add(panel13);
             bufferPage.Controls.Add(panelBuffer);
-            bufferPage.Location = new Point(4, 30);
+            bufferPage.Location = new Point(4, 5);
             bufferPage.Name = "bufferPage";
-            bufferPage.Size = new Size(553, 707);
+            bufferPage.Size = new Size(553, 710);
             bufferPage.TabIndex = 3;
             bufferPage.Text = "Buffer Cash";
             // 
@@ -856,10 +862,10 @@ namespace MoneyTracer
             walletPage.Controls.Add(panel9);
             walletPage.Controls.Add(panel7);
             walletPage.Controls.Add(panelWallet);
-            walletPage.Location = new Point(4, 30);
+            walletPage.Location = new Point(4, 5);
             walletPage.Name = "walletPage";
             walletPage.Padding = new Padding(3);
-            walletPage.Size = new Size(553, 707);
+            walletPage.Size = new Size(553, 710);
             walletPage.TabIndex = 2;
             walletPage.Text = "Wallet";
             // 
@@ -1042,9 +1048,9 @@ namespace MoneyTracer
             ScreenshotPage.BackgroundImage = (Image)resources.GetObject("ScreenshotPage.BackgroundImage");
             ScreenshotPage.Controls.Add(panel4);
             ScreenshotPage.Controls.Add(panel11);
-            ScreenshotPage.Location = new Point(4, 30);
+            ScreenshotPage.Location = new Point(4, 5);
             ScreenshotPage.Name = "ScreenshotPage";
-            ScreenshotPage.Size = new Size(553, 707);
+            ScreenshotPage.Size = new Size(553, 710);
             ScreenshotPage.TabIndex = 4;
             ScreenshotPage.Text = "Screenshot";
             // 
@@ -1197,7 +1203,12 @@ namespace MoneyTracer
             flowLayoutPanel4.Controls.Add(pictureBox3);
             flowLayoutPanel4.Controls.Add(pictureBox4);
             flowLayoutPanel4.Controls.Add(pictureBox5);
-            flowLayoutPanel4.Location = new Point(0, 797);
+            flowLayoutPanel4.Controls.Add(panelBarHomepage);
+            flowLayoutPanel4.Controls.Add(panelBarSpending);
+            flowLayoutPanel4.Controls.Add(panelBarBufferCash);
+            flowLayoutPanel4.Controls.Add(panelBarWallet);
+            flowLayoutPanel4.Controls.Add(panelBarScreenshot);
+            flowLayoutPanel4.Location = new Point(0, 740);
             flowLayoutPanel4.Name = "flowLayoutPanel4";
             flowLayoutPanel4.Size = new Size(561, 71);
             flowLayoutPanel4.TabIndex = 10;
@@ -1206,58 +1217,118 @@ namespace MoneyTracer
             // 
             pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
             pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Cursor = Cursors.Hand;
             pictureBox1.Location = new Point(3, 3);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(105, 49);
             pictureBox1.TabIndex = 0;
             pictureBox1.TabStop = false;
+            pictureBox1.Click += pictureBox1_Click_1;
+            pictureBox1.MouseEnter += pictureBox_MouseEnter;
+            pictureBox1.MouseLeave += pictureBox_MouseLeave;
             // 
             // pictureBox2
             // 
             pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
             pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox2.Cursor = Cursors.Hand;
             pictureBox2.Location = new Point(114, 3);
             pictureBox2.Name = "pictureBox2";
             pictureBox2.Size = new Size(105, 49);
             pictureBox2.TabIndex = 0;
             pictureBox2.TabStop = false;
+            pictureBox2.Click += pictureBox2_Click;
+            pictureBox2.MouseEnter += pictureBox_MouseEnter;
+            pictureBox2.MouseLeave += pictureBox_MouseLeave;
             // 
             // pictureBox3
             // 
             pictureBox3.BackgroundImage = Properties.Resources.reserve_fund_icon;
             pictureBox3.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox3.Cursor = Cursors.Hand;
             pictureBox3.Location = new Point(225, 3);
             pictureBox3.Name = "pictureBox3";
             pictureBox3.Size = new Size(105, 49);
             pictureBox3.TabIndex = 0;
             pictureBox3.TabStop = false;
+            pictureBox3.Click += pictureBox3_Click;
+            pictureBox3.MouseEnter += pictureBox_MouseEnter;
+            pictureBox3.MouseLeave += pictureBox_MouseLeave;
             // 
             // pictureBox4
             // 
             pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
             pictureBox4.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox4.Cursor = Cursors.Hand;
             pictureBox4.Location = new Point(336, 3);
             pictureBox4.Name = "pictureBox4";
             pictureBox4.Size = new Size(105, 49);
             pictureBox4.TabIndex = 0;
             pictureBox4.TabStop = false;
+            pictureBox4.Click += pictureBox4_Click;
+            pictureBox4.MouseEnter += pictureBox_MouseEnter;
+            pictureBox4.MouseLeave += pictureBox_MouseLeave;
             // 
             // pictureBox5
             // 
             pictureBox5.BackgroundImage = (Image)resources.GetObject("pictureBox5.BackgroundImage");
             pictureBox5.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox5.Cursor = Cursors.Hand;
             pictureBox5.Location = new Point(447, 3);
             pictureBox5.Name = "pictureBox5";
             pictureBox5.Size = new Size(105, 49);
             pictureBox5.TabIndex = 0;
             pictureBox5.TabStop = false;
+            pictureBox5.Click += pictureBox5_Click;
+            pictureBox5.MouseEnter += pictureBox_MouseEnter;
+            pictureBox5.MouseLeave += pictureBox_MouseLeave;
+            // 
+            // panelBarHomepage
+            // 
+            panelBarHomepage.BackColor = Color.White;
+            panelBarHomepage.Location = new Point(3, 58);
+            panelBarHomepage.Name = "panelBarHomepage";
+            panelBarHomepage.Size = new Size(105, 4);
+            panelBarHomepage.TabIndex = 1;
+            // 
+            // panelBarSpending
+            // 
+            panelBarSpending.BackColor = Color.Transparent;
+            panelBarSpending.Location = new Point(114, 58);
+            panelBarSpending.Name = "panelBarSpending";
+            panelBarSpending.Size = new Size(105, 4);
+            panelBarSpending.TabIndex = 1;
+            // 
+            // panelBarBufferCash
+            // 
+            panelBarBufferCash.BackColor = Color.Transparent;
+            panelBarBufferCash.Location = new Point(225, 58);
+            panelBarBufferCash.Name = "panelBarBufferCash";
+            panelBarBufferCash.Size = new Size(105, 4);
+            panelBarBufferCash.TabIndex = 1;
+            // 
+            // panelBarWallet
+            // 
+            panelBarWallet.BackColor = Color.Transparent;
+            panelBarWallet.Location = new Point(336, 58);
+            panelBarWallet.Name = "panelBarWallet";
+            panelBarWallet.Size = new Size(105, 4);
+            panelBarWallet.TabIndex = 1;
+            // 
+            // panelBarScreenshot
+            // 
+            panelBarScreenshot.BackColor = Color.Transparent;
+            panelBarScreenshot.Location = new Point(447, 58);
+            panelBarScreenshot.Name = "panelBarScreenshot";
+            panelBarScreenshot.Size = new Size(105, 4);
+            panelBarScreenshot.TabIndex = 1;
             // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 245, 245);
-            ClientSize = new Size(559, 870);
+            ClientSize = new Size(559, 805);
             Controls.Add(flowLayoutPanel4);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
@@ -1432,5 +1503,10 @@ namespace MoneyTracer
         private PictureBox pictureBox3;
         private PictureBox pictureBox4;
         private PictureBox pictureBox5;
+        private Panel panelBarHomepage;
+        private Panel panelBarSpending;
+        private Panel panelBarBufferCash;
+        private Panel panelBarWallet;
+        private Panel panelBarScreenshot;
     }
 }
