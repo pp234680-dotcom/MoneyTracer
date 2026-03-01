@@ -63,6 +63,16 @@ namespace MoneyTracer.Properties {
         /// <summary>
         ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
         /// </summary>
+        internal static System.Drawing.Bitmap reserve_fund_icon {
+            get {
+                object obj = ResourceManager.GetObject("reserve fund icon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   查詢類型 System.Drawing.Bitmap 的當地語系化資源。
+        /// </summary>
         internal static System.Drawing.Bitmap shader3 {
             get {
                 object obj = ResourceManager.GetObject("shader3", resourceCulture);

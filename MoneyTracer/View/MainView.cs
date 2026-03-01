@@ -96,7 +96,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.1";
+        private readonly static string titleVersion = "beta 0.6.4";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -119,6 +119,9 @@ namespace MoneyTracer
 
         private void MainView_Load(object sender, EventArgs e)
         {
+            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+
             //set default open file location for user opening file
             string currentDirectory = Directory.GetCurrentDirectory();
             _openFileDialog.InitialDirectory = currentDirectory + "\\Data";
@@ -158,7 +161,7 @@ namespace MoneyTracer
             InitialIzePanelDetailOfSaving();
         }
 
-        private List<Panel> GetPanelTagCalledDisplayer()
+        private List<Panel> GetPanelTagByName(string name)
         {
             List<Panel> panels = new List<Panel>();
             foreach (var item in tabControl1.Controls)
@@ -169,7 +172,7 @@ namespace MoneyTracer
                     {
                         if (item2 is Panel thePanel)
                         {
-                            if (thePanel.Tag == "displayer") panels.Add(thePanel);
+                            if (thePanel.Tag == name) panels.Add(thePanel);
                         }
                     }
                 }
@@ -177,39 +180,24 @@ namespace MoneyTracer
             return panels;
         }
 
-        private List<Panel> GetPanelTagCalledSelector()
-        {
-            List<Panel> panels = new List<Panel>();
-            foreach (var item in tabControl1.Controls)
-            {
-                if (item is TabPage theTab)
-                {
-                    foreach (var item2 in theTab.Controls)
-                    {
-                        if (item2 is Panel thePanel)
-                        {
-                            if (thePanel.Tag == "selector") panels.Add(thePanel);
-                        }
-                    }
-                }
-            }
 
-            return panels;
-        }
+
+
 
         private void SetPanelRoundCorner()
         {
             int radius = 10;
+            int diameter = radius * 2;
 
             //round displayer panels corner
-            List<Panel> panels1 = GetPanelTagCalledDisplayer();
+            List<Panel> panels1 = GetPanelTagByName("displayer");
             foreach (var thePanel in panels1)
             {
                 GraphicsPath theShape = new GraphicsPath();
-                theShape.AddArc(0, 0, radius, radius, 180, 90);
-                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
-                theShape.AddArc((thePanel.Width - radius), (thePanel.Height) - radius, radius, radius, 0, 90);
-                theShape.AddArc(0, (thePanel.Height) - radius, radius, radius, 90, 90);
+                theShape.AddArc(0, 0, diameter, diameter, 180, 90);
+                theShape.AddArc((thePanel.Width - diameter), 0, diameter, diameter, 270, 90);
+                theShape.AddArc((thePanel.Width - diameter), (thePanel.Height) - diameter, diameter, diameter, 0, 90);
+                theShape.AddArc(0, (thePanel.Height) - diameter, diameter, diameter, 90, 90);
 
                 //conect startPoint and endPoint
                 theShape.CloseFigure();
@@ -218,14 +206,13 @@ namespace MoneyTracer
             }
 
             //round selector panels corner
-            List<Panel> panels2 = GetPanelTagCalledSelector();
-
+            List<Panel> panels2 = GetPanelTagByName("selector");
             foreach (var thePanel in panels2)
             {
                 GraphicsPath theShape = new GraphicsPath();
-                theShape.AddArc(0, 0, radius, radius, 180, 90);
-                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
-                theShape.AddLine(thePanel.Width, (0 + radius), thePanel.Width, (thePanel.Height));
+                theShape.AddArc(0, 0, diameter, diameter, 180, 90);
+                theShape.AddArc((thePanel.Width - diameter), 0, diameter, diameter, 270, 90);
+                theShape.AddLine(thePanel.Width, (0 + diameter), thePanel.Width, (thePanel.Height));
                 theShape.AddLine(thePanel.Width, thePanel.Height, 0, thePanel.Height);
 
                 //conect startPoint and endPoint
@@ -233,6 +220,23 @@ namespace MoneyTracer
 
                 thePanel.Region = new Region(theShape);
             }
+
+            //round selector panels corner
+            List<Panel> panels3 = GetPanelTagByName("displayerBottom");
+            foreach (var thePanel in panels3)
+            {
+                GraphicsPath theShape = new GraphicsPath();
+                theShape.AddLine(0, 0, thePanel.Width, 0);
+                theShape.AddLine(thePanel.Width, 0, thePanel.Width, thePanel.Height);
+                theShape.AddArc((thePanel.Width - diameter), (thePanel.Height - diameter), diameter, diameter, 0, 90);
+                theShape.AddArc(0, (thePanel.Height - diameter), diameter, diameter, 90, 90);
+
+                //conect startPoint and endPoint
+                theShape.CloseFigure();
+
+                thePanel.Region = new Region(theShape);
+            }
+
         }
 
         private void SetMainViewWindowTitle()
@@ -305,7 +309,7 @@ namespace MoneyTracer
                 string newPictureName = $"ScreenShot {num}";
                 PictureBox newPictureBox = new PictureBox();
                 newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
                 newPictureBox.BackgroundImage = Image.FromFile(thePath);
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
@@ -1217,6 +1221,9 @@ namespace MoneyTracer
             bankDataDictionary = JsonData.BankData;
 
             MainView_Load(sender, e);
+
+            DialogResult userResponse = MessageBox.Show("Do you want to clean the log first?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+            if (userResponse == DialogResult.Yes) cleanTheLogToolStripMenuItem_Click(sender, e);
         }
 
         private void menuOpen_Click(object sender, EventArgs e)
@@ -1326,7 +1333,7 @@ namespace MoneyTracer
                 string newPictureName = $"ScreenShot {num}";
                 PictureBox newPictureBox = new PictureBox();
                 newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(360, 130);
+                newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
                 newPictureBox.BackgroundImage = Clipboard.GetImage();
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
@@ -1431,6 +1438,79 @@ namespace MoneyTracer
             string message = $"Balance : {tempBalance} + Total Deposit : {tempTotal - tempBalance} = Total Asset : {tempTotal}";
 
             MessageBox.Show(message, "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+        }
+
+        private void tabControl1_Selecting(object sender, TabControlCancelEventArgs e)
+        {
+            panelBarHomepage.BackColor = Color.Transparent;
+            panelBarSpending.BackColor = Color.Transparent;
+            panelBarBufferCash.BackColor = Color.Transparent;
+            panelBarWallet.BackColor = Color.Transparent;
+            panelBarScreenshot.BackColor = Color.Transparent;
+
+            int index = tabControl1.SelectedIndex;
+
+            switch (index)
+            {
+                case 0:
+                    panelBarHomepage.BackColor = Color.White;
+                    break;
+                case 1:
+                    panelBarSpending.BackColor = Color.White;
+                    break;
+                case 2:
+                    panelBarBufferCash.BackColor = Color.White;
+                    break;
+                case 3:
+                    panelBarWallet.BackColor = Color.White;
+                    break;
+                case 4:
+                    panelBarScreenshot.BackColor = Color.White;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private void pictureBox1_Click_1(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 0;
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 1;
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 2;
+        }
+
+        private void pictureBox4_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 3;
+        }
+
+        private void pictureBox5_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 4;
+        }
+
+        private void pictureBox_MouseEnter(object sender, EventArgs e)
+        {
+            if (sender is PictureBox thePictureBox)
+            {
+                thePictureBox.BackColor = hoverColor;
+            }
+        }
+
+        private void pictureBox_MouseLeave(object sender, EventArgs e)
+        {
+            if (sender is PictureBox thePictureBox)
+            {
+                thePictureBox.BackColor = Color.Transparent;
+            }
         }
     }
 }
