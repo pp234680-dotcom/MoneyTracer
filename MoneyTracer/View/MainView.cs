@@ -96,7 +96,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.1";
+        private readonly static string titleVersion = "beta 0.6.4";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -158,7 +158,7 @@ namespace MoneyTracer
             InitialIzePanelDetailOfSaving();
         }
 
-        private List<Panel> GetPanelTagCalledDisplayer()
+        private List<Panel> GetPanelTagByName(string name)
         {
             List<Panel> panels = new List<Panel>();
             foreach (var item in tabControl1.Controls)
@@ -169,7 +169,7 @@ namespace MoneyTracer
                     {
                         if (item2 is Panel thePanel)
                         {
-                            if (thePanel.Tag == "displayer") panels.Add(thePanel);
+                            if (thePanel.Tag == name) panels.Add(thePanel);
                         }
                     }
                 }
@@ -177,39 +177,24 @@ namespace MoneyTracer
             return panels;
         }
 
-        private List<Panel> GetPanelTagCalledSelector()
-        {
-            List<Panel> panels = new List<Panel>();
-            foreach (var item in tabControl1.Controls)
-            {
-                if (item is TabPage theTab)
-                {
-                    foreach (var item2 in theTab.Controls)
-                    {
-                        if (item2 is Panel thePanel)
-                        {
-                            if (thePanel.Tag == "selector") panels.Add(thePanel);
-                        }
-                    }
-                }
-            }
+        
 
-            return panels;
-        }
+
 
         private void SetPanelRoundCorner()
         {
-            int radius = 20;
+            int radius = 10;
+            int diameter = radius * 2;
 
             //round displayer panels corner
-            List<Panel> panels1 = GetPanelTagCalledDisplayer();
+            List<Panel> panels1 = GetPanelTagByName("displayer");
             foreach (var thePanel in panels1)
             {
                 GraphicsPath theShape = new GraphicsPath();
-                theShape.AddArc(0, 0, radius, radius, 180, 90);
-                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
-                theShape.AddArc((thePanel.Width - radius), (thePanel.Height) - radius, radius, radius, 0, 90);
-                theShape.AddArc(0, (thePanel.Height) - radius, radius, radius, 90, 90);
+                theShape.AddArc(0, 0, diameter, diameter, 180, 90);
+                theShape.AddArc((thePanel.Width - diameter), 0, diameter, diameter, 270, 90);
+                theShape.AddArc((thePanel.Width - diameter), (thePanel.Height) - diameter, diameter, diameter, 0, 90);
+                theShape.AddArc(0, (thePanel.Height) - diameter, diameter, diameter, 90, 90);
 
                 //conect startPoint and endPoint
                 theShape.CloseFigure();
@@ -218,14 +203,13 @@ namespace MoneyTracer
             }
 
             //round selector panels corner
-            List<Panel> panels2 = GetPanelTagCalledSelector();
-
+            List<Panel> panels2 = GetPanelTagByName("selector");
             foreach (var thePanel in panels2)
             {
                 GraphicsPath theShape = new GraphicsPath();
-                theShape.AddArc(0, 0, radius, radius, 180, 90);
-                theShape.AddArc((thePanel.Width - radius), 0, radius, radius, 270, 90);
-                theShape.AddLine(thePanel.Width, (0 + radius), thePanel.Width, (thePanel.Height));
+                theShape.AddArc(0, 0, diameter, diameter, 180, 90);
+                theShape.AddArc((thePanel.Width - diameter), 0, diameter, diameter, 270, 90);
+                theShape.AddLine(thePanel.Width, (0 + diameter), thePanel.Width, (thePanel.Height));
                 theShape.AddLine(thePanel.Width, thePanel.Height, 0, thePanel.Height);
 
                 //conect startPoint and endPoint
@@ -233,6 +217,23 @@ namespace MoneyTracer
 
                 thePanel.Region = new Region(theShape);
             }
+
+            //round selector panels corner
+            List<Panel> panels3 = GetPanelTagByName("displayerBottom");
+            foreach (var thePanel in panels3)
+            {
+                GraphicsPath theShape = new GraphicsPath();
+                theShape.AddLine(0, 0, thePanel.Width, 0);
+                theShape.AddLine(thePanel.Width, 0, thePanel.Width, thePanel.Height);
+                theShape.AddArc((thePanel.Width - diameter), (thePanel.Height - diameter), diameter, diameter, 0, 90);
+                theShape.AddArc(0, (thePanel.Height - diameter), diameter, diameter, 90, 90);
+
+                //conect startPoint and endPoint
+                theShape.CloseFigure();
+
+                thePanel.Region = new Region(theShape);
+            }
+
         }
 
         private void SetMainViewWindowTitle()
