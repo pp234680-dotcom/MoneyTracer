@@ -129,6 +129,12 @@ namespace MoneyTracer
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
             fileSystemWatcher1 = new FileSystemWatcher();
+            flowLayoutPanel4 = new FlowLayoutPanel();
+            pictureBox1 = new PictureBox();
+            pictureBox2 = new PictureBox();
+            pictureBox3 = new PictureBox();
+            pictureBox4 = new PictureBox();
+            pictureBox5 = new PictureBox();
             tabControl1.SuspendLayout();
             homepagePage.SuspendLayout();
             panel10.SuspendLayout();
@@ -164,6 +170,12 @@ namespace MoneyTracer
             panel3.SuspendLayout();
             menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
+            flowLayoutPanel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).BeginInit();
             SuspendLayout();
             // 
             // txtTotalStaus
@@ -197,7 +209,7 @@ namespace MoneyTracer
             tabControl1.Controls.Add(ScreenshotPage);
             tabControl1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
             tabControl1.ItemSize = new Size(102, 26);
-            tabControl1.Location = new Point(7, 32);
+            tabControl1.Location = new Point(0, 32);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
             tabControl1.Size = new Size(561, 741);
@@ -1123,7 +1135,7 @@ namespace MoneyTracer
             menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanTheLogToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(571, 27);
+            menuStrip1.Size = new Size(559, 27);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -1177,12 +1189,76 @@ namespace MoneyTracer
             fileSystemWatcher1.EnableRaisingEvents = true;
             fileSystemWatcher1.SynchronizingObject = this;
             // 
+            // flowLayoutPanel4
+            // 
+            flowLayoutPanel4.BackColor = Color.FromArgb(244, 214, 214);
+            flowLayoutPanel4.Controls.Add(pictureBox1);
+            flowLayoutPanel4.Controls.Add(pictureBox2);
+            flowLayoutPanel4.Controls.Add(pictureBox3);
+            flowLayoutPanel4.Controls.Add(pictureBox4);
+            flowLayoutPanel4.Controls.Add(pictureBox5);
+            flowLayoutPanel4.Location = new Point(0, 797);
+            flowLayoutPanel4.Name = "flowLayoutPanel4";
+            flowLayoutPanel4.Size = new Size(561, 71);
+            flowLayoutPanel4.TabIndex = 10;
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.BackgroundImage = (Image)resources.GetObject("pictureBox1.BackgroundImage");
+            pictureBox1.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox1.Location = new Point(3, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(105, 49);
+            pictureBox1.TabIndex = 0;
+            pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            pictureBox2.BackgroundImage = (Image)resources.GetObject("pictureBox2.BackgroundImage");
+            pictureBox2.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox2.Location = new Point(114, 3);
+            pictureBox2.Name = "pictureBox2";
+            pictureBox2.Size = new Size(105, 49);
+            pictureBox2.TabIndex = 0;
+            pictureBox2.TabStop = false;
+            // 
+            // pictureBox3
+            // 
+            pictureBox3.BackgroundImage = Properties.Resources.reserve_fund_icon;
+            pictureBox3.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox3.Location = new Point(225, 3);
+            pictureBox3.Name = "pictureBox3";
+            pictureBox3.Size = new Size(105, 49);
+            pictureBox3.TabIndex = 0;
+            pictureBox3.TabStop = false;
+            // 
+            // pictureBox4
+            // 
+            pictureBox4.BackgroundImage = (Image)resources.GetObject("pictureBox4.BackgroundImage");
+            pictureBox4.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox4.Location = new Point(336, 3);
+            pictureBox4.Name = "pictureBox4";
+            pictureBox4.Size = new Size(105, 49);
+            pictureBox4.TabIndex = 0;
+            pictureBox4.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            pictureBox5.BackgroundImage = (Image)resources.GetObject("pictureBox5.BackgroundImage");
+            pictureBox5.BackgroundImageLayout = ImageLayout.Zoom;
+            pictureBox5.Location = new Point(447, 3);
+            pictureBox5.Name = "pictureBox5";
+            pictureBox5.Size = new Size(105, 49);
+            pictureBox5.TabIndex = 0;
+            pictureBox5.TabStop = false;
+            // 
             // MainView
             // 
             AutoScaleDimensions = new SizeF(9F, 21F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(255, 245, 245);
-            ClientSize = new Size(571, 774);
+            ClientSize = new Size(559, 870);
+            Controls.Add(flowLayoutPanel4);
             Controls.Add(tabControl1);
             Controls.Add(menuStrip1);
             Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
@@ -1241,6 +1317,12 @@ namespace MoneyTracer
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
+            flowLayoutPanel4.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox3).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox4).EndInit();
+            ((System.ComponentModel.ISupportInitialize)pictureBox5).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1344,5 +1426,11 @@ namespace MoneyTracer
         private Panel panel11;
         private PictureBox picBoxCorrect;
         private Label label3;
+        private FlowLayoutPanel flowLayoutPanel4;
+        private PictureBox pictureBox1;
+        private PictureBox pictureBox2;
+        private PictureBox pictureBox3;
+        private PictureBox pictureBox4;
+        private PictureBox pictureBox5;
     }
 }
