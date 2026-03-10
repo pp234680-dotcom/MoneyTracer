@@ -96,7 +96,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.4";
+        private readonly static string titleVersion = "beta 0.6.6";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -517,9 +517,9 @@ namespace MoneyTracer
 
                 //name length limit
                 string name = item.Key;
-                if (name.Length > 24)
+                if (name.Length > 32)
                 {
-                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Remove(name.Length - 1, name.Length-32);
                     name = name.Insert(name.Length - 1, "...");
                 }
 
@@ -552,9 +552,9 @@ namespace MoneyTracer
 
                 //name length limit
                 string name = item.Key;
-                if (name.Length > 24)
+                if (name.Length > 32)
                 {
-                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Remove(name.Length - 1, name.Length - 32);
                     name = name.Insert(name.Length - 1, "...");
                 }
 
@@ -587,9 +587,9 @@ namespace MoneyTracer
 
                 //name length limit
                 string name = item.Key;
-                if (name.Length > 24)
+                if (name.Length > 32)
                 {
-                    name = name.Remove(name.Length - 1, 1);
+                    name = name.Remove(name.Length - 1, name.Length - 32);
                     name = name.Insert(name.Length - 1, "...");
                 }
 
@@ -1010,7 +1010,8 @@ namespace MoneyTracer
             StoredData.storedWalletData = mainViewController.GetOutputDataOfCertainTab(txtWalletName, panelWallet);
             StoredData.storedBufferData = mainViewController.GetOutputDataOfCertainTab(txtBufferName, txtBufferMoney);
 
-            JsonData.SavingTheData();
+            JsonData.SavingTheData(out string theDate);
+            Text = $"{titleMainViewWindowName} {theDate}";
 
         }
 
@@ -1103,6 +1104,11 @@ namespace MoneyTracer
         {
             //Check if box is empty
             if (theNameInputBox.Text == string.Empty) return;
+            if (theNameInputBox.Text.Count() > 24)
+            {
+                MessageBox.Show("Name is too long", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
             if (theMoneyInputBox.Text == string.Empty) theMoneyInputBox.Text = "0";
 
             int inputNum = 0;

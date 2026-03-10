@@ -120,7 +120,7 @@ namespace MoneyTracer.Model
         /// <summary>
         /// Generate file name by the date of the day, and the file path 
         /// </summary>
-        private static void GetOutputFilePath()
+        private static void UpdateOutputFilePath()
         {
             string time = mainViewController.GetCurrentFileSavingTime();
 
@@ -241,9 +241,11 @@ namespace MoneyTracer.Model
             }
         }
 
-        public static void SavingTheData()
+        public static void SavingTheData(out string theDate)
         {
-            GetOutputFilePath();
+            UpdateOutputFilePath();
+            string theFileName = Path.GetFileName(OutputDataPath);
+            theDate = theFileName.Split(" ")[0];
 
             List<Saving> savings = new List<Saving>();
             List<Weekbudget> weekbudgets = new List<Weekbudget>();

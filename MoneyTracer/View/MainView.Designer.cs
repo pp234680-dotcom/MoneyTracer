@@ -213,7 +213,7 @@ namespace MoneyTracer
             tabControl1.Controls.Add(walletPage);
             tabControl1.Controls.Add(ScreenshotPage);
             tabControl1.Font = new Font("Segoe UI", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            tabControl1.ItemSize = new Size(0, 1);
+            tabControl1.ItemSize = new Size(0, 10);
             tabControl1.Location = new Point(0, 32);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -232,10 +232,10 @@ namespace MoneyTracer
             homepagePage.Controls.Add(panel8);
             homepagePage.Controls.Add(panel1);
             homepagePage.Controls.Add(panel6);
-            homepagePage.Location = new Point(4, 5);
+            homepagePage.Location = new Point(4, 14);
             homepagePage.Name = "homepagePage";
             homepagePage.Padding = new Padding(3);
-            homepagePage.Size = new Size(553, 710);
+            homepagePage.Size = new Size(553, 701);
             homepagePage.TabIndex = 1;
             homepagePage.Text = "Homepage";
             // 
@@ -600,10 +600,10 @@ namespace MoneyTracer
             spendingPage.Controls.Add(panel12);
             spendingPage.Controls.Add(panelSpending);
             spendingPage.Controls.Add(panel2);
-            spendingPage.Location = new Point(4, 5);
+            spendingPage.Location = new Point(4, 14);
             spendingPage.Name = "spendingPage";
             spendingPage.Padding = new Padding(3);
-            spendingPage.Size = new Size(553, 710);
+            spendingPage.Size = new Size(553, 701);
             spendingPage.TabIndex = 0;
             spendingPage.Text = "Spending";
             // 
@@ -645,10 +645,11 @@ namespace MoneyTracer
             panelSpending.BackColor = Color.White;
             panelSpending.Controls.Add(txtBoxSpendingMoney);
             panelSpending.Controls.Add(txtBoxSpendingName);
-            panelSpending.Location = new Point(17, 205);
+            panelSpending.Location = new Point(17, 196);
             panelSpending.Name = "panelSpending";
             panelSpending.Size = new Size(518, 463);
             panelSpending.TabIndex = 10;
+            panelSpending.Tag = "displayerBottom";
             // 
             // txtBoxSpendingMoney
             // 
@@ -786,9 +787,9 @@ namespace MoneyTracer
             bufferPage.BackgroundImage = (Image)resources.GetObject("bufferPage.BackgroundImage");
             bufferPage.Controls.Add(panel13);
             bufferPage.Controls.Add(panelBuffer);
-            bufferPage.Location = new Point(4, 5);
+            bufferPage.Location = new Point(4, 14);
             bufferPage.Name = "bufferPage";
-            bufferPage.Size = new Size(553, 710);
+            bufferPage.Size = new Size(553, 701);
             bufferPage.TabIndex = 3;
             bufferPage.Text = "Buffer Cash";
             // 
@@ -830,7 +831,7 @@ namespace MoneyTracer
             panelBuffer.BackColor = Color.White;
             panelBuffer.Controls.Add(txtBufferMoney);
             panelBuffer.Controls.Add(txtBufferName);
-            panelBuffer.Location = new Point(17, 136);
+            panelBuffer.Location = new Point(17, 127);
             panelBuffer.Name = "panelBuffer";
             panelBuffer.Size = new Size(518, 530);
             panelBuffer.TabIndex = 23;
@@ -862,10 +863,10 @@ namespace MoneyTracer
             walletPage.Controls.Add(panel9);
             walletPage.Controls.Add(panel7);
             walletPage.Controls.Add(panelWallet);
-            walletPage.Location = new Point(4, 5);
+            walletPage.Location = new Point(4, 14);
             walletPage.Name = "walletPage";
             walletPage.Padding = new Padding(3);
-            walletPage.Size = new Size(553, 710);
+            walletPage.Size = new Size(553, 701);
             walletPage.TabIndex = 2;
             walletPage.Text = "Wallet";
             // 
@@ -1013,7 +1014,6 @@ namespace MoneyTracer
             // 
             // panelWallet
             // 
-            panelWallet.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panelWallet.AutoScroll = true;
             panelWallet.BackColor = Color.White;
             panelWallet.Controls.Add(txtWalletMoney);
@@ -1022,6 +1022,7 @@ namespace MoneyTracer
             panelWallet.Name = "panelWallet";
             panelWallet.Size = new Size(518, 463);
             panelWallet.TabIndex = 18;
+            panelWallet.Tag = "displayerBottom";
             // 
             // txtWalletMoney
             // 
@@ -1048,15 +1049,14 @@ namespace MoneyTracer
             ScreenshotPage.BackgroundImage = (Image)resources.GetObject("ScreenshotPage.BackgroundImage");
             ScreenshotPage.Controls.Add(panel4);
             ScreenshotPage.Controls.Add(panel11);
-            ScreenshotPage.Location = new Point(4, 5);
+            ScreenshotPage.Location = new Point(4, 14);
             ScreenshotPage.Name = "ScreenshotPage";
-            ScreenshotPage.Size = new Size(553, 710);
+            ScreenshotPage.Size = new Size(553, 701);
             ScreenshotPage.TabIndex = 4;
             ScreenshotPage.Text = "Screenshot";
             // 
             // panel4
             // 
-            panel4.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panel4.AutoScroll = true;
             panel4.BackColor = Color.White;
             panel4.Controls.Add(flowPanelScreenshot);
@@ -1064,6 +1064,7 @@ namespace MoneyTracer
             panel4.Name = "panel4";
             panel4.Size = new Size(518, 605);
             panel4.TabIndex = 26;
+            panel4.Tag = "displayerBottom";
             // 
             // flowPanelScreenshot
             // 
