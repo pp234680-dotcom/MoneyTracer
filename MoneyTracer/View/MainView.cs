@@ -1011,7 +1011,7 @@ namespace MoneyTracer
             StoredData.storedBufferData = mainViewController.GetOutputDataOfCertainTab(txtBufferName, txtBufferMoney);
 
             JsonData.SavingTheData(out string theDate);
-            Text = $"{titleMainViewWindowName} {theDate}";
+            Text = $"{titleMainViewWindowName} - {theDate}";
 
         }
 
