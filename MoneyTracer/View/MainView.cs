@@ -11,11 +11,7 @@ using System.Xml.Linq;
 
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : screenshot list should get sorted number, maybe using for to collect picture box first?
-//todo : current using buffer title doesn't reload when open file
-//todo : after save a file, reload the title date
-//todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
-//todo : Show how much is missing
 //todo : closing program will set current file as default data
 
 
@@ -96,7 +92,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6";
+        private readonly static string titleVersion = "beta 0.6.6.1";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
