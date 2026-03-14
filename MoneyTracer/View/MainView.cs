@@ -11,11 +11,7 @@ using System.Xml.Linq;
 
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : screenshot list should get sorted number, maybe using for to collect picture box first?
-//todo : current using buffer title doesn't reload when open file
-//todo : after save a file, reload the title date
-//todo : correct & incorrect should displayed with color
 //todo : add Clear buffer page button
-//todo : Show how much is missing
 //todo : closing program will set current file as default data
 
 
@@ -96,7 +92,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6";
+        private readonly static string titleVersion = "beta 0.6.6.1";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -441,7 +437,7 @@ namespace MoneyTracer
             numericUpDown.ThousandsSeparator = true;
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
-            numericUpDown.MouseWheel += numericUpDown_focus;
+            numericUpDown.MouseWheel += numericUpDown_MouseWheelfocus;
             numericUpDown.LostFocus += numericUpDown_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
@@ -772,7 +768,18 @@ namespace MoneyTracer
         {
             if (sender is NumericUpDown theNumUpDown)
             {
-                //Get current value 
+                //Get current value
+                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
+                nowVal = Convert.ToDecimal(theNumUpDown.Text);
+
+            }
+        }
+        private void numericUpDown_MouseWheelfocus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown theNumUpDown)
+            {
+                //Get current value
+                theNumUpDown.Focus();
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
 
@@ -1011,7 +1018,7 @@ namespace MoneyTracer
             StoredData.storedBufferData = mainViewController.GetOutputDataOfCertainTab(txtBufferName, txtBufferMoney);
 
             JsonData.SavingTheData(out string theDate);
-            Text = $"{titleMainViewWindowName} {theDate}";
+            Text = $"{titleMainViewWindowName} - {theDate}";
 
         }
 
