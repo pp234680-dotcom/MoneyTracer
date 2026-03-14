@@ -437,7 +437,7 @@ namespace MoneyTracer
             numericUpDown.ThousandsSeparator = true;
             numericUpDown.TextChanged += numericUpDown_TextChanged;
             numericUpDown.GotFocus += numericUpDown_focus;
-            numericUpDown.MouseWheel += numericUpDown_focus;
+            numericUpDown.MouseWheel += numericUpDown_MouseWheelfocus;
             numericUpDown.LostFocus += numericUpDown_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
             thePanel.Controls.Add(numericUpDown);
@@ -768,7 +768,18 @@ namespace MoneyTracer
         {
             if (sender is NumericUpDown theNumUpDown)
             {
-                //Get current value 
+                //Get current value
+                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
+                nowVal = Convert.ToDecimal(theNumUpDown.Text);
+
+            }
+        }
+        private void numericUpDown_MouseWheelfocus(object sender, EventArgs e)
+        {
+            if (sender is NumericUpDown theNumUpDown)
+            {
+                //Get current value
+                theNumUpDown.Focus();
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
 
