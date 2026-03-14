@@ -10,7 +10,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
-//todo : screenshot list should get sorted number, maybe using for to collect picture box first?
 //todo : add Clear buffer page button
 //todo : closing program will set current file as default data
 
@@ -92,7 +91,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6.1";
+        private readonly static string titleVersion = "beta 0.6.6.2";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -1374,13 +1373,30 @@ namespace MoneyTracer
                     if (thePictureBox.Name == theName)
                     {
                         flowPanelScreenshot.Controls.Remove(thePictureBox);
-                        cboDelImageList.Items.Remove(theName);
                     }
                 }
             }
+            RearrangeScreenshotSequence();
 
             if (cboDelImageList.Items.Count > 0) cboDelImageList.SelectedIndex = 0;
             else cboDelImageList.Text = string.Empty;
+        }
+
+        private void RearrangeScreenshotSequence()
+        {
+            cboDelImageList.Items.Clear();
+
+            int num = 1;
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    string newPictureName = $"ScreenShot {num}";
+                    thePictureBox.Name = newPictureName;
+                    num++;
+                    cboDelImageList.Items.Add(thePictureBox.Name);
+                }
+            }
         }
 
         private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
