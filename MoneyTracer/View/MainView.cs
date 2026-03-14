@@ -92,7 +92,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6.1";
+        private readonly static string titleVersion = "beta 0.6.6.2";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
