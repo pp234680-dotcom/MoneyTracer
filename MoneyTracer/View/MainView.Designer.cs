@@ -361,6 +361,7 @@ namespace MoneyTracer
             // 
             // panelSaving
             // 
+            panelSaving.AllowDrop = true;
             panelSaving.AutoScroll = true;
             panelSaving.BackColor = Color.White;
             panelSaving.Controls.Add(txtboxSavingMoney);
@@ -370,6 +371,8 @@ namespace MoneyTracer
             panelSaving.Size = new Size(519, 309);
             panelSaving.TabIndex = 9;
             panelSaving.Tag = "displayerBottom";
+            panelSaving.DragDrop += panelSaving_DragDrop;
+            panelSaving.DragEnter += panelSaving_DragEnter;
             // 
             // txtboxSavingMoney
             // 
@@ -640,6 +643,7 @@ namespace MoneyTracer
             // 
             // panelSpending
             // 
+            panelSpending.AllowDrop = true;
             panelSpending.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panelSpending.AutoScroll = true;
             panelSpending.BackColor = Color.White;
@@ -650,6 +654,8 @@ namespace MoneyTracer
             panelSpending.Size = new Size(518, 463);
             panelSpending.TabIndex = 10;
             panelSpending.Tag = "displayerBottom";
+            panelSpending.DragDrop += panelSaving_DragDrop;
+            panelSpending.DragEnter += panelSaving_DragEnter;
             // 
             // txtBoxSpendingMoney
             // 
@@ -826,6 +832,7 @@ namespace MoneyTracer
             // 
             // panelBuffer
             // 
+            panelBuffer.AllowDrop = true;
             panelBuffer.Anchor = AnchorStyles.Bottom | AnchorStyles.Left;
             panelBuffer.AutoScroll = true;
             panelBuffer.BackColor = Color.White;
@@ -836,6 +843,8 @@ namespace MoneyTracer
             panelBuffer.Size = new Size(518, 530);
             panelBuffer.TabIndex = 23;
             panelBuffer.Tag = "displayer";
+            panelBuffer.DragDrop += panelSaving_DragDrop;
+            panelBuffer.DragEnter += panelSaving_DragEnter;
             // 
             // txtBufferMoney
             // 
@@ -1014,6 +1023,7 @@ namespace MoneyTracer
             // 
             // panelWallet
             // 
+            panelWallet.AllowDrop = true;
             panelWallet.AutoScroll = true;
             panelWallet.BackColor = Color.White;
             panelWallet.Controls.Add(txtWalletMoney);
@@ -1023,6 +1033,8 @@ namespace MoneyTracer
             panelWallet.Size = new Size(518, 463);
             panelWallet.TabIndex = 18;
             panelWallet.Tag = "displayerBottom";
+            panelWallet.DragDrop += panelSaving_DragDrop;
+            panelWallet.DragEnter += panelSaving_DragEnter;
             // 
             // txtWalletMoney
             // 
@@ -1068,11 +1080,14 @@ namespace MoneyTracer
             // 
             // flowPanelScreenshot
             // 
+            flowPanelScreenshot.AllowDrop = true;
             flowPanelScreenshot.AutoScroll = true;
             flowPanelScreenshot.Location = new Point(11, 12);
             flowPanelScreenshot.Name = "flowPanelScreenshot";
             flowPanelScreenshot.Size = new Size(492, 590);
             flowPanelScreenshot.TabIndex = 0;
+            flowPanelScreenshot.DragDrop += panelSaving_DragDrop;
+            flowPanelScreenshot.DragEnter += panelSaving_DragEnter;
             // 
             // panel11
             // 
