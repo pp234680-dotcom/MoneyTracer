@@ -9,7 +9,6 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : Mouse focus on wallet page(total assets), when wheeling the box, should get focus on the box
 //todo : saving data will set current file as default data
 //todo : when change anything, title should add '*' at suffix
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
@@ -93,7 +92,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6.03";
+        private readonly static string titleVersion = "beta 0.6.6.04";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -803,9 +802,8 @@ namespace MoneyTracer
             {
                 //Get current value
                 theNumUpDown.Focus();
-                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
+                ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
-
             }
         }
 
