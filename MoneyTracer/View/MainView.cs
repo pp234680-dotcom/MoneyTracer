@@ -9,7 +9,6 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : Mouse focus on wallet page(total assets), when wheeling the box, should get focus on the box
 //todo : saving data will set current file as default data
 //todo : when change anything, title should add '*' at suffix
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
@@ -93,7 +92,7 @@ namespace MoneyTracer
         private decimal nowVal = 0;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6.03";
+        private readonly static string titleVersion = "beta 0.6.6.04";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -516,7 +515,7 @@ namespace MoneyTracer
                 string name = item.Key;
                 if (name.Length > 32)
                 {
-                    name = name.Remove(name.Length - 1, name.Length-32);
+                    name = name.Remove(name.Length - 1, name.Length - 32);
                     name = name.Insert(name.Length - 1, "...");
                 }
 
@@ -803,9 +802,8 @@ namespace MoneyTracer
             {
                 //Get current value
                 theNumUpDown.Focus();
-                ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
+                ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, false);
                 nowVal = Convert.ToDecimal(theNumUpDown.Text);
-
             }
         }
 
@@ -1247,9 +1245,6 @@ namespace MoneyTracer
             bankDataDictionary = JsonData.BankData;
 
             MainView_Load(sender, e);
-
-            DialogResult userResponse = MessageBox.Show("Do you want to clean the log first?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
-            if (userResponse == DialogResult.Yes) cleanTheLogToolStripMenuItem_Click(sender, e);
         }
 
         private void menuOpen_Click(object sender, EventArgs e)
@@ -1266,6 +1261,10 @@ namespace MoneyTracer
                 }
 
                 LoadNewData(sender, e);
+
+                DialogResult userResponse = MessageBox.Show("Do you want to clean the log first?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                if (userResponse == DialogResult.Yes) cleanTheLogToolStripMenuItem_Click(sender, e);
+
             }
             catch (Exception ex)
             {
@@ -1446,6 +1445,8 @@ namespace MoneyTracer
             JsonData.LoadFilePath = JsonData.DefaultLoadFilePath;
             mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
             LoadNewData(sender, e);
+            MessageBox.Show("New Data Sucessfully Created!", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
+
         }
 
         private void InitialIzePanelDetailOfSaving()
@@ -1553,6 +1554,39 @@ namespace MoneyTracer
             if (sender is PictureBox thePictureBox)
             {
                 thePictureBox.BackColor = Color.Transparent;
+            }
+        }
+
+        private void panelSaving_DragDrop(object sender, DragEventArgs e)
+        {
+            try
+            {
+                string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
+                string theFilePath = fileList[0];
+                if (Path.GetExtension(theFilePath) != ".json" && Path.GetExtension(theFilePath) != ".dat")
+                {
+                    MessageBox.Show("Can not open the file.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+                JsonData.LoadFilePath = theFilePath;
+                LoadNewData(sender, e);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+        }
+
+        private void panelSaving_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Effect = DragDropEffects.Copy;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
             }
         }
     }
