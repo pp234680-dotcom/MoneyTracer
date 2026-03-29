@@ -286,7 +286,9 @@ namespace MoneyTracer.Controller
                 Image theImage = thePictureBox.BackgroundImage;
                 string fileName = $"screenshot{num}.png";
                 string filePath = $"{JsonData.OutputDataPath.Replace(JsonData.OutputFileTailNameAndFileExtension,fileName)}";
+                string currentData = Path.Combine(Path.GetDirectoryName(JsonData.OutputDataPath), $"current_data {fileName}");
                 theImage.Save(filePath);
+                theImage.Save(currentData);
                 num++;
             }
         }
