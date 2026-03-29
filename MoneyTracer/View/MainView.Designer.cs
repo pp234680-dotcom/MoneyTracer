@@ -1354,6 +1354,7 @@ namespace MoneyTracer
             MaximizeBox = false;
             Name = "MainView";
             Text = "Money Tracer";
+            FormClosing += MainView_FormClosing;
             Load += MainView_Load;
             tabControl1.ResumeLayout(false);
             homepagePage.ResumeLayout(false);

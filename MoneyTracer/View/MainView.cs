@@ -2,6 +2,7 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Diagnostics.Tracing;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
 using System.Drawing.Printing;
@@ -10,7 +11,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : saving data will set current file as default data
-//todo : when change anything, title should add '*' at suffix
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : add Clear buffer page button
 
@@ -91,8 +91,13 @@ namespace MoneyTracer
         /// </summary>
         private decimal nowVal = 0;
 
+        /// <summary>
+        /// Determine if closing windows need to check, and change the title
+        /// </summary>
+        private bool isDataModified = false;
+
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.6.04";
+        private readonly static string titleVersion = "beta 0.6.7";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -885,6 +890,10 @@ namespace MoneyTracer
 
         private void numericUpDown_TextChanged(object sender, EventArgs e)
         {
+            //Set Data as Modified and Check If Current Data Modified
+            SetDataModified(true);
+
+            //get the control
             NumericUpDown theControl = new NumericUpDown();
             if (sender is NumericUpDown a)
             {
@@ -913,6 +922,9 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_TextChanged(object sender, EventArgs e)
         {
+            //Set Data as Modified and Check If Current Data Modified
+            SetDataModified(true);
+
             NumericUpDown theControl = new NumericUpDown();
             if (sender is NumericUpDown a)
             {
@@ -1012,6 +1024,10 @@ namespace MoneyTracer
             {
                 SaveDataSaving();
                 mainViewController.SaveScreenShots(flowPanelScreenshot);
+
+                //Set Data Modified Status as False, and Check If Current Data Modified
+                SetDataModified(false);
+
                 MessageBox.Show("File successfully saved", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
             }
             catch (Exception ex)
@@ -1159,6 +1175,9 @@ namespace MoneyTracer
             //after get update, fill the value in, and reload all the values
             theDataDictionary.Add(inputName, inputNum);
 
+            //Set Data as Modified and Check If Current Data Modified
+            SetDataModified(true);
+
             //reload all pages
             InitializingAllDataPage();
         }
@@ -1203,6 +1222,9 @@ namespace MoneyTracer
 
             //after get update, fill the value in, and reload all the values
             theDataDictionary.Remove(theComboBoxList.Text);
+
+            //Set Data as Modified and Check If Current Data Modified
+            SetDataModified(true);
 
             //reload all pages
             InitializingAllDataPage();
@@ -1265,6 +1287,8 @@ namespace MoneyTracer
                 DialogResult userResponse = MessageBox.Show("Do you want to clean the log first?", "Message", MessageBoxButtons.YesNo, MessageBoxIcon.Information);
                 if (userResponse == DialogResult.Yes) cleanTheLogToolStripMenuItem_Click(sender, e);
 
+                //Set Data Modified Status as False, and Check If Current Data Modified
+                SetDataModified(false);
             }
             catch (Exception ex)
             {
@@ -1367,6 +1391,9 @@ namespace MoneyTracer
                 cboDelImageList.Items.Add(newPictureName);
 
                 if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+
+                //Set Data as Modified and Check If Current Data Modified
+                SetDataModified(true);
             }
             else MessageBox.Show("No image in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -1386,6 +1413,9 @@ namespace MoneyTracer
                     if (thePictureBox.Name == theName)
                     {
                         flowPanelScreenshot.Controls.Remove(thePictureBox);
+
+                        //Set Data as Modified and Check If Current Data Modified
+                        SetDataModified(true);
                     }
                 }
             }
@@ -1422,8 +1452,8 @@ namespace MoneyTracer
             ClearAllBufferDisplayValue();
             bufferDataDictionary = new Dictionary<string, int>();
 
-            //tempShit - wait for uncomment
-            //ClearScreenshotPage();
+            //Set Data Modified Status as False, and Check If Current Data Modified
+            SetDataModified(false);
 
             Text = titleMainViewWindowName;
 
@@ -1445,8 +1475,11 @@ namespace MoneyTracer
             JsonData.LoadFilePath = JsonData.DefaultLoadFilePath;
             mainViewController.CreatingNewEmptyJsonFileAtDefaultFolder();
             LoadNewData(sender, e);
-            MessageBox.Show("New Data Sucessfully Created!", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
 
+            //Set Data Modified Status as False, and Check If Current Data Modified
+            SetDataModified(false);
+
+            MessageBox.Show("New Data Sucessfully Created!", "Message", MessageBoxButtons.OK, MessageBoxIcon.None);
         }
 
         private void InitialIzePanelDetailOfSaving()
@@ -1577,7 +1610,6 @@ namespace MoneyTracer
             }
 
         }
-
         private void panelSaving_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1587,6 +1619,42 @@ namespace MoneyTracer
             else
             {
                 e.Effect = DragDropEffects.None;
+            }
+        }
+        /// <summary>
+        /// Check If Current Data Modified, if true then change the title
+        /// </summary>
+        private void CheckIfCurrentDataModified()
+        {
+            if (isDataModified == true)
+            {
+                if (Text.Last() != '*') Text += "*";
+                //Text = titleMainViewWindowName + "*";
+            }
+            else
+            {
+                if (Text.Last() == '*') Text = Text.Remove(Text.LastIndexOf("*") - 1, 1);
+            }
+        }
+
+        /// <summary>
+        /// Set Data as Modified and Check If Current Data Modified
+        /// </summary>
+        /// <param name="isModified"></param>
+        private void SetDataModified(bool isModified)
+        {
+            isDataModified = isModified;
+            CheckIfCurrentDataModified();
+        }
+
+        private void MainView_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if(isDataModified == true)
+            {
+                string msg = "Data has been modified.\nAre you sure you want to exit without saving data?";
+                DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+                bool isUserRegretClosing = (response == DialogResult.OK) ? false : true;
+                e.Cancel = isUserRegretClosing;
             }
         }
     }
