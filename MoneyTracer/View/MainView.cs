@@ -313,9 +313,13 @@ namespace MoneyTracer
                 newPictureBox.Name = newPictureName;
                 newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
-                newPictureBox.BackgroundImage = Image.FromFile(thePath);
+                Image theScreenshot = Image.FromFile(thePath);
+                Bitmap clonedScreenshot = new Bitmap(theScreenshot);
+                theScreenshot.Dispose();
+                newPictureBox.BackgroundImage = clonedScreenshot;
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
                 flowPanelScreenshot.Controls.Add(newPictureBox);
+                
 
                 cboDelImageList.Items.Add(newPictureName);
 

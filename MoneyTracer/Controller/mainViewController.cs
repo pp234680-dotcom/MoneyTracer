@@ -83,7 +83,7 @@ namespace MoneyTracer.Controller
             return savingNameList;
         }
 
-        public static List<string> GetAllNameFromDictionary(Dictionary<string,int> theDataDictionary)
+        public static List<string> GetAllNameFromDictionary(Dictionary<string, int> theDataDictionary)
         {
             List<string> savingNameList = new List<string>();
             foreach (var item in theDataDictionary)
@@ -223,19 +223,19 @@ namespace MoneyTracer.Controller
         public static void RemoveEmptyDataFromDictionary(ref Dictionary<string, int> theDirctionary)
         {
             List<string> names = new List<string>();
-            foreach(var item in theDirctionary)
+            foreach (var item in theDirctionary)
             {
                 names.Add(item.Key);
             }
 
-            for(int i = names.Count-1; i >= 0; i--)
+            for (int i = names.Count - 1; i >= 0; i--)
             {
                 string theName = names[i];
                 if (theDirctionary[theName] == 0) theDirctionary.Remove(theName);
             }
         }
 
-        public static void AddDataToDeletingComboBoxItem(ComboBox theDelSavingComboBox, Dictionary<string,int>theDataDictionary, ComboBox cboModeSelector)
+        public static void AddDataToDeletingComboBoxItem(ComboBox theDelSavingComboBox, Dictionary<string, int> theDataDictionary, ComboBox cboModeSelector)
         {
             theDelSavingComboBox.Items.Clear();
             foreach (var item in theDataDictionary)
@@ -265,9 +265,28 @@ namespace MoneyTracer.Controller
             return theTime;
         }
 
+        private static void CleanCurrentDataScreenshot()
+        {
+            string[] imagesFilePath = Directory.GetFiles(Path.GetDirectoryName(JsonData.OutputDataPath), "*.png");
+            List<string> validPaths = new List<string>();
+            foreach (var thePath in imagesFilePath)
+            {
+                if (thePath.Contains("current_data")) validPaths.Add(thePath);
+            }
+            foreach (var thePath in validPaths)
+            {
+                if (thePath.Contains("current_data") == false) break;
+                File.Delete(thePath);
+            }
+        }
+
         public static void SaveScreenShots(FlowLayoutPanel flowPanelScreenshot)
         {
-            if (flowPanelScreenshot.Controls.Count < 1) return;
+            if (flowPanelScreenshot.Controls.Count < 1)
+            {
+                CleanCurrentDataScreenshot();
+                return;
+            }
 
             string theTime = GetCurrentFileSavingTime();
             int num = 1;
@@ -281,11 +300,14 @@ namespace MoneyTracer.Controller
                 }
             }
 
+            //Prevent old current_data_screenshot got read
+            CleanCurrentDataScreenshot();
+
             foreach (PictureBox thePictureBox in pictureBoxes)
             {
                 Image theImage = thePictureBox.BackgroundImage;
                 string fileName = $"screenshot{num}.png";
-                string filePath = $"{JsonData.OutputDataPath.Replace(JsonData.OutputFileTailNameAndFileExtension,fileName)}";
+                string filePath = $"{JsonData.OutputDataPath.Replace(JsonData.OutputFileTailNameAndFileExtension, fileName)}";
                 string currentData = Path.Combine(Path.GetDirectoryName(JsonData.OutputDataPath), $"current_data {fileName}");
                 theImage.Save(filePath);
                 theImage.Save(currentData);
