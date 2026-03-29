@@ -10,10 +10,8 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : saving data will set current file as default data
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : add Clear buffer page button
-
 
 //todo : design
 
@@ -97,7 +95,7 @@ namespace MoneyTracer
         private bool isDataModified = false;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.7";
+        private readonly static string titleVersion = "beta 0.6.8";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -247,7 +245,9 @@ namespace MoneyTracer
             {
                 string theDataTime = mainViewController.GetTheOpenedDataTime();
                 theDataTime = theDataTime.Split(" ")[0];
-                theTitleResult = $"{theTitleResult} - {theDataTime}";
+                if (int.TryParse(theDataTime, out int noUse) == false) theDataTime = string.Empty;
+                else theDataTime = theDataTime.Insert(0, " - ");
+                theTitleResult = $"{theTitleResult}{theDataTime}";
             }
             Text = theTitleResult;
         }
@@ -312,9 +312,13 @@ namespace MoneyTracer
                 newPictureBox.Name = newPictureName;
                 newPictureBox.Size = new Size(460, 130);
                 newPictureBox.Location = new Point(27, y);
-                newPictureBox.BackgroundImage = Image.FromFile(thePath);
+                Image theScreenshot = Image.FromFile(thePath);
+                Bitmap clonedScreenshot = new Bitmap(theScreenshot);
+                theScreenshot.Dispose();
+                newPictureBox.BackgroundImage = clonedScreenshot;
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
                 flowPanelScreenshot.Controls.Add(newPictureBox);
+                
 
                 cboDelImageList.Items.Add(newPictureName);
 
