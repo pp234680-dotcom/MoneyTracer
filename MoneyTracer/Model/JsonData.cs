@@ -73,8 +73,9 @@ namespace MoneyTracer.Model
         public static readonly string OutputFolderPath = @"Data\";
         public static string OutputDataPath = OutputFolderPath;
         public static readonly string OutputFileTailNameAndFileExtension = "savingData.json";
-        public static string LoadFilePath = @"Data\current_data.json";
-        public static readonly string DefaultLoadFilePath = @"Data\current_data.json";
+        public static readonly string DefaultLoadFilePath = @"Data\current_data savingData.json";
+        public static string LoadFilePath = DefaultLoadFilePath;
+        
         
 
         public static readonly string emptyJsonString = "{\n\t\"balance\": 0,\n\t\"saving\": [],\n\t\"weekBudget\": [\n\t\t{\n\t\t\t\"name\": \"Investment\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 1\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 2\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 3\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 4\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"Week 5\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Wallet\": [\n\t\t{\n\t\t\t\"name\": \"money1000\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money500\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money100\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money50\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money10\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money5\",\n\t\t\t\"money\": 0\n\t\t},\n\t\t{\n\t\t\t\"name\": \"money1\",\n\t\t\t\"money\": 0\n\t\t}\n\t],\n\t\"Bank\": [],\n\t\"Spending\": [],\n\t\"bufferLogs\": []\n}";
@@ -317,6 +318,13 @@ namespace MoneyTracer.Model
 
             string outputDataTxt = JsonConvert.SerializeObject(rootobject);
             StreamWriter _streamWriter = new StreamWriter(OutputDataPath);
+            _streamWriter.Write(outputDataTxt);
+            _streamWriter.Flush();
+            _streamWriter.Close();
+
+            string currentDataPath = Path.GetDirectoryName(OutputDataPath);
+            currentDataPath = Path.Combine(currentDataPath, $"current_data {OutputFileTailNameAndFileExtension}");
+            _streamWriter = new StreamWriter(currentDataPath);
             _streamWriter.Write(outputDataTxt);
             _streamWriter.Flush();
             _streamWriter.Close();

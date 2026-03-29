@@ -14,7 +14,6 @@ using System.Xml.Linq;
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : add Clear buffer page button
 
-
 //todo : design
 
 namespace MoneyTracer
@@ -97,7 +96,7 @@ namespace MoneyTracer
         private bool isDataModified = false;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.7";
+        private readonly static string titleVersion = "beta 0.6.8";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -247,7 +246,9 @@ namespace MoneyTracer
             {
                 string theDataTime = mainViewController.GetTheOpenedDataTime();
                 theDataTime = theDataTime.Split(" ")[0];
-                theTitleResult = $"{theTitleResult} - {theDataTime}";
+                if (int.TryParse(theDataTime, out int noUse) == false) theDataTime = string.Empty;
+                else theDataTime = theDataTime.Insert(0, " - ");
+                theTitleResult = $"{theTitleResult}{theDataTime}";
             }
             Text = theTitleResult;
         }
