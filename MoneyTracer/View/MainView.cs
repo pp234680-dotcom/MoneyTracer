@@ -10,7 +10,6 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
-//todo : saving data will set current file as default data
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : add Clear buffer page button
 
