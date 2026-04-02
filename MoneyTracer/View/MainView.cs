@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : Current data shouldn't save the logs
+//todo : clip board that contain pic path should still ablt to send screenshot in
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
 //todo : add Clear buffer page button
 
@@ -95,6 +96,8 @@ namespace MoneyTracer
         /// </summary>
         private bool isDataModified = false;
 
+        private bool isFirstTimeOpened = true;
+
         private readonly static string titleApplication = "MoneyTracer";
         private readonly static string titleVersion = "beta 0.6.8.01";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
@@ -109,6 +112,7 @@ namespace MoneyTracer
         private readonly string txtIncorrect = "Difference Detected";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
+        
 
 
 
@@ -142,6 +146,13 @@ namespace MoneyTracer
 
             //set panel into round corner
             SetPanelRoundCorner();
+
+            //tempShit - Wait to be replaced
+            if(isFirstTimeOpened == true)
+            {
+                cleanTheLog();
+                isFirstTimeOpened = false;
+            }
         }
 
         private void InitializingAllDataPage()
@@ -1447,7 +1458,7 @@ namespace MoneyTracer
             }
         }
 
-        private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
+        private void cleanTheLog()
         {
             balance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
 
@@ -1464,6 +1475,11 @@ namespace MoneyTracer
 
             UpdateBeforeReload();
             InitializingAllDataPage();
+        }
+
+        private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cleanTheLog();
 
             MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
