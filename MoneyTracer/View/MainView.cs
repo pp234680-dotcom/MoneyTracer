@@ -12,9 +12,7 @@ using System.Xml.Linq;
 
 //todo : Add clean wallet button
 //todo : Current data shouldn't save the logs
-//todo : clip board that contain pic path should still ablt to send screenshot in
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
-//todo : add Clear buffer page button
 
 //todo : design
 
@@ -113,7 +111,7 @@ namespace MoneyTracer
         private readonly string txtIncorrect = "Difference Detected";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
-        
+
 
 
 
@@ -149,7 +147,7 @@ namespace MoneyTracer
             SetPanelRoundCorner();
 
             //tempShit - Wait to be replaced
-            if(isFirstTimeOpened == true)
+            if (isFirstTimeOpened == true)
             {
                 cleanTheLog();
                 isFirstTimeOpened = false;
@@ -158,7 +156,7 @@ namespace MoneyTracer
 
         private void InitializingAllDataPage()
         {
-            //Setup the saving page
+            //Setup the spending page
             InitializeTheSpendingPage();
 
             //Setup the wallet page
@@ -331,7 +329,7 @@ namespace MoneyTracer
                 newPictureBox.BackgroundImage = clonedScreenshot;
                 newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
                 flowPanelScreenshot.Controls.Add(newPictureBox);
-                
+
 
                 cboDelImageList.Items.Add(newPictureName);
 
@@ -1422,9 +1420,9 @@ namespace MoneyTracer
             else if (Clipboard.ContainsFileDropList())
             {
                 var pathList = Clipboard.GetFileDropList();
-                foreach(var path in pathList)
+                foreach (var path in pathList)
                 {
-                    if(Path.GetExtension(path) == ".png" || Path.GetExtension(path) == ".jpg")
+                    if (Path.GetExtension(path) == ".png" || Path.GetExtension(path) == ".jpg")
                     {
                         Image originImage = Image.FromFile(path);
                         Bitmap image = new Bitmap(originImage);
@@ -1432,7 +1430,7 @@ namespace MoneyTracer
                     }
                     else
                     {
-                        MessageBox.Show($"\"{Path.GetFileName(path)}\" is not an image.", "Message",MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show($"\"{Path.GetFileName(path)}\" is not an image.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
             }
@@ -1483,15 +1481,31 @@ namespace MoneyTracer
             }
         }
 
-        private void cleanTheLog()
+        private void cleanTheLog(bool CleanSpendingPage = true, bool CleanBufferPage = true)
         {
             balance = mainViewController.GetAllMoneyFromLabelOneLine(txtBalance);
 
-            ClearAllSpendingDisplayValue();
-            spendingDataDictionary = new Dictionary<string, int>();
+            if (CleanSpendingPage == true)
+            {
+                if (CleanBufferPage == false)
+                {
+                    balance -= mainViewController.GetAllMoneyFromLabelOneLine(txtBufferTotal);
+                }
 
-            ClearAllBufferDisplayValue();
-            bufferDataDictionary = new Dictionary<string, int>();
+                ClearAllSpendingDisplayValue();
+                spendingDataDictionary = new Dictionary<string, int>();
+            }
+
+            if (CleanBufferPage == true)
+            {
+                if (CleanSpendingPage == false)
+                {
+                    balance += mainViewController.GetAllMoneyFromLabelOneLine(txtSpendingTotal);
+                }
+
+                ClearAllBufferDisplayValue();
+                bufferDataDictionary = new Dictionary<string, int>();
+            }
 
             //Set Data Modified Status as False, and Check If Current Data Modified
             SetDataModified(false);
@@ -1695,13 +1709,27 @@ namespace MoneyTracer
 
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if(isDataModified == true)
+            if (isDataModified == true)
             {
                 string msg = "Data has been modified.\nAre you sure you want to exit without saving data?";
                 DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
                 bool isUserRegretClosing = (response == DialogResult.OK) ? false : true;
                 e.Cancel = isUserRegretClosing;
             }
+        }
+
+        private void cleanSpendingLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            cleanTheLog(true, false);
+            MessageBox.Show("Spending log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void cleanReserveFundLogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+            cleanTheLog(false, true);
+            MessageBox.Show("Reserve Fund log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
         }
     }
 }
