@@ -1127,7 +1127,7 @@ namespace MoneyTracer
             btnAddImage.Size = new Size(162, 30);
             btnAddImage.TabIndex = 10;
             btnAddImage.TabStop = false;
-            btnAddImage.Text = "Add A Screenshot";
+            btnAddImage.Text = "Paste a Screenshot";
             btnAddImage.UseVisualStyleBackColor = true;
             btnAddImage.Click += btnAddImage_Click;
             // 

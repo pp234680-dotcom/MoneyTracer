@@ -10,6 +10,7 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : Add clean wallet button
 //todo : Current data shouldn't save the logs
 //todo : clip board that contain pic path should still ablt to send screenshot in
 //todo : output buffer log is kinda weird, got a oppsite value when load the file
@@ -1376,40 +1377,64 @@ namespace MoneyTracer
             }
         }
 
+        private void AddImageToScreenshotPage(Image image)
+        {
+            int num = 0;
+            int y = 27;
+
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    string theTempNameForNum = thePictureBox.Name;
+                    string theTempNum = theTempNameForNum.Split(" ")[1];
+                    num = Convert.ToInt32(theTempNum);
+
+                    y = thePictureBox.Location.Y;
+                    y += 150;
+                }
+            }
+            num++;
+            string newPictureName = $"ScreenShot {num}";
+            PictureBox newPictureBox = new PictureBox();
+            newPictureBox.Name = newPictureName;
+            newPictureBox.Size = new Size(460, 130);
+            newPictureBox.Location = new Point(27, y);
+            newPictureBox.BackgroundImage = image;
+            newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
+            flowPanelScreenshot.Controls.Add(newPictureBox);
+
+            cboDelImageList.Items.Add(newPictureName);
+
+            if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
+
+            //Set Data as Modified and Check If Current Data Modified
+            SetDataModified(true);
+        }
+
         private void btnAddImage_Click(object sender, EventArgs e)
         {
             if (Clipboard.ContainsImage() == true)
             {
-                int num = 0;
-                int y = 27;
-                foreach (var item in flowPanelScreenshot.Controls)
+                Image image = Clipboard.GetImage();
+                AddImageToScreenshotPage(image);
+            }
+            else if (Clipboard.ContainsFileDropList())
+            {
+                var pathList = Clipboard.GetFileDropList();
+                foreach(var path in pathList)
                 {
-                    if (item is PictureBox thePictureBox)
+                    if(Path.GetExtension(path) == ".png" || Path.GetExtension(path) == ".jpg")
                     {
-                        string theTempNameForNum = thePictureBox.Name;
-                        string theTempNum = theTempNameForNum.Split(" ")[1];
-                        num = Convert.ToInt32(theTempNum);
-
-                        y = thePictureBox.Location.Y;
-                        y += 150;
+                        Image originImage = Image.FromFile(path);
+                        Bitmap image = new Bitmap(originImage);
+                        AddImageToScreenshotPage(image);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"\"{Path.GetFileName(path)}\" is not an image.", "Message",MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-                num++;
-                string newPictureName = $"ScreenShot {num}";
-                PictureBox newPictureBox = new PictureBox();
-                newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(460, 130);
-                newPictureBox.Location = new Point(27, y);
-                newPictureBox.BackgroundImage = Clipboard.GetImage();
-                newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
-                flowPanelScreenshot.Controls.Add(newPictureBox);
-
-                cboDelImageList.Items.Add(newPictureName);
-
-                if (cboDelImageList.SelectedIndex == -1) cboDelImageList.SelectedIndex = 0;
-
-                //Set Data as Modified and Check If Current Data Modified
-                SetDataModified(true);
             }
             else MessageBox.Show("No image in the clipboard", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
