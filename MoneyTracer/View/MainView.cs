@@ -11,8 +11,6 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : Add clean wallet button
-//todo : Current data shouldn't save the logs
-//todo : output buffer log is kinda weird, got a oppsite value when load the file
 
 //todo : design
 
@@ -98,7 +96,7 @@ namespace MoneyTracer
         private bool isFirstTimeOpened = true;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.8.01";
+        private readonly static string titleVersion = "beta 0.6.9";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
