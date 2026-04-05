@@ -190,10 +190,6 @@ namespace MoneyTracer
             return panels;
         }
 
-
-
-
-
         private void SetPanelRoundCorner()
         {
             int radius = 10;
@@ -1487,6 +1483,7 @@ namespace MoneyTracer
 
             if (CleanSpendingPage == true)
             {
+                //If only clean spending cash, should add buffer money in, just in case balance got add by buffer money
                 if (CleanBufferPage == false)
                 {
                     balance -= mainViewController.GetAllMoneyFromLabelOneLine(txtBufferTotal);
@@ -1498,6 +1495,7 @@ namespace MoneyTracer
 
             if (CleanBufferPage == true)
             {
+                //If only clean buffer cash, should add spending money in, just in case balance got substract by spending
                 if (CleanSpendingPage == false)
                 {
                     balance += mainViewController.GetAllMoneyFromLabelOneLine(txtSpendingTotal);
