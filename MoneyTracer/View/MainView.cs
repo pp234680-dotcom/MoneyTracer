@@ -11,6 +11,7 @@ using System.Windows.Forms;
 using System.Xml.Linq;
 
 //todo : Add clean wallet button
+//todo : Considering using list as displayer, instead of textbox and textbox
 
 //todo : design
 

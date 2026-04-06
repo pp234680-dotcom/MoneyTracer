@@ -395,7 +395,7 @@ namespace MoneyTracer
             txtboxSavingName.ForeColor = Color.Black;
             txtboxSavingName.Location = new Point(8, 10);
             txtboxSavingName.Name = "txtboxSavingName";
-            txtboxSavingName.Size = new Size(238, 29);
+            txtboxSavingName.Size = new Size(290, 29);
             txtboxSavingName.TabIndex = 9;
             txtboxSavingName.Text = "Name";
             // 
@@ -462,6 +462,7 @@ namespace MoneyTracer
             savingNameInputBox.Font = new Font("Noto Sans TC", 9.07563F);
             savingNameInputBox.ForeColor = Color.Black;
             savingNameInputBox.Location = new Point(6, 3);
+            savingNameInputBox.MaxLength = 24;
             savingNameInputBox.Name = "savingNameInputBox";
             savingNameInputBox.PlaceholderText = "(Saving Name)";
             savingNameInputBox.Size = new Size(139, 29);
@@ -675,7 +676,7 @@ namespace MoneyTracer
             txtBoxSpendingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtBoxSpendingName.Location = new Point(10, 12);
             txtBoxSpendingName.Name = "txtBoxSpendingName";
-            txtBoxSpendingName.Size = new Size(162, 29);
+            txtBoxSpendingName.Size = new Size(304, 29);
             txtBoxSpendingName.TabIndex = 9;
             txtBoxSpendingName.Text = "Name";
             // 
@@ -755,6 +756,7 @@ namespace MoneyTracer
             // spendingNameInputBox
             // 
             spendingNameInputBox.Location = new Point(6, 3);
+            spendingNameInputBox.MaxLength = 24;
             spendingNameInputBox.Name = "spendingNameInputBox";
             spendingNameInputBox.PlaceholderText = "(Spending Name)";
             spendingNameInputBox.Size = new Size(139, 27);
@@ -864,7 +866,7 @@ namespace MoneyTracer
             txtBufferName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtBufferName.Location = new Point(10, 21);
             txtBufferName.Name = "txtBufferName";
-            txtBufferName.Size = new Size(162, 29);
+            txtBufferName.Size = new Size(307, 29);
             txtBufferName.TabIndex = 9;
             txtBufferName.Text = "Name";
             // 
@@ -989,6 +991,7 @@ namespace MoneyTracer
             // bankNameInputBox
             // 
             bankNameInputBox.Location = new Point(6, 3);
+            bankNameInputBox.MaxLength = 24;
             bankNameInputBox.Name = "bankNameInputBox";
             bankNameInputBox.PlaceholderText = "(Bank Name)";
             bankNameInputBox.Size = new Size(139, 27);
@@ -1054,7 +1057,7 @@ namespace MoneyTracer
             txtWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtWalletName.Location = new Point(11, 21);
             txtWalletName.Name = "txtWalletName";
-            txtWalletName.Size = new Size(162, 29);
+            txtWalletName.Size = new Size(303, 29);
             txtWalletName.TabIndex = 9;
             txtWalletName.Text = "Name";
             // 
@@ -1160,7 +1163,7 @@ namespace MoneyTracer
             menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(559, 28);
+            menuStrip1.Size = new Size(559, 27);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -1168,7 +1171,7 @@ namespace MoneyTracer
             // 
             testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createANewFileToolStripMenuItem, menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(47, 24);
+            testToolStripMenuItem.Size = new Size(47, 23);
             testToolStripMenuItem.Text = "File";
             // 
             // createANewFileToolStripMenuItem
@@ -1196,7 +1199,7 @@ namespace MoneyTracer
             // 
             cleanToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cleanTheLogToolStripMenuItem, cleanSpendingLogToolStripMenuItem, cleanReserveFundLogToolStripMenuItem });
             cleanToolStripMenuItem.Name = "cleanToolStripMenuItem";
-            cleanToolStripMenuItem.Size = new Size(62, 24);
+            cleanToolStripMenuItem.Size = new Size(62, 23);
             cleanToolStripMenuItem.Text = "Clean";
             cleanToolStripMenuItem.ToolTipText = "1234";
             // 
