@@ -131,7 +131,6 @@ namespace MoneyTracer
             cleanReserveFundLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             timerCheckingMoney = new System.Windows.Forms.Timer(components);
-            fileSystemWatcher1 = new FileSystemWatcher();
             flowLayoutPanel4 = new FlowLayoutPanel();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -177,7 +176,6 @@ namespace MoneyTracer
             panel11.SuspendLayout();
             panel3.SuspendLayout();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -1233,11 +1231,6 @@ namespace MoneyTracer
             timerCheckingMoney.Enabled = true;
             timerCheckingMoney.Tick += timerCheckingMoney_Tick;
             // 
-            // fileSystemWatcher1
-            // 
-            fileSystemWatcher1.EnableRaisingEvents = true;
-            fileSystemWatcher1.SynchronizingObject = this;
-            // 
             // flowLayoutPanel4
             // 
             flowLayoutPanel4.BackColor = Color.FromArgb(244, 214, 214);
@@ -1431,7 +1424,6 @@ namespace MoneyTracer
             panel3.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             flowLayoutPanel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -1532,7 +1524,6 @@ namespace MoneyTracer
         private Label label9;
         private Label label10;
         private Label txtSavingDifferent;
-        private FileSystemWatcher fileSystemWatcher1;
         private Panel panel14;
         private Label label11;
         private Label label12;
