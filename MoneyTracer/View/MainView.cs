@@ -10,6 +10,7 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : Don't use timer to check value, add&delete button and wallet page should do the stuff
 //todo : When data changed and not saved, ask user if they want to save before load a new data
 //todo : Ctrl + s = saving
 //todo : Scrolling wheel suppose be smooth
