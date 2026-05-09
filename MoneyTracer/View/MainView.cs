@@ -10,6 +10,9 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : When data changed and not saved, ask user if they want to save before load a new data
+//todo : Ctrl + s = saving
+//todo : Scrolling wheel suppose be smooth
 //todo : Add clean wallet button
 //todo : Considering using list as displayer, instead of textbox and textbox
 
