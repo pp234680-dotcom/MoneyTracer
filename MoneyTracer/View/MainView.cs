@@ -1355,7 +1355,7 @@ namespace MoneyTracer
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
         }
 
-        private void timerCheckingMoney_Tick(object sender, EventArgs e)
+        private void CheckIfAssetAreSame()
         {
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
@@ -1372,6 +1372,11 @@ namespace MoneyTracer
                 string imagePath = @"image/correct.png";
                 picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
             }
+        }
+
+        private void timerCheckingMoney_Tick(object sender, EventArgs e)
+        {
+            CheckIfAssetAreSame();
         }
 
         private void AddImageToScreenshotPage(Image image)
@@ -1519,7 +1524,7 @@ namespace MoneyTracer
 
         private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsGoToNextStepWithDataModified() == false) return;
+            if (IsNextStepContinueWithDataModified() == false) return;
 
             cleanTheLog();
 
@@ -1653,8 +1658,15 @@ namespace MoneyTracer
             }
         }
 
+        /// <summary>
+        /// Start to load data after file dropped
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void panelSaving_DragDrop(object sender, DragEventArgs e)
         {
+            if (IsNextStepContinueWithDataModified() == false) return;
+
             try
             {
                 string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
@@ -1673,6 +1685,12 @@ namespace MoneyTracer
             }
 
         }
+
+        /// <summary>
+        /// Enable file dropping feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void panelSaving_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1684,6 +1702,7 @@ namespace MoneyTracer
                 e.Effect = DragDropEffects.None;
             }
         }
+
         /// <summary>
         /// Check If Current Data Modified, if true then change the title
         /// </summary>
@@ -1714,7 +1733,7 @@ namespace MoneyTracer
         {
             if (isDataModified == true)
             {
-                bool isContinue = IsGoToNextStepWithDataModified();
+                bool isContinue = IsNextStepContinueWithDataModified();
                 bool isUserRegretClosing = (isContinue) ? false : true;
 
                 //true means cancel the action of shutdown
@@ -1722,18 +1741,23 @@ namespace MoneyTracer
             }
         }
 
-        private bool IsGoToNextStepWithDataModified()
+        private bool IsNextStepContinueWithDataModified()
         {
+            //set to top most, just in case message didn't show up
+            this.TopMost = true;
+
             string msg = "Data has been modified.\nAre you sure you want to continue without saving data?";
             DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
             bool isContinue = (response == DialogResult.OK) ? true : false;
+
+            this.TopMost = false;
 
             return isContinue;
         }
 
         private void cleanSpendingLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsGoToNextStepWithDataModified() == false) return;
+            if (IsNextStepContinueWithDataModified() == false) return;
 
             cleanTheLog(true, false);
             MessageBox.Show("Spending log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1741,7 +1765,7 @@ namespace MoneyTracer
 
         private void cleanReserveFundLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (IsGoToNextStepWithDataModified() == false) return;
+            if (IsNextStepContinueWithDataModified() == false) return;
 
             cleanTheLog(false, true);
             MessageBox.Show("Reserve Fund log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
