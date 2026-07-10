@@ -360,7 +360,7 @@ namespace MoneyTracer
             var panelControls = panelWallet.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
-                if (panelControls[i] is NumericUpDown theNumUpDown)
+                if (panelControls[i] is NumericUpDownFix theNumUpDown)
                 {
                     panelWallet.Controls.Remove(theNumUpDown);
                 }
@@ -424,7 +424,7 @@ namespace MoneyTracer
         {
             numUpDownY += 44;
 
-            NumericUpDown numericUpDown = new NumericUpDown();
+            NumericUpDownFix numericUpDown = new NumericUpDownFix();
             numericUpDown.Name = $"numericUpDownWallet {loopCount}"; //space is required, because it'll split by space later
             numericUpDown.Location = new Point(numUpDownX, numUpDownY);
             numericUpDown.Minimum = 0;
@@ -445,7 +445,7 @@ namespace MoneyTracer
         {
             numUpDownY += 50;
 
-            NumericUpDown numericUpDown = new NumericUpDown();
+            NumericUpDownFix numericUpDown = new NumericUpDownFix();
             numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
             numericUpDown.Location = new Point(numUpDownX, numUpDownY);
             numericUpDown.Minimum = 0;
@@ -493,7 +493,7 @@ namespace MoneyTracer
             var panelControls = panelSaving.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
-                if (panelControls[i] is NumericUpDown theNumUpDown)
+                if (panelControls[i] is NumericUpDownFix theNumUpDown)
                 {
                     panelSaving.Controls.Remove(theNumUpDown);
                 }
@@ -776,7 +776,7 @@ namespace MoneyTracer
             AddSpendingDataToDeletingComboBoxItem();
         }
 
-        private void ThousandSpretorSwitch(NumericUpDown theNumUpDown, EventHandler TextChangedEvent, bool isTurnOn)
+        private void ThousandSpretorSwitch(NumericUpDownFix theNumUpDown, EventHandler TextChangedEvent, bool isTurnOn)
         {
             theNumUpDown.TextChanged -= TextChangedEvent;
             theNumUpDown.ThousandsSeparator = isTurnOn;
@@ -785,7 +785,7 @@ namespace MoneyTracer
 
         private void numericUpDown_focus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
@@ -795,7 +795,7 @@ namespace MoneyTracer
         }
         private void numericUpDown_MouseWheelfocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 theNumUpDown.Focus();
@@ -807,7 +807,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_focus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value 
                 ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, false);
@@ -817,7 +817,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_MouseWheelfocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 theNumUpDown.Focus();
@@ -828,7 +828,7 @@ namespace MoneyTracer
 
         private void numericUpDown_OutOfFocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, true);
             }
@@ -836,7 +836,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_OutOfFocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, true);
             }
@@ -857,7 +857,7 @@ namespace MoneyTracer
             txtCurrentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
-        private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
+        private void UpdateBufferCashLog(NumericUpDownFix theControl, decimal bufferValue)
         {
             //get sorted num by spliting the name
             string[] splitedString = theControl.Name.Split(" ");
@@ -908,8 +908,8 @@ namespace MoneyTracer
             SetDataModified(true);
 
             //get the control
-            NumericUpDown theControl = new NumericUpDown();
-            if (sender is NumericUpDown a)
+            NumericUpDownFix theControl = new NumericUpDownFix();
+            if (sender is NumericUpDownFix a)
             {
                 theControl = a;
                 //Text content validity check
@@ -939,8 +939,8 @@ namespace MoneyTracer
             //Set Data as Modified and Check If Current Data Modified
             SetDataModified(true);
 
-            NumericUpDown theControl = new NumericUpDown();
-            if (sender is NumericUpDown a)
+            NumericUpDownFix theControl = new NumericUpDownFix();
+            if (sender is NumericUpDownFix a)
             {
                 theControl = a;
                 //Text content validity check
