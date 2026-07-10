@@ -1519,6 +1519,8 @@ namespace MoneyTracer
 
         private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsGoToNextStepWithDataModified() == false) return;
+
             cleanTheLog();
 
             MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1712,21 +1714,34 @@ namespace MoneyTracer
         {
             if (isDataModified == true)
             {
-                string msg = "Data has been modified.\nAre you sure you want to exit without saving data?";
-                DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                bool isUserRegretClosing = (response == DialogResult.OK) ? false : true;
+                bool isContinue = IsGoToNextStepWithDataModified();
+                bool isUserRegretClosing = (isContinue) ? false : true;
+
+                //true means cancel the action of shutdown
                 e.Cancel = isUserRegretClosing;
             }
         }
 
+        private bool IsGoToNextStepWithDataModified()
+        {
+            string msg = "Data has been modified.\nAre you sure you want to continue without saving data?";
+            DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            bool isContinue = (response == DialogResult.OK) ? true : false;
+
+            return isContinue;
+        }
+
         private void cleanSpendingLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsGoToNextStepWithDataModified() == false) return;
+
             cleanTheLog(true, false);
             MessageBox.Show("Spending log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void cleanReserveFundLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsGoToNextStepWithDataModified() == false) return;
 
             cleanTheLog(false, true);
             MessageBox.Show("Reserve Fund log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
