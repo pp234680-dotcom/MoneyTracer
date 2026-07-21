@@ -30,7 +30,6 @@ namespace MoneyTracer
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             txtTotalStaus = new Label();
             txtBalance = new Label();
@@ -130,7 +129,6 @@ namespace MoneyTracer
             cleanSpendingLogToolStripMenuItem = new ToolStripMenuItem();
             cleanReserveFundLogToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
-            timerCheckingMoney = new System.Windows.Forms.Timer(components);
             flowLayoutPanel4 = new FlowLayoutPanel();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -1226,11 +1224,6 @@ namespace MoneyTracer
             // 
             _openFileDialog.Filter = "Json file|*.json|Data File|*.dat";
             // 
-            // timerCheckingMoney
-            // 
-            timerCheckingMoney.Enabled = true;
-            timerCheckingMoney.Tick += timerCheckingMoney_Tick;
-            // 
             // flowLayoutPanel4
             // 
             flowLayoutPanel4.BackColor = Color.FromArgb(244, 214, 214);
@@ -1496,7 +1489,6 @@ namespace MoneyTracer
         private ComboBox cboDelBankList;
         private Button btnDelBank;
         private Label txtWalletHomePage;
-        private System.Windows.Forms.Timer timerCheckingMoney;
         private TabPage ScreenshotPage;
         private Panel panel3;
         private ComboBox cboDelImageList;

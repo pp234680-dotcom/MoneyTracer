@@ -2,6 +2,7 @@ using MoneyTracer.Controller;
 using MoneyTracer.Model;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Diagnostics.Tracing;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
@@ -155,6 +156,9 @@ namespace MoneyTracer
                 cleanTheLog();
                 isFirstTimeOpened = false;
             }
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
         private void InitializingAllDataPage()
@@ -171,6 +175,7 @@ namespace MoneyTracer
             //Setup the homepage
             InitializeTheHomePage();
 
+            //the setting for "total asset" background button
             InitialIzePanelDetailOfSaving();
         }
 
@@ -961,6 +966,9 @@ namespace MoneyTracer
             txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
 
             DoValueUpdate();
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
 
@@ -1194,6 +1202,9 @@ namespace MoneyTracer
 
             //reload all pages
             InitializingAllDataPage();
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
         private void btnAddSaving_Click(object sender, EventArgs e)
@@ -1355,6 +1366,9 @@ namespace MoneyTracer
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
         }
 
+        /// <summary>
+        /// if asset exist any difference, make icon into red x
+        /// </summary>
         private void CheckIfAssetAreSame()
         {
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
@@ -1372,11 +1386,6 @@ namespace MoneyTracer
                 string imagePath = @"image/correct.png";
                 picBoxCorrect.BackgroundImage = Image.FromFile(imagePath);
             }
-        }
-
-        private void timerCheckingMoney_Tick(object sender, EventArgs e)
-        {
-            CheckIfAssetAreSame();
         }
 
         private void AddImageToScreenshotPage(Image image)
@@ -1552,6 +1561,8 @@ namespace MoneyTracer
 
         private void InitialIzePanelDetailOfSaving()
         {
+            //this is setting for "total asset" background button
+
             //Expand the detail panel, just in case the panel too short and get a wrong value of label size
             int x = txtTotalSaving.Size.Width + 100;
             int y = PanelDetailTotalSaving.Size.Height;
@@ -1678,6 +1689,7 @@ namespace MoneyTracer
                 }
                 JsonData.LoadFilePath = theFilePath;
                 LoadNewData(sender, e);
+                SetDataModified(false);
             }
             catch (Exception ex)
             {
@@ -1743,6 +1755,9 @@ namespace MoneyTracer
 
         private bool IsNextStepContinueWithDataModified()
         {
+            if (isDataModified == false)
+                return true;
+
             //set to top most, just in case message didn't show up
             this.TopMost = true;
 
