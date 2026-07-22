@@ -1,5 +1,6 @@
 using MoneyTracer.Controller;
 using MoneyTracer.Model;
+using MoneyTracer.View;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
@@ -97,7 +98,7 @@ namespace MoneyTracer
         /// <summary>
         /// Determine if closing windows need to check, and change the title
         /// </summary>
-        private bool isDataModified = false;
+        private bool _isDataModified = false;
 
         private bool isFirstTimeOpened = true;
 
@@ -1720,7 +1721,7 @@ namespace MoneyTracer
         /// </summary>
         private void CheckIfCurrentDataModified()
         {
-            if (isDataModified == true)
+            if (_isDataModified == true)
             {
                 if (Text.Last() != '*') Text += "*";
                 //Text = titleMainViewWindowName + "*";
@@ -1737,13 +1738,13 @@ namespace MoneyTracer
         /// <param name="isModified"></param>
         private void SetDataModified(bool isModified)
         {
-            isDataModified = isModified;
+            _isDataModified = isModified;
             CheckIfCurrentDataModified();
         }
 
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (isDataModified == true)
+            if (_isDataModified == true)
             {
                 bool isContinue = IsNextStepContinueWithDataModified();
                 bool isUserRegretClosing = (isContinue) ? false : true;
@@ -1755,7 +1756,7 @@ namespace MoneyTracer
 
         private bool IsNextStepContinueWithDataModified()
         {
-            if (isDataModified == false)
+            if (_isDataModified == false)
                 return true;
 
             //set to top most, just in case message didn't show up
@@ -1784,6 +1785,37 @@ namespace MoneyTracer
 
             cleanTheLog(false, true);
             MessageBox.Show("Reserve Fund log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        /// <summary>
+        /// Open History Navigator
+        /// </summary>
+        private void openHistoryNavigatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HistoryView historyWindow = new HistoryView();
+            historyWindow.PathClick += HistoryWindow_PathClick;
+            historyWindow.Show();
+        }
+
+
+        /// <summary>
+        /// happens when path is clicked
+        /// </summary>
+        private void HistoryWindow_PathClick(string path)
+        {
+            //make sure user wants to continue when data is modified
+            if (IsNextStepContinueWithDataModified() == false)
+            {
+                return;
+            }
+
+            //set new path and reload the data
+            JsonData.LoadFilePath = path;
+            LoadNewData(null, null);
+
+            //Set Data Modified Status as False, and Check If Current Data Modified
+            SetDataModified(false);
 
         }
     }

@@ -128,6 +128,8 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             cleanSpendingLogToolStripMenuItem = new ToolStripMenuItem();
             cleanReserveFundLogToolStripMenuItem = new ToolStripMenuItem();
+            historyToolStripMenuItem = new ToolStripMenuItem();
+            openHistoryNavigatorToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
             flowLayoutPanel4 = new FlowLayoutPanel();
             pictureBox1 = new PictureBox();
@@ -1156,7 +1158,7 @@ namespace MoneyTracer
             // 
             menuStrip1.BackColor = Color.Snow;
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem, historyToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(559, 27);
@@ -1173,21 +1175,21 @@ namespace MoneyTracer
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(213, 26);
+            createANewFileToolStripMenuItem.Size = new Size(223, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(213, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(213, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -1219,6 +1221,20 @@ namespace MoneyTracer
             cleanReserveFundLogToolStripMenuItem.Size = new Size(261, 26);
             cleanReserveFundLogToolStripMenuItem.Text = "Clean Reserve Fund Log";
             cleanReserveFundLogToolStripMenuItem.Click += cleanReserveFundLogToolStripMenuItem_Click;
+            // 
+            // historyToolStripMenuItem
+            // 
+            historyToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openHistoryNavigatorToolStripMenuItem });
+            historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            historyToolStripMenuItem.Size = new Size(73, 23);
+            historyToolStripMenuItem.Text = "History";
+            // 
+            // openHistoryNavigatorToolStripMenuItem
+            // 
+            openHistoryNavigatorToolStripMenuItem.Name = "openHistoryNavigatorToolStripMenuItem";
+            openHistoryNavigatorToolStripMenuItem.Size = new Size(258, 26);
+            openHistoryNavigatorToolStripMenuItem.Text = "Open History Navigator";
+            openHistoryNavigatorToolStripMenuItem.Click += openHistoryNavigatorToolStripMenuItem_Click;
             // 
             // _openFileDialog
             // 
@@ -1363,6 +1379,7 @@ namespace MoneyTracer
             Controls.Add(menuStrip1);
             Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainView";
@@ -1538,5 +1555,7 @@ namespace MoneyTracer
         private ToolStripMenuItem cleanTheLogToolStripMenuItem;
         private ToolStripMenuItem cleanSpendingLogToolStripMenuItem;
         private ToolStripMenuItem cleanReserveFundLogToolStripMenuItem;
+        private ToolStripMenuItem historyToolStripMenuItem;
+        private ToolStripMenuItem openHistoryNavigatorToolStripMenuItem;
     }
 }
