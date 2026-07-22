@@ -103,7 +103,7 @@ namespace MoneyTracer
         private bool isFirstTimeOpened = true;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.9";
+        private readonly static string titleVersion = "beta 0.7.0";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
