@@ -30,7 +30,6 @@ namespace MoneyTracer
         /// </summary>
         private void InitializeComponent()
         {
-            components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainView));
             txtTotalStaus = new Label();
             txtBalance = new Label();
@@ -129,9 +128,9 @@ namespace MoneyTracer
             cleanTheLogToolStripMenuItem = new ToolStripMenuItem();
             cleanSpendingLogToolStripMenuItem = new ToolStripMenuItem();
             cleanReserveFundLogToolStripMenuItem = new ToolStripMenuItem();
+            historyToolStripMenuItem = new ToolStripMenuItem();
+            openHistoryNavigatorToolStripMenuItem = new ToolStripMenuItem();
             _openFileDialog = new OpenFileDialog();
-            timerCheckingMoney = new System.Windows.Forms.Timer(components);
-            fileSystemWatcher1 = new FileSystemWatcher();
             flowLayoutPanel4 = new FlowLayoutPanel();
             pictureBox1 = new PictureBox();
             pictureBox2 = new PictureBox();
@@ -177,7 +176,6 @@ namespace MoneyTracer
             panel11.SuspendLayout();
             panel3.SuspendLayout();
             menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).BeginInit();
             flowLayoutPanel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
@@ -395,7 +393,7 @@ namespace MoneyTracer
             txtboxSavingName.ForeColor = Color.Black;
             txtboxSavingName.Location = new Point(8, 10);
             txtboxSavingName.Name = "txtboxSavingName";
-            txtboxSavingName.Size = new Size(238, 29);
+            txtboxSavingName.Size = new Size(290, 29);
             txtboxSavingName.TabIndex = 9;
             txtboxSavingName.Text = "Name";
             // 
@@ -462,6 +460,7 @@ namespace MoneyTracer
             savingNameInputBox.Font = new Font("Noto Sans TC", 9.07563F);
             savingNameInputBox.ForeColor = Color.Black;
             savingNameInputBox.Location = new Point(6, 3);
+            savingNameInputBox.MaxLength = 24;
             savingNameInputBox.Name = "savingNameInputBox";
             savingNameInputBox.PlaceholderText = "(Saving Name)";
             savingNameInputBox.Size = new Size(139, 29);
@@ -675,7 +674,7 @@ namespace MoneyTracer
             txtBoxSpendingName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtBoxSpendingName.Location = new Point(10, 12);
             txtBoxSpendingName.Name = "txtBoxSpendingName";
-            txtBoxSpendingName.Size = new Size(162, 29);
+            txtBoxSpendingName.Size = new Size(304, 29);
             txtBoxSpendingName.TabIndex = 9;
             txtBoxSpendingName.Text = "Name";
             // 
@@ -755,6 +754,7 @@ namespace MoneyTracer
             // spendingNameInputBox
             // 
             spendingNameInputBox.Location = new Point(6, 3);
+            spendingNameInputBox.MaxLength = 24;
             spendingNameInputBox.Name = "spendingNameInputBox";
             spendingNameInputBox.PlaceholderText = "(Spending Name)";
             spendingNameInputBox.Size = new Size(139, 27);
@@ -864,7 +864,7 @@ namespace MoneyTracer
             txtBufferName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtBufferName.Location = new Point(10, 21);
             txtBufferName.Name = "txtBufferName";
-            txtBufferName.Size = new Size(162, 29);
+            txtBufferName.Size = new Size(307, 29);
             txtBufferName.TabIndex = 9;
             txtBufferName.Text = "Name";
             // 
@@ -989,6 +989,7 @@ namespace MoneyTracer
             // bankNameInputBox
             // 
             bankNameInputBox.Location = new Point(6, 3);
+            bankNameInputBox.MaxLength = 24;
             bankNameInputBox.Name = "bankNameInputBox";
             bankNameInputBox.PlaceholderText = "(Bank Name)";
             bankNameInputBox.Size = new Size(139, 27);
@@ -1054,7 +1055,7 @@ namespace MoneyTracer
             txtWalletName.Font = new Font("Microsoft JhengHei UI", 10.2857141F);
             txtWalletName.Location = new Point(11, 21);
             txtWalletName.Name = "txtWalletName";
-            txtWalletName.Size = new Size(162, 29);
+            txtWalletName.Size = new Size(303, 29);
             txtWalletName.TabIndex = 9;
             txtWalletName.Text = "Name";
             // 
@@ -1157,10 +1158,10 @@ namespace MoneyTracer
             // 
             menuStrip1.BackColor = Color.Snow;
             menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { testToolStripMenuItem, cleanToolStripMenuItem, historyToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(559, 28);
+            menuStrip1.Size = new Size(559, 27);
             menuStrip1.TabIndex = 9;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -1168,27 +1169,27 @@ namespace MoneyTracer
             // 
             testToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { createANewFileToolStripMenuItem, menuOpen, menuSave });
             testToolStripMenuItem.Name = "testToolStripMenuItem";
-            testToolStripMenuItem.Size = new Size(47, 24);
+            testToolStripMenuItem.Size = new Size(47, 23);
             testToolStripMenuItem.Text = "File";
             // 
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(213, 26);
+            createANewFileToolStripMenuItem.Size = new Size(223, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(213, 26);
+            menuOpen.Size = new Size(223, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(213, 26);
+            menuSave.Size = new Size(223, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 
@@ -1196,7 +1197,7 @@ namespace MoneyTracer
             // 
             cleanToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cleanTheLogToolStripMenuItem, cleanSpendingLogToolStripMenuItem, cleanReserveFundLogToolStripMenuItem });
             cleanToolStripMenuItem.Name = "cleanToolStripMenuItem";
-            cleanToolStripMenuItem.Size = new Size(62, 24);
+            cleanToolStripMenuItem.Size = new Size(62, 23);
             cleanToolStripMenuItem.Text = "Clean";
             cleanToolStripMenuItem.ToolTipText = "1234";
             // 
@@ -1221,19 +1222,23 @@ namespace MoneyTracer
             cleanReserveFundLogToolStripMenuItem.Text = "Clean Reserve Fund Log";
             cleanReserveFundLogToolStripMenuItem.Click += cleanReserveFundLogToolStripMenuItem_Click;
             // 
+            // historyToolStripMenuItem
+            // 
+            historyToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openHistoryNavigatorToolStripMenuItem });
+            historyToolStripMenuItem.Name = "historyToolStripMenuItem";
+            historyToolStripMenuItem.Size = new Size(73, 23);
+            historyToolStripMenuItem.Text = "History";
+            // 
+            // openHistoryNavigatorToolStripMenuItem
+            // 
+            openHistoryNavigatorToolStripMenuItem.Name = "openHistoryNavigatorToolStripMenuItem";
+            openHistoryNavigatorToolStripMenuItem.Size = new Size(258, 26);
+            openHistoryNavigatorToolStripMenuItem.Text = "Open History Navigator";
+            openHistoryNavigatorToolStripMenuItem.Click += openHistoryNavigatorToolStripMenuItem_Click;
+            // 
             // _openFileDialog
             // 
             _openFileDialog.Filter = "Json file|*.json|Data File|*.dat";
-            // 
-            // timerCheckingMoney
-            // 
-            timerCheckingMoney.Enabled = true;
-            timerCheckingMoney.Tick += timerCheckingMoney_Tick;
-            // 
-            // fileSystemWatcher1
-            // 
-            fileSystemWatcher1.EnableRaisingEvents = true;
-            fileSystemWatcher1.SynchronizingObject = this;
             // 
             // flowLayoutPanel4
             // 
@@ -1374,6 +1379,7 @@ namespace MoneyTracer
             Controls.Add(menuStrip1);
             Font = new Font("Noto Sans HK", 9.07563F, FontStyle.Regular, GraphicsUnit.Point, 136);
             FormBorderStyle = FormBorderStyle.FixedSingle;
+            Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             MaximizeBox = false;
             Name = "MainView";
@@ -1428,7 +1434,6 @@ namespace MoneyTracer
             panel3.ResumeLayout(false);
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)fileSystemWatcher1).EndInit();
             flowLayoutPanel4.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
@@ -1501,7 +1506,6 @@ namespace MoneyTracer
         private ComboBox cboDelBankList;
         private Button btnDelBank;
         private Label txtWalletHomePage;
-        private System.Windows.Forms.Timer timerCheckingMoney;
         private TabPage ScreenshotPage;
         private Panel panel3;
         private ComboBox cboDelImageList;
@@ -1529,7 +1533,6 @@ namespace MoneyTracer
         private Label label9;
         private Label label10;
         private Label txtSavingDifferent;
-        private FileSystemWatcher fileSystemWatcher1;
         private Panel panel14;
         private Label label11;
         private Label label12;
@@ -1552,5 +1555,7 @@ namespace MoneyTracer
         private ToolStripMenuItem cleanTheLogToolStripMenuItem;
         private ToolStripMenuItem cleanSpendingLogToolStripMenuItem;
         private ToolStripMenuItem cleanReserveFundLogToolStripMenuItem;
+        private ToolStripMenuItem historyToolStripMenuItem;
+        private ToolStripMenuItem openHistoryNavigatorToolStripMenuItem;
     }
 }

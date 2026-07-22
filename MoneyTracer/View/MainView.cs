@@ -1,7 +1,9 @@
 using MoneyTracer.Controller;
 using MoneyTracer.Model;
+using MoneyTracer.View;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Diagnostics.Tracing;
 using System.DirectoryServices.ActiveDirectory;
 using System.Drawing.Drawing2D;
@@ -10,9 +12,12 @@ using System.Net;
 using System.Windows.Forms;
 using System.Xml.Linq;
 
+//todo : Don't use timer to check value, add&delete button and wallet page should do the stuff
+//todo : When data changed and not saved, ask user if they want to save before load a new data
+//todo : Ctrl + s = saving
+//todo : Scrolling wheel suppose be smooth
 //todo : Add clean wallet button
-//todo : Current data shouldn't save the logs
-//todo : output buffer log is kinda weird, got a oppsite value when load the file
+//todo : Considering using list as displayer, instead of textbox and textbox
 
 //todo : design
 
@@ -93,12 +98,12 @@ namespace MoneyTracer
         /// <summary>
         /// Determine if closing windows need to check, and change the title
         /// </summary>
-        private bool isDataModified = false;
+        private bool _isDataModified = false;
 
         private bool isFirstTimeOpened = true;
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.6.8.01";
+        private readonly static string titleVersion = "beta 0.6.9";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
@@ -152,6 +157,9 @@ namespace MoneyTracer
                 cleanTheLog();
                 isFirstTimeOpened = false;
             }
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
         private void InitializingAllDataPage()
@@ -168,6 +176,7 @@ namespace MoneyTracer
             //Setup the homepage
             InitializeTheHomePage();
 
+            //the setting for "total asset" background button
             InitialIzePanelDetailOfSaving();
         }
 
@@ -357,7 +366,7 @@ namespace MoneyTracer
             var panelControls = panelWallet.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
-                if (panelControls[i] is NumericUpDown theNumUpDown)
+                if (panelControls[i] is NumericUpDownFix theNumUpDown)
                 {
                     panelWallet.Controls.Remove(theNumUpDown);
                 }
@@ -421,7 +430,7 @@ namespace MoneyTracer
         {
             numUpDownY += 44;
 
-            NumericUpDown numericUpDown = new NumericUpDown();
+            NumericUpDownFix numericUpDown = new NumericUpDownFix();
             numericUpDown.Name = $"numericUpDownWallet {loopCount}"; //space is required, because it'll split by space later
             numericUpDown.Location = new Point(numUpDownX, numUpDownY);
             numericUpDown.Minimum = 0;
@@ -442,7 +451,7 @@ namespace MoneyTracer
         {
             numUpDownY += 50;
 
-            NumericUpDown numericUpDown = new NumericUpDown();
+            NumericUpDownFix numericUpDown = new NumericUpDownFix();
             numericUpDown.Name = $"numericUpDown {loopCount}"; //space is required, because it'll split by space later
             numericUpDown.Location = new Point(numUpDownX, numUpDownY);
             numericUpDown.Minimum = 0;
@@ -490,7 +499,7 @@ namespace MoneyTracer
             var panelControls = panelSaving.Controls;
             for (int i = panelControls.Count - 1; i > -1; i--)
             {
-                if (panelControls[i] is NumericUpDown theNumUpDown)
+                if (panelControls[i] is NumericUpDownFix theNumUpDown)
                 {
                     panelSaving.Controls.Remove(theNumUpDown);
                 }
@@ -773,7 +782,7 @@ namespace MoneyTracer
             AddSpendingDataToDeletingComboBoxItem();
         }
 
-        private void ThousandSpretorSwitch(NumericUpDown theNumUpDown, EventHandler TextChangedEvent, bool isTurnOn)
+        private void ThousandSpretorSwitch(NumericUpDownFix theNumUpDown, EventHandler TextChangedEvent, bool isTurnOn)
         {
             theNumUpDown.TextChanged -= TextChangedEvent;
             theNumUpDown.ThousandsSeparator = isTurnOn;
@@ -782,7 +791,7 @@ namespace MoneyTracer
 
         private void numericUpDown_focus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, false);
@@ -792,7 +801,7 @@ namespace MoneyTracer
         }
         private void numericUpDown_MouseWheelfocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 theNumUpDown.Focus();
@@ -804,7 +813,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_focus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value 
                 ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, false);
@@ -814,7 +823,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_MouseWheelfocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 //Get current value
                 theNumUpDown.Focus();
@@ -825,7 +834,7 @@ namespace MoneyTracer
 
         private void numericUpDown_OutOfFocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 ThousandSpretorSwitch(theNumUpDown, numericUpDown_TextChanged, true);
             }
@@ -833,7 +842,7 @@ namespace MoneyTracer
 
         private void numericUpDownWallet_OutOfFocus(object sender, EventArgs e)
         {
-            if (sender is NumericUpDown theNumUpDown)
+            if (sender is NumericUpDownFix theNumUpDown)
             {
                 ThousandSpretorSwitch(theNumUpDown, numericUpDownWallet_TextChanged, true);
             }
@@ -854,7 +863,7 @@ namespace MoneyTracer
             txtCurrentBufferSaving.Text = $"\"{theName}\" : ${mainViewController.decimalSpreadtor(theValue.ToString())}";
         }
 
-        private void UpdateBufferCashLog(NumericUpDown theControl, decimal bufferValue)
+        private void UpdateBufferCashLog(NumericUpDownFix theControl, decimal bufferValue)
         {
             //get sorted num by spliting the name
             string[] splitedString = theControl.Name.Split(" ");
@@ -905,8 +914,8 @@ namespace MoneyTracer
             SetDataModified(true);
 
             //get the control
-            NumericUpDown theControl = new NumericUpDown();
-            if (sender is NumericUpDown a)
+            NumericUpDownFix theControl = new NumericUpDownFix();
+            if (sender is NumericUpDownFix a)
             {
                 theControl = a;
                 //Text content validity check
@@ -936,8 +945,8 @@ namespace MoneyTracer
             //Set Data as Modified and Check If Current Data Modified
             SetDataModified(true);
 
-            NumericUpDown theControl = new NumericUpDown();
-            if (sender is NumericUpDown a)
+            NumericUpDownFix theControl = new NumericUpDownFix();
+            if (sender is NumericUpDownFix a)
             {
                 theControl = a;
                 //Text content validity check
@@ -958,6 +967,9 @@ namespace MoneyTracer
             txtWalletHomePage.Text = titleTotalWallet + mainViewController.decimalSpreadtor(walletTotal.ToString());
 
             DoValueUpdate();
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
 
@@ -1191,6 +1203,9 @@ namespace MoneyTracer
 
             //reload all pages
             InitializingAllDataPage();
+
+            //if asset exist any difference, make icon into red x
+            CheckIfAssetAreSame();
         }
 
         private void btnAddSaving_Click(object sender, EventArgs e)
@@ -1352,7 +1367,10 @@ namespace MoneyTracer
             mainViewController.theAddMoneyInputBox_KeyDown(sender, e, btnAddBank_Click, bankNameInputBox);
         }
 
-        private void timerCheckingMoney_Tick(object sender, EventArgs e)
+        /// <summary>
+        /// if asset exist any difference, make icon into red x
+        /// </summary>
+        private void CheckIfAssetAreSame()
         {
             int theBalance = mainViewController.GetAllMoneyFromLabelOneLine(txtTotalSaving);
             int theWallet = mainViewController.GetAllMoneyFromLabelOneLine(txtWalletHomePage);
@@ -1516,6 +1534,8 @@ namespace MoneyTracer
 
         private void cleanTheLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsNextStepContinueWithDataModified() == false) return;
+
             cleanTheLog();
 
             MessageBox.Show("All logs have been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -1542,6 +1562,8 @@ namespace MoneyTracer
 
         private void InitialIzePanelDetailOfSaving()
         {
+            //this is setting for "total asset" background button
+
             //Expand the detail panel, just in case the panel too short and get a wrong value of label size
             int x = txtTotalSaving.Size.Width + 100;
             int y = PanelDetailTotalSaving.Size.Height;
@@ -1648,8 +1670,15 @@ namespace MoneyTracer
             }
         }
 
+        /// <summary>
+        /// Start to load data after file dropped
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void panelSaving_DragDrop(object sender, DragEventArgs e)
         {
+            if (IsNextStepContinueWithDataModified() == false) return;
+
             try
             {
                 string[] fileList = (string[])e.Data.GetData(DataFormats.FileDrop, false);
@@ -1661,6 +1690,7 @@ namespace MoneyTracer
                 }
                 JsonData.LoadFilePath = theFilePath;
                 LoadNewData(sender, e);
+                SetDataModified(false);
             }
             catch (Exception ex)
             {
@@ -1668,6 +1698,12 @@ namespace MoneyTracer
             }
 
         }
+
+        /// <summary>
+        /// Enable file dropping feature
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void panelSaving_DragEnter(object sender, DragEventArgs e)
         {
             if (e.Data.GetDataPresent(DataFormats.FileDrop))
@@ -1679,12 +1715,13 @@ namespace MoneyTracer
                 e.Effect = DragDropEffects.None;
             }
         }
+
         /// <summary>
         /// Check If Current Data Modified, if true then change the title
         /// </summary>
         private void CheckIfCurrentDataModified()
         {
-            if (isDataModified == true)
+            if (_isDataModified == true)
             {
                 if (Text.Last() != '*') Text += "*";
                 //Text = titleMainViewWindowName + "*";
@@ -1701,32 +1738,84 @@ namespace MoneyTracer
         /// <param name="isModified"></param>
         private void SetDataModified(bool isModified)
         {
-            isDataModified = isModified;
+            _isDataModified = isModified;
             CheckIfCurrentDataModified();
         }
 
         private void MainView_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (isDataModified == true)
+            if (_isDataModified == true)
             {
-                string msg = "Data has been modified.\nAre you sure you want to exit without saving data?";
-                DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
-                bool isUserRegretClosing = (response == DialogResult.OK) ? false : true;
+                bool isContinue = IsNextStepContinueWithDataModified();
+                bool isUserRegretClosing = (isContinue) ? false : true;
+
+                //true means cancel the action of shutdown
                 e.Cancel = isUserRegretClosing;
             }
         }
 
+        private bool IsNextStepContinueWithDataModified()
+        {
+            if (_isDataModified == false)
+                return true;
+
+            //set to top most, just in case message didn't show up
+            this.TopMost = true;
+
+            string msg = "Data has been modified.\nAre you sure you want to continue without saving data?";
+            DialogResult response = MessageBox.Show(msg, "Message", MessageBoxButtons.OKCancel, MessageBoxIcon.Information);
+            bool isContinue = (response == DialogResult.OK) ? true : false;
+
+            this.TopMost = false;
+
+            return isContinue;
+        }
+
         private void cleanSpendingLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsNextStepContinueWithDataModified() == false) return;
+
             cleanTheLog(true, false);
             MessageBox.Show("Spending log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void cleanReserveFundLogToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (IsNextStepContinueWithDataModified() == false) return;
 
             cleanTheLog(false, true);
             MessageBox.Show("Reserve Fund log has been cleaned", "Message", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+        }
+
+        /// <summary>
+        /// Open History Navigator
+        /// </summary>
+        private void openHistoryNavigatorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            HistoryView historyWindow = new HistoryView();
+            historyWindow.PathClick += HistoryWindow_PathClick;
+            historyWindow.Show();
+        }
+
+
+        /// <summary>
+        /// happens when path is clicked
+        /// </summary>
+        private void HistoryWindow_PathClick(string path)
+        {
+            //make sure user wants to continue when data is modified
+            if (IsNextStepContinueWithDataModified() == false)
+            {
+                return;
+            }
+
+            //set new path and reload the data
+            JsonData.LoadFilePath = path;
+            LoadNewData(null, null);
+
+            //Set Data Modified Status as False, and Check If Current Data Modified
+            SetDataModified(false);
 
         }
     }
