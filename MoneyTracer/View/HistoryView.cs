@@ -102,12 +102,13 @@ namespace MoneyTracer.View
 
             //get path
             HistoryItem historyPath = HistoryListBox.SelectedItem as HistoryItem;
-            string path = historyPath.FilePath;
-            if (string.IsNullOrEmpty(path) == true)
+            if(historyPath == null || string.IsNullOrEmpty(historyPath.FilePath) == true)
             {
                 HistoryListBox.ClearSelected();
                 return;
             }
+
+            string path = historyPath.FilePath;
 
             //return path
             PathClick.Invoke(path);
