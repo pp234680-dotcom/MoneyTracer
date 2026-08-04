@@ -102,6 +102,8 @@ namespace MoneyTracer
 
         private bool isFirstTimeOpened = true;
 
+        HistoryView _historyWindow { get; set; }
+
         private readonly static string titleApplication = "MoneyTracer";
         private readonly static string titleVersion = "beta 0.7.0";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
@@ -1793,9 +1795,19 @@ namespace MoneyTracer
         /// </summary>
         private void openHistoryNavigatorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            HistoryView historyWindow = new HistoryView();
-            historyWindow.PathClick += HistoryWindow_PathClick;
-            historyWindow.Show();
+            Point location = new Point(this.Right + 10, this.Top - 20);
+
+            if (_historyWindow != null)
+            {
+                if(_historyWindow.Location != new Point(0, 0))
+                    location = _historyWindow.Location;
+                _historyWindow.Dispose();
+            }
+
+            _historyWindow = new HistoryView();
+            _historyWindow.PathClick += HistoryWindow_PathClick;
+            _historyWindow.Location = location;
+            _historyWindow.Show();
         }
 
 

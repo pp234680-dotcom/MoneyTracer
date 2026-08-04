@@ -53,9 +53,12 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "HistoryView";
+            ShowInTaskbar = false;
+            StartPosition = FormStartPosition.Manual;
             Text = "History";
             TopMost = true;
             Load += HistoryView_Load;
+            Resize += HistoryView_Resize;
             ResumeLayout(false);
         }
 
