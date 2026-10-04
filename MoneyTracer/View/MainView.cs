@@ -1864,7 +1864,7 @@ namespace MoneyTracer
                 {
                     if (thePictureBox.Name == theName)
                     {
-                        thePictureBox.Size = new Size(_defaultSizeOfScreenshot.Width, _defaultSizeOfScreenshot.Height + 50);
+                        thePictureBox.Size = new Size(_defaultSizeOfScreenshot.Width, _defaultSizeOfScreenshot.Height + 10);
                         break;
                     }
                 }
