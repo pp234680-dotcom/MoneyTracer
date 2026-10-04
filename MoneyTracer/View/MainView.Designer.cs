@@ -1142,6 +1142,7 @@ namespace MoneyTracer
             cboDelImageList.Name = "cboDelImageList";
             cboDelImageList.Size = new Size(139, 28);
             cboDelImageList.TabIndex = 12;
+            cboDelImageList.SelectedIndexChanged += cboDelImageList_SelectedIndexChanged;
             // 
             // btnDelImage
             // 
@@ -1175,21 +1176,21 @@ namespace MoneyTracer
             // createANewFileToolStripMenuItem
             // 
             createANewFileToolStripMenuItem.Name = "createANewFileToolStripMenuItem";
-            createANewFileToolStripMenuItem.Size = new Size(223, 26);
+            createANewFileToolStripMenuItem.Size = new Size(213, 26);
             createANewFileToolStripMenuItem.Text = "Create a New File";
             createANewFileToolStripMenuItem.Click += createANewFileToolStripMenuItem_Click;
             // 
             // menuOpen
             // 
             menuOpen.Name = "menuOpen";
-            menuOpen.Size = new Size(223, 26);
+            menuOpen.Size = new Size(213, 26);
             menuOpen.Text = "Open Files";
             menuOpen.Click += menuOpen_Click;
             // 
             // menuSave
             // 
             menuSave.Name = "menuSave";
-            menuSave.Size = new Size(223, 26);
+            menuSave.Size = new Size(213, 26);
             menuSave.Text = "Save Files";
             menuSave.Click += menuSave_Click;
             // 

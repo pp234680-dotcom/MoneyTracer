@@ -118,7 +118,7 @@ namespace MoneyTracer
         private readonly string txtIncorrect = "Difference Detected";
         private readonly Color numericUpDownBGColor = Color.FromArgb(255, 250, 250);
         private readonly Color hoverColor = Color.FromArgb(220, 200, 200);
-
+        private readonly Size _defaultSizeOfScreenshot = new Size(460, 130);
 
 
 
@@ -328,7 +328,7 @@ namespace MoneyTracer
                 string newPictureName = $"ScreenShot {num}";
                 PictureBox newPictureBox = new PictureBox();
                 newPictureBox.Name = newPictureName;
-                newPictureBox.Size = new Size(460, 130);
+                newPictureBox.Size = _defaultSizeOfScreenshot;
                 newPictureBox.Location = new Point(27, y);
                 Image theScreenshot = Image.FromFile(thePath);
                 Bitmap clonedScreenshot = new Bitmap(theScreenshot);
@@ -1412,7 +1412,7 @@ namespace MoneyTracer
             string newPictureName = $"ScreenShot {num}";
             PictureBox newPictureBox = new PictureBox();
             newPictureBox.Name = newPictureName;
-            newPictureBox.Size = new Size(460, 130);
+            newPictureBox.Size = _defaultSizeOfScreenshot;
             newPictureBox.Location = new Point(27, y);
             newPictureBox.BackgroundImage = image;
             newPictureBox.BackgroundImageLayout = ImageLayout.Zoom;
@@ -1799,7 +1799,7 @@ namespace MoneyTracer
 
             if (_historyWindow != null)
             {
-                if(_historyWindow.Location != new Point(0, 0))
+                if (_historyWindow.Location != new Point(0, 0))
                     location = _historyWindow.Location;
                 _historyWindow.Dispose();
             }
@@ -1829,6 +1829,46 @@ namespace MoneyTracer
             //Set Data Modified Status as False, and Check If Current Data Modified
             SetDataModified(false);
 
+        }
+
+
+        /// <summary>
+        /// Magnify the screenshot as highlighted screenshot
+        /// </summary>
+        private void cboDelImageList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string theName = string.Empty;
+            if (cboDelImageList.SelectedItem != null)
+            {
+                theName = cboDelImageList.SelectedItem.ToString();
+            }
+            else
+            {
+                //if nothing is selected, don't continue
+                return;
+            }
+
+            //set every screenshot as same default size
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    thePictureBox.Size = _defaultSizeOfScreenshot;
+                }
+            }
+
+            //set selected screenshot as same bigger size
+            foreach (var item in flowPanelScreenshot.Controls)
+            {
+                if (item is PictureBox thePictureBox)
+                {
+                    if (thePictureBox.Name == theName)
+                    {
+                        thePictureBox.Size = new Size(_defaultSizeOfScreenshot.Width, _defaultSizeOfScreenshot.Height + 50);
+                        break;
+                    }
+                }
+            }
         }
     }
 }
