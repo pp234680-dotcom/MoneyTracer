@@ -1189,10 +1189,8 @@ namespace MoneyTracer
             if (inputNum < 0) return;
 
             //check if there's exist saving name
-            foreach (string item in theDataDictionary.Keys)
-            {
-                if (item == inputName) return;
-            }
+            CheckNameExist(theDataDictionary, ref inputName);
+
 
             //update SavingData & Balance Values just in case be replaced with origin data
             UpdateBeforeReload();
@@ -1208,6 +1206,19 @@ namespace MoneyTracer
 
             //if asset exist any difference, make icon into red x
             CheckIfAssetAreSame();
+        }
+
+        private void CheckNameExist(Dictionary<string, int> theDataDictionary, ref string inputName)
+        {
+            foreach (string item in theDataDictionary.Keys)
+            {
+                if (item == inputName)
+                {
+                    inputName += "_ ";
+                    CheckNameExist(theDataDictionary, ref inputName);
+                    break;
+                }
+            }
         }
 
         private void btnAddSaving_Click(object sender, EventArgs e)
