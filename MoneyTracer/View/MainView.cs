@@ -105,7 +105,7 @@ namespace MoneyTracer
         HistoryView _historyWindow { get; set; }
 
         private readonly static string titleApplication = "MoneyTracer";
-        private readonly static string titleVersion = "beta 0.7.0";
+        private readonly static string titleVersion = "beta 0.7.1";
         private readonly string titleMainViewWindowName = $"{titleApplication} {titleVersion}";
         private readonly string titleBalance = "$";
         private readonly string titleBuffer = "$";
