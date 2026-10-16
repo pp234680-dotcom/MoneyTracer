@@ -1208,13 +1208,25 @@ namespace MoneyTracer
             CheckIfAssetAreSame();
         }
 
+        /// <summary>
+        /// If name already exist and repeat, rename it
+        /// </summary>
+        /// <param name="theDataDictionary"></param>
+        /// <param name="inputName"></param>
         private void CheckNameExist(Dictionary<string, int> theDataDictionary, ref string inputName)
         {
             foreach (string item in theDataDictionary.Keys)
             {
                 if (item == inputName)
                 {
-                    inputName += "_ ";
+                    //check how many are same
+                    string _inputName = inputName; //create this is because, LINQ doesn't support ref variable
+                    int qunatity = theDataDictionary.Keys.ToList().FindAll(k => k.Contains($"{_inputName}(")).Count;
+
+                    //rename
+                    inputName += $"({qunatity+1})";
+
+                    //check if name still exist
                     CheckNameExist(theDataDictionary, ref inputName);
                     break;
                 }
