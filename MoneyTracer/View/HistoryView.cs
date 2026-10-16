@@ -48,7 +48,7 @@ namespace MoneyTracer.View
 
             //get json file paths
             List<string> filePaths = new List<string>();
-            foreach(string folder in folders)
+            foreach (string folder in folders)
             {
                 filePaths.AddRange(Directory.GetFiles(folder).ToList());
             }
@@ -96,23 +96,31 @@ namespace MoneyTracer.View
                 HistoryListBox.ClearSelected();
                 return;
             }
-            
+
             //update current index
             _selectedIndex = HistoryListBox.SelectedIndex;
 
             //get path
             HistoryItem historyPath = HistoryListBox.SelectedItem as HistoryItem;
-            string path = historyPath.FilePath;
-            if (string.IsNullOrEmpty(path) == true)
+            if (historyPath == null || string.IsNullOrEmpty(historyPath.FilePath) == true)
             {
                 HistoryListBox.ClearSelected();
                 return;
             }
 
+            string path = historyPath.FilePath;
+
             //return path
             PathClick.Invoke(path);
         }
 
+        private void HistoryView_Resize(object sender, EventArgs e)
+        {
+            if (WindowState != FormWindowState.Minimized)
+                return;
 
+            //when minimized
+            this.Close();
+        }
     }
 }
