@@ -20,10 +20,20 @@ namespace MoneyTracer.Model
 
             this.Focus();
 
-            if (e.Delta > 0 && this.Value < this.Maximum)
-                this.Value += this.Increment;
-            else if (e.Delta < 0 && this.Value > this.Minimum)
-                this.Value -= this.Increment;
+            if (e.Delta > 0)
+            {
+                if (this.Value + this.Increment > this.Maximum)
+                    this.Value = this.Maximum;
+                else
+                    this.Value += this.Increment;
+            }
+            else if (e.Delta < 0)
+            {
+                if (this.Value - this.Increment < this.Minimum)
+                    this.Value = this.Minimum;
+                else
+                    this.Value -= this.Increment;
+            }
         }
     }
 }

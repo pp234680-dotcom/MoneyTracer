@@ -428,7 +428,7 @@ namespace MoneyTracer
 
 
 
-        private void AddingNumUpDownOnWalletpage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel)
+        private void AddingNumUpDownOnWalletpage(int numUpDownX, ref int numUpDownY, int loopCount, int itemValue, Panel thePanel, int increaseAmount)
         {
             numUpDownY += 44;
 
@@ -446,6 +446,7 @@ namespace MoneyTracer
             numericUpDown.MouseWheel += numericUpDownWallet_MouseWheelfocus;
             numericUpDown.LostFocus += numericUpDownWallet_OutOfFocus;
             numericUpDown.BackColor = numericUpDownBGColor;
+            numericUpDown.Increment = increaseAmount;
             thePanel.Controls.Add(numericUpDown);
         }
 
@@ -559,7 +560,21 @@ namespace MoneyTracer
                 txtWalletName.Size = mainViewController.AddSizeToTheControl(txtWalletName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet);
+                int increaseAmount = 1;
+                if (item.Key.Equals("Money1000", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 1000;
+                else if (item.Key.Equals("Money500", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 500;
+                else if (item.Key.Equals("Money100", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 100;
+                else if (item.Key.Equals("Money50", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 50;
+                else if (item.Key.Equals("Money10", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 10;
+                else if (item.Key.Equals("Money5", StringComparison.OrdinalIgnoreCase))
+                    increaseAmount = 5;
+
+                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet, increaseAmount);
 
 
                 txtWalletMoney.Visible = false;
@@ -594,7 +609,7 @@ namespace MoneyTracer
                 txtWalletName.Size = mainViewController.AddSizeToTheControl(txtWalletName.Size);
 
                 //adding nummeric shit
-                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet);
+                AddingNumUpDownOnWalletpage(numUpDownX, ref numUpDownY, loopCount, item.Value, panelWallet, 1);
 
 
                 txtWalletMoney.Visible = false;
